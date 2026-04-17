@@ -27,9 +27,10 @@ export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: 
   const tileH = project.h * 0.7;
 
   function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
-    if (e.button !== 0) return;
+    if (e.button !== undefined && e.button !== 0) return;
+    e.preventDefault();
     onFocus();
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    try { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); } catch { /* ignore */ }
     stateRef.current = {
       startX: e.clientX, startY: e.clientY,
       originX: x, originY: y,
