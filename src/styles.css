@@ -96,10 +96,8 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
-}
 
   /* Desktop / OS tokens */
-  --desktop-bg: linear-gradient(135deg, oklch(0.72 0.15 25) 0%, oklch(0.68 0.18 340) 45%, oklch(0.55 0.22 290) 100%);
   --menubar-bg: oklch(0.18 0.02 270 / 0.55);
   --menubar-fg: oklch(0.98 0 0);
   --dock-bg: oklch(0.98 0.01 270 / 0.35);
