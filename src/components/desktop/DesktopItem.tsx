@@ -1,37 +1,145 @@
-import type { MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import type { Project } from "@/lib/portfolio";
 
-export function DesktopItem({ project, onOpen }: { project: Project; onOpen: (e: MouseEvent) => void }) {
+type Props = {
+  project: Project;
+  // pixel position (top-left of tile)
+  x: number;
+  y: number;
+  onOpen: (e: MouseEvent) => void;
+  onMove: (x: number, y: number) => void;
+  onFocus: () => void;
+  zIndex: number;
+};
+
+const DRAG_THRESHOLD = 4; // px before we consider it a drag (vs click)
+
+export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: Props) {
+  const [dragging, setDragging] = useState(false);
+  const stateRef = useRef<{
+    startX: number; startY: number;
+    originX: number; originY: number;
+    moved: boolean;
+    pointerId: number;
+  } | null>(null);
+
+  const tileW = project.w * 0.7;
+  const tileH = project.h * 0.7;
+
+  function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    if (e.button !== 0) return;
+    onFocus();
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    stateRef.current = {
+      startX: e.clientX, startY: e.clientY,
+      originX: x, originY: y,
+      moved: false,
+      pointerId: e.pointerId,
+    };
+  }
+
+  function handlePointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    const s = stateRef.current;
+    if (!s) return;
+    const dx = e.clientX - s.startX;
+    const dy = e.clientY - s.startY;
+    if (!s.moved && Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+    if (!s.moved) {
+      s.moved = true;
+      setDragging(true);
+    }
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const nx = Math.max(0, Math.min(vw - tileW, s.originX + dx));
+    const ny = Math.max(28, Math.min(vh - tileH - 80, s.originY + dy));
+    onMove(nx, ny);
+  }
+
+  function handlePointerUp(e: React.PointerEvent<HTMLDivElement>) {
+    const s = stateRef.current;
+    stateRef.current = null;
+    if (!s) return;
+    try { (e.currentTarget as HTMLElement).releasePointerCapture(s.pointerId); } catch { /* ignore */ }
+    if (!s.moved) {
+      // treat as click
+      onOpen(e as unknown as MouseEvent);
+    }
+    setDragging(false);
+  }
+
   return (
-    <button
-      onClick={onOpen}
-      className="absolute group flex flex-col items-center gap-1.5 focus:outline-none"
+    <div
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={() => { stateRef.current = null; setDragging(false); }}
+      className="absolute group flex flex-col items-center gap-1.5 focus:outline-none touch-none"
       style={{
-        left: `${project.x}%`,
-        top: `${project.y}%`,
-        transform: "translate(-50%, -50%)",
-        animation: `tile-float ${4 + (project.x % 3)}s ease-in-out infinite`,
+        left: x,
+        top: y,
+        width: tileW,
+        cursor: dragging ? "grabbing" : "grab",
+        zIndex,
+        animation: dragging ? "none" : `tile-float ${4 + (project.id.length % 3)}s ease-in-out infinite`,
+        transition: dragging ? "none" : "transform 0.15s",
+        transform: dragging ? "scale(1.05)" : "scale(1)",
+        userSelect: "none",
       }}
     >
       <div
-        className="rounded-md overflow-hidden transition-transform group-hover:scale-105 group-focus:scale-105 ring-0 group-focus:ring-2 ring-white/70"
+        className="rounded-md overflow-hidden w-full"
         style={{
-          width: project.w * 0.7,
-          height: project.h * 0.7,
+          height: tileH,
           background: project.accent,
-          boxShadow: "var(--shadow-tile)",
+          boxShadow: dragging
+            ? "0 20px 40px -8px oklch(0 0 0 / 0.5)"
+            : "var(--shadow-tile)",
+          pointerEvents: "none",
         }}
       >
         <TilePreview project={project} />
       </div>
       <span
-        className="text-[11px] font-medium tracking-wide px-1.5 py-0.5 rounded"
+        className="text-[11px] font-medium tracking-wide px-1.5 py-0.5 rounded pointer-events-none"
         style={{ color: "var(--tile-label)", textShadow: "0 1px 4px oklch(0 0 0 / 0.6)" }}
       >
         {project.title}
       </span>
-    </button>
+    </div>
   );
+}
+
+// keep position lookup helpers next to the tile
+const STORAGE_KEY = "desktop-tile-positions-v1";
+
+export type Positions = Record<string, { x: number; y: number }>;
+
+export function loadPositions(): Positions {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as Positions) : {};
+  } catch {
+    return {};
+  }
+}
+
+export function savePositions(pos: Positions) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(pos)); } catch { /* ignore */ }
+}
+
+// Resolve a project's position: stored override → derived from project x/y % of viewport
+export function resolvePosition(project: Project, stored: Positions, vw: number, vh: number) {
+  const s = stored[project.id];
+  if (s) return s;
+  const tileW = project.w * 0.7;
+  const tileH = project.h * 0.7;
+  const cx = (project.x / 100) * vw;
+  const cy = (project.y / 100) * vh;
+  return {
+    x: Math.max(0, Math.min(vw - tileW, cx - tileW / 2)),
+    y: Math.max(28, Math.min(vh - tileH - 80, cy - tileH / 2)),
+  };
 }
 
 function TilePreview({ project }: { project: Project }) {
@@ -88,3 +196,6 @@ function TilePreview({ project }: { project: Project }) {
       );
   }
 }
+
+// avoid unused import warning
+void useEffect;
