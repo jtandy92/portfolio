@@ -110,9 +110,21 @@ export function Desktop() {
       <MenuBar />
 
       <div className="absolute inset-0 pt-7 pb-24">
-        {PROJECTS.map((p) => (
-          <DesktopItem key={p.id} project={p} onOpen={(e) => openProject(p, e)} />
-        ))}
+        {PROJECTS.map((p) => {
+          const pos = resolvePosition(p, positions, viewport.w, viewport.h);
+          return (
+            <DesktopItem
+              key={p.id}
+              project={p}
+              x={pos.x}
+              y={pos.y}
+              zIndex={tileZ[p.id] ?? 1}
+              onOpen={(e) => openProject(p, e)}
+              onMove={(x, y) => moveTile(p.id, x, y)}
+              onFocus={() => focusTile(p.id)}
+            />
+          );
+        })}
       </div>
 
       {windows.map((w) => (
