@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TOUR_STEPS } from "@/lib/portfolio";
 
 const STORAGE_KEY = "desktop-tour-seen-v1";
 
 export function Tour() {
-  const [step, setStep] = useState(() => {
-    if (typeof window === "undefined") return -1;
-    return localStorage.getItem(STORAGE_KEY) ? -1 : 0;
-  });
+  // Start hidden on both server and client to avoid hydration mismatch.
+  const [step, setStep] = useState(-1);
+
+  useEffect(() => {
+    if (!localStorage.getItem(STORAGE_KEY)) setStep(0);
+  }, []);
 
   if (step < 0) return null;
   const current = TOUR_STEPS[step];
@@ -27,7 +29,8 @@ export function Tour() {
           color: "var(--tour-fg)",
           border: "1px solid oklch(1 0 0 / 0.15)",
           boxShadow: "var(--shadow-window)",
-          animation: "window-in 0.25s ease-out",
+          animation: "window-pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+          transformOrigin: "center top",
         }}
       >
         <h2 className="text-lg font-semibold mb-1">{current.title}</h2>
