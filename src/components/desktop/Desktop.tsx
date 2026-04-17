@@ -5,7 +5,7 @@ import { Dock, DockIcon } from "./Dock";
 import { DesktopItem, loadPositions, savePositions, resolvePosition, type Positions } from "./DesktopItem";
 import { Window } from "./Window";
 import { Tour } from "./Tour";
-import { FinderApp, NotesApp, TerminalApp, TrashApp, ProjectApp } from "./apps";
+import { FinderApp, NotesApp, TerminalApp, TrashApp, ProjectApp, MailApp } from "./apps";
 import wallpaper from "@/assets/wallpaper.jpg";
 
 type OpenWindow = {
@@ -94,7 +94,7 @@ export function Desktop() {
     else if (id === "notes") open("notes", "Notes — about", <NotesApp />, 480, origin);
     else if (id === "terminal") open("terminal", "Terminal", <TerminalApp />, 520, origin);
     else if (id === "trash") open("trash", "Trash", <TrashApp />, 360, origin);
-    else if (id === "mail") open("mail", "Mail", <div className="p-8 text-center text-sm opacity-70">say hi → hello@example.com</div>, 360, origin);
+    else if (id === "mail") open("mail", "New Message", <MailApp />, 520, origin);
     else if (id === "music") open("music", "Music", <div className="p-8 text-center text-sm opacity-70">🎵 currently on loop: anything ambient</div>, 360, origin);
   }
 
