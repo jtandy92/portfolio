@@ -5,7 +5,7 @@ import { Dock, DockIcon } from "./Dock";
 import { DesktopItem, loadPositions, savePositions, resolvePosition, type Positions } from "./DesktopItem";
 import { Window } from "./Window";
 import { Tour } from "./Tour";
-import { FinderApp, NotesApp, TerminalApp, TrashApp, ProjectApp } from "./apps";
+import { FinderApp, NotesApp, TerminalApp, TrashApp, ProjectApp, MailApp } from "./apps";
 import wallpaper from "@/assets/wallpaper.jpg";
 
 type OpenWindow = {
