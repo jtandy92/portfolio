@@ -1,6 +1,7 @@
+import type { MouseEvent } from "react";
 import type { Project } from "@/lib/portfolio";
 
-export function DesktopItem({ project, onOpen }: { project: Project; onOpen: () => void }) {
+export function DesktopItem({ project, onOpen }: { project: Project; onOpen: (e: MouseEvent) => void }) {
   return (
     <button
       onClick={onOpen}

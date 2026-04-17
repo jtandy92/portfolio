@@ -8,11 +8,13 @@ type Props = {
   initialX: number;
   initialY: number;
   width?: number;
+  origin?: { x: number; y: number } | null;
   children: ReactNode;
 };
 
-export function Window({ title, onClose, onFocus, zIndex, initialX, initialY, width = 480, children }: Props) {
+export function Window({ title, onClose, onFocus, zIndex, initialX, initialY, width = 480, origin, children }: Props) {
   const [pos, setPos] = useState({ x: initialX, y: initialY });
+  const [closing, setClosing] = useState(false);
   const drag = useRef<{ dx: number; dy: number } | null>(null);
 
   useEffect(() => {
@@ -29,6 +31,16 @@ export function Window({ title, onClose, onFocus, zIndex, initialX, initialY, wi
     };
   }, []);
 
+  function handleClose() {
+    setClosing(true);
+    setTimeout(onClose, 220);
+  }
+
+  // Compute transform-origin relative to the window's own top-left
+  const transformOrigin = origin
+    ? `${origin.x - pos.x}px ${origin.y - pos.y}px`
+    : "center center";
+
   return (
     <div
       onPointerDown={onFocus}
@@ -44,7 +56,10 @@ export function Window({ title, onClose, onFocus, zIndex, initialX, initialY, wi
         border: "1px solid var(--window-border)",
         boxShadow: "var(--shadow-window)",
         backdropFilter: "blur(20px)",
-        animation: "window-in 0.18s ease-out",
+        transformOrigin,
+        animation: closing
+          ? "window-pop-out 0.22s cubic-bezier(0.5, 0, 0.75, 0) forwards"
+          : "window-pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
       }}
     >
       <div
@@ -58,7 +73,7 @@ export function Window({ title, onClose, onFocus, zIndex, initialX, initialY, wi
         <div className="flex gap-1.5">
           <button
             onPointerDown={(e) => e.stopPropagation()}
-            onClick={onClose}
+            onClick={handleClose}
             className="w-3 h-3 rounded-full hover:opacity-80"
             style={{ background: "var(--traffic-close)" }}
             aria-label="Close"

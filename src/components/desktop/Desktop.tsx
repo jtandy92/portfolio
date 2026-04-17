@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import { PROJECTS, type Project } from "@/lib/portfolio";
 import { MenuBar } from "./MenuBar";
 import { Dock, DockIcon } from "./Dock";
@@ -6,6 +6,7 @@ import { DesktopItem } from "./DesktopItem";
 import { Window } from "./Window";
 import { Tour } from "./Tour";
 import { FinderApp, NotesApp, TerminalApp, TrashApp, ProjectApp } from "./apps";
+import wallpaper from "@/assets/wallpaper.jpg";
 
 type OpenWindow = {
   key: string;
@@ -14,6 +15,7 @@ type OpenWindow = {
   x: number;
   y: number;
   width: number;
+  origin: { x: number; y: number } | null;
   content: React.ReactNode;
 };
 
@@ -21,57 +23,63 @@ export function Desktop() {
   const [windows, setWindows] = useState<OpenWindow[]>([]);
   const [zTop, setZTop] = useState(10);
 
-  function open(key: string, title: string, content: React.ReactNode, width = 480) {
-    setZTop((z) => z + 1);
+  function open(key: string, title: string, content: React.ReactNode, width = 480, origin: { x: number; y: number } | null = null) {
+    const newZ = zTop + 1;
+    setZTop(newZ);
     setWindows((ws) => {
-      if (ws.find((w) => w.key === key)) {
-        return ws.map((w) => (w.key === key ? { ...w, z: zTop + 1 } : w));
+      const existing = ws.find((w) => w.key === key);
+      if (existing) {
+        return ws.map((w) => (w.key === key ? { ...w, z: newZ } : w));
       }
       const offset = ws.length * 24;
+      const vw = typeof window !== "undefined" ? window.innerWidth : 1024;
+      const x = Math.max(20, Math.min(vw - width - 20, vw / 2 - width / 2 + offset));
       return [
         ...ws,
-        {
-          key, title, content, width,
-          z: zTop + 1,
-          x: 80 + offset,
-          y: 80 + offset,
-        },
+        { key, title, content, width, z: newZ, x, y: 80 + offset, origin },
       ];
     });
   }
 
   function focus(key: string) {
-    setZTop((z) => z + 1);
-    setWindows((ws) => ws.map((w) => (w.key === key ? { ...w, z: zTop + 1 } : w)));
+    const newZ = zTop + 1;
+    setZTop(newZ);
+    setWindows((ws) => ws.map((w) => (w.key === key ? { ...w, z: newZ } : w)));
   }
 
   function close(key: string) {
     setWindows((ws) => ws.filter((w) => w.key !== key));
   }
 
-  function openProject(p: Project) {
-    open(`project:${p.id}`, p.title, <ProjectApp project={p} />, 460);
+  function openProject(p: Project, e?: MouseEvent) {
+    const origin = e ? { x: e.clientX, y: e.clientY } : null;
+    open(`project:${p.id}`, p.title, <ProjectApp project={p} />, 460, origin);
   }
 
-  function openDockApp(id: string) {
-    if (id === "finder") open("finder", "Finder — Projects", <FinderApp onOpenProject={openProject} />, 560);
-    else if (id === "notes") open("notes", "Notes — about", <NotesApp />, 480);
-    else if (id === "terminal") open("terminal", "Terminal", <TerminalApp />, 520);
-    else if (id === "trash") open("trash", "Trash", <TrashApp />, 360);
-    else if (id === "mail") open("mail", "Mail", <div className="p-8 text-center text-sm opacity-70">say hi → hello@example.com</div>, 360);
-    else if (id === "music") open("music", "Music", <div className="p-8 text-center text-sm opacity-70">🎵 currently on loop: anything ambient</div>, 360);
+  function openDockApp(id: string, e?: MouseEvent) {
+    const origin = e ? { x: e.clientX, y: e.clientY } : null;
+    if (id === "finder") open("finder", "Finder — Projects", <FinderApp onOpenProject={(p) => openProject(p)} />, 560, origin);
+    else if (id === "notes") open("notes", "Notes — about", <NotesApp />, 480, origin);
+    else if (id === "terminal") open("terminal", "Terminal", <TerminalApp />, 520, origin);
+    else if (id === "trash") open("trash", "Trash", <TrashApp />, 360, origin);
+    else if (id === "mail") open("mail", "Mail", <div className="p-8 text-center text-sm opacity-70">say hi → hello@example.com</div>, 360, origin);
+    else if (id === "music") open("music", "Music", <div className="p-8 text-center text-sm opacity-70">🎵 currently on loop: anything ambient</div>, 360, origin);
   }
 
   return (
     <div
       className="fixed inset-0 overflow-hidden font-sans"
-      style={{ background: "var(--desktop-bg)" }}
+      style={{
+        backgroundImage: `url(${wallpaper})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
       <MenuBar />
 
       <div className="absolute inset-0 pt-7 pb-24">
         {PROJECTS.map((p) => (
-          <DesktopItem key={p.id} project={p} onOpen={() => openProject(p)} />
+          <DesktopItem key={p.id} project={p} onOpen={(e) => openProject(p, e)} />
         ))}
       </div>
 
@@ -83,6 +91,7 @@ export function Desktop() {
           initialX={w.x}
           initialY={w.y}
           width={w.width}
+          origin={w.origin}
           onClose={() => close(w.key)}
           onFocus={() => focus(w.key)}
         >
