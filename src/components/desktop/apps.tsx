@@ -1,6 +1,61 @@
 import { useState } from "react";
 import { ABOUT, NAME, PROJECTS, type Project } from "@/lib/portfolio";
 
+function getMediaEmbed(url: string) {
+  try {
+    const parsed = new URL(url, "https://portfolio.local");
+    const host = parsed.hostname.replace(/^www\./, "");
+
+    if (host === "youtube.com" || host === "m.youtube.com") {
+      const videoId =
+        parsed.searchParams.get("v") ||
+        parsed.pathname.split("/").filter(Boolean).at(-1);
+
+      if (videoId) {
+        return {
+          kind: "iframe" as const,
+          src: `https://www.youtube.com/embed/${videoId}`,
+        };
+      }
+    }
+
+    if (host === "youtu.be") {
+      const videoId = parsed.pathname.split("/").filter(Boolean)[0];
+      if (videoId) {
+        return {
+          kind: "iframe" as const,
+          src: `https://www.youtube.com/embed/${videoId}`,
+        };
+      }
+    }
+
+    if (host === "youtube-nocookie.com") {
+      return {
+        kind: "iframe" as const,
+        src: `https://${host}${parsed.pathname}`,
+      };
+    }
+
+    if (host === "vimeo.com") {
+      const videoId = parsed.pathname.split("/").filter(Boolean)[0];
+      if (videoId) {
+        return {
+          kind: "iframe" as const,
+          src: `https://player.vimeo.com/video/${videoId}`,
+        };
+      }
+    }
+
+    if (/\.(mp4|webm|ogg)(\?|#|$)/i.test(url)) {
+      return { kind: "video" as const, src: url };
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
 export function FinderApp({ onOpenProject }: { onOpenProject: (p: Project) => void }) {
   return (
     <div className="flex h-full">
@@ -170,14 +225,35 @@ function FieldRow({ label, children }: { label: string; children: React.ReactNod
 }
 
 export function ProjectApp({ project }: { project: Project }) {
+  const media = project.mediaUrl ? getMediaEmbed(project.mediaUrl) : null;
+
   return (
     <div className="p-6">
-      <div
-        className="w-full h-48 rounded-lg mb-4 flex items-center justify-center text-white/80 text-sm"
-        style={{ background: `linear-gradient(135deg, ${project.accent}, oklch(0.3 0.15 280))` }}
-      >
-        {project.kind} preview
-      </div>
+      {project.kind === "video" && media?.kind === "iframe" ? (
+        <div className="mb-4 overflow-hidden rounded-lg bg-black aspect-video">
+          <iframe
+            src={media.src}
+            title={project.title}
+            className="h-full w-full border-0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+        </div>
+      ) : project.kind === "video" && media?.kind === "video" ? (
+        <video
+          src={media.src}
+          controls
+          className="mb-4 h-48 w-full rounded-lg bg-black object-cover"
+        />
+      ) : (
+        <div
+          className="w-full h-48 rounded-lg mb-4 flex items-center justify-center text-white/80 text-sm"
+          style={{ background: `linear-gradient(135deg, ${project.accent}, oklch(0.3 0.15 280))` }}
+        >
+          {project.kind} preview
+        </div>
+      )}
       <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
       <p className="text-sm opacity-80 leading-relaxed">{project.body}</p>
     </div>

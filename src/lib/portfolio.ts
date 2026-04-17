@@ -25,6 +25,7 @@ export type Project = {
   h: number; // tile height in px
   accent: string; // oklch color
   body: string; // markdown-ish content shown when opened
+  mediaUrl?: string; // youtube, vimeo, mp4, image, etc.
 };
 
 export const PROJECTS: Project[] = [
@@ -69,12 +70,13 @@ export const PROJECTS: Project[] = [
     body: "Real-time slit-scan webcam toy. Time becomes a column.",
   },
   {
-    id: "cut-lineup",
-    title: "cut lineup",
+    id: "James-james",
+    title: "james james",
     kind: "video",
     x: 38, y: 18, w: 220, h: 140,
     accent: "oklch(0.92 0.02 80)",
-    body: "Strangers stand in a line. Half the line gets cut. Tension ensues.",
+    body: "james is testing out some things",
+    mediaUrl: "https://youtu.be/UzymosgeM7s?si=x8elTD5dbOGhIidN",
   },
   {
     id: "grounded",

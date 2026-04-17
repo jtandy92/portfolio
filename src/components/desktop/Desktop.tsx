@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { PROJECTS, type Project } from "@/lib/portfolio";
 import { MenuBar } from "./MenuBar";
 import { Dock, DockIcon } from "./Dock";
@@ -21,11 +21,17 @@ type OpenWindow = {
 
 export function Desktop() {
   const [windows, setWindows] = useState<OpenWindow[]>([]);
-  const [zTop, setZTop] = useState(10);
+  const zTopRef = useRef(10);
   const [positions, setPositions] = useState<Positions>({});
   const [tileZ, setTileZ] = useState<Record<string, number>>({});
   const [topTileZ, setTopTileZ] = useState(1);
   const [viewport, setViewport] = useState({ w: 1024, h: 768 });
+
+  function claimTopWindowZ() {
+    const nextZ = zTopRef.current + 1;
+    zTopRef.current = nextZ;
+    return nextZ;
+  }
 
   // Initialize positions from storage + viewport on mount, and listen for resize.
   useEffect(() => {
@@ -56,8 +62,7 @@ export function Desktop() {
   }
 
   function open(key: string, title: string, content: React.ReactNode, width = 480, origin: { x: number; y: number } | null = null) {
-    const newZ = zTop + 1;
-    setZTop(newZ);
+    const newZ = claimTopWindowZ();
     setWindows((ws) => {
       const existing = ws.find((w) => w.key === key);
       if (existing) {
@@ -74,8 +79,7 @@ export function Desktop() {
   }
 
   function focus(key: string) {
-    const newZ = zTop + 1;
-    setZTop(newZ);
+    const newZ = claimTopWindowZ();
     setWindows((ws) => ws.map((w) => (w.key === key ? { ...w, z: newZ } : w)));
   }
 

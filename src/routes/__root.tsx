@@ -1,4 +1,5 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { NAME } from "@/lib/portfolio";
 
 import appCss from "../styles.css?url";
 
@@ -29,14 +30,15 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: `${NAME} desktop portfolio` },
+      { name: "description", content: `The personal portfolio of ${NAME}, presented as an interactive desktop.` },
+      { name: "author", content: NAME },
+      { property: "og:title", content: `${NAME} desktop portfolio` },
+      { property: "og:description", content: `An interactive desktop-style portfolio for ${NAME}.` },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: `${NAME} desktop portfolio` },
+      { name: "twitter:description", content: `An interactive desktop-style portfolio for ${NAME}.` },
     ],
     links: [
       {
