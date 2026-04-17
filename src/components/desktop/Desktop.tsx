@@ -1,8 +1,8 @@
-import { useState, type MouseEvent } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { PROJECTS, type Project } from "@/lib/portfolio";
 import { MenuBar } from "./MenuBar";
 import { Dock, DockIcon } from "./Dock";
-import { DesktopItem } from "./DesktopItem";
+import { DesktopItem, loadPositions, savePositions, resolvePosition, type Positions } from "./DesktopItem";
 import { Window } from "./Window";
 import { Tour } from "./Tour";
 import { FinderApp, NotesApp, TerminalApp, TrashApp, ProjectApp } from "./apps";
@@ -22,6 +22,38 @@ type OpenWindow = {
 export function Desktop() {
   const [windows, setWindows] = useState<OpenWindow[]>([]);
   const [zTop, setZTop] = useState(10);
+  const [positions, setPositions] = useState<Positions>({});
+  const [tileZ, setTileZ] = useState<Record<string, number>>({});
+  const [topTileZ, setTopTileZ] = useState(1);
+  const [viewport, setViewport] = useState({ w: 1024, h: 768 });
+
+  // Initialize positions from storage + viewport on mount, and listen for resize.
+  useEffect(() => {
+    setViewport({ w: window.innerWidth, h: window.innerHeight });
+    setPositions(loadPositions());
+    const onResize = () => setViewport({ w: window.innerWidth, h: window.innerHeight });
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  function moveTile(id: string, x: number, y: number) {
+    setPositions((p) => {
+      const next = { ...p, [id]: { x, y } };
+      savePositions(next);
+      return next;
+    });
+  }
+
+  function focusTile(id: string) {
+    const z = topTileZ + 1;
+    setTopTileZ(z);
+    setTileZ((m) => ({ ...m, [id]: z }));
+  }
+
+  function resetLayout() {
+    setPositions({});
+    savePositions({});
+  }
 
   function open(key: string, title: string, content: React.ReactNode, width = 480, origin: { x: number; y: number } | null = null) {
     const newZ = zTop + 1;
@@ -75,12 +107,24 @@ export function Desktop() {
         backgroundPosition: "center",
       }}
     >
-      <MenuBar />
+      <MenuBar onResetLayout={resetLayout} />
 
       <div className="absolute inset-0 pt-7 pb-24">
-        {PROJECTS.map((p) => (
-          <DesktopItem key={p.id} project={p} onOpen={(e) => openProject(p, e)} />
-        ))}
+        {PROJECTS.map((p) => {
+          const pos = resolvePosition(p, positions, viewport.w, viewport.h);
+          return (
+            <DesktopItem
+              key={p.id}
+              project={p}
+              x={pos.x}
+              y={pos.y}
+              zIndex={tileZ[p.id] ?? 1}
+              onOpen={(e) => openProject(p, e)}
+              onMove={(x, y) => moveTile(p.id, x, y)}
+              onFocus={() => focusTile(p.id)}
+            />
+          );
+        })}
       </div>
 
       {windows.map((w) => (
