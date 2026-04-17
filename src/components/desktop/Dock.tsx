@@ -1,8 +1,8 @@
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 
 export type DockApp = { id: string; label: string; icon: ReactNode };
 
-export function Dock({ apps, onOpen }: { apps: DockApp[]; onOpen: (id: string) => void }) {
+export function Dock({ apps, onOpen }: { apps: DockApp[]; onOpen: (id: string, e: MouseEvent) => void }) {
   return (
     <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-50">
       <div
@@ -16,7 +16,7 @@ export function Dock({ apps, onOpen }: { apps: DockApp[]; onOpen: (id: string) =
         {apps.map((app) => (
           <button
             key={app.id}
-            onClick={() => onOpen(app.id)}
+            onClick={(e) => onOpen(app.id, e)}
             title={app.label}
             className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform hover:scale-110 hover:-translate-y-1 active:scale-95"
             aria-label={app.label}
