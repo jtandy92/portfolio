@@ -12,6 +12,7 @@ type Props = {
 };
 
 const DRAG_THRESHOLD = 4;
+const CLICK_MAX_MS = 200; // press shorter than this (without movement) opens the window
 
 export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: Props) {
   const [dragging, setDragging] = useState(false);
