@@ -3,7 +3,6 @@ import type { Project } from "@/lib/portfolio";
 
 type Props = {
   project: Project;
-  // pixel position (top-left of tile)
   x: number;
   y: number;
   onOpen: (e: MouseEvent) => void;
@@ -12,16 +11,18 @@ type Props = {
   zIndex: number;
 };
 
-const DRAG_THRESHOLD = 4; // px before we consider it a drag (vs click)
+const DRAG_THRESHOLD = 4;
 
 export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: Props) {
   const [dragging, setDragging] = useState(false);
-  const stateRef = useRef<{
-    startX: number; startY: number;
-    originX: number; originY: number;
-    moved: boolean;
-    pointerId: number;
-  } | null>(null);
+  const xRef = useRef(x);
+  const yRef = useRef(y);
+  const onMoveRef = useRef(onMove);
+  const onOpenRef = useRef(onOpen);
+  useEffect(() => { xRef.current = x; }, [x]);
+  useEffect(() => { yRef.current = y; }, [y]);
+  useEffect(() => { onMoveRef.current = onMove; }, [onMove]);
+  useEffect(() => { onOpenRef.current = onOpen; }, [onOpen]);
 
   const tileW = project.w * 0.7;
   const tileH = project.h * 0.7;
@@ -29,52 +30,49 @@ export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: 
   function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
     if (e.button !== undefined && e.button !== 0) return;
     e.preventDefault();
+    e.stopPropagation();
     onFocus();
-    try { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); } catch { /* ignore */ }
-    stateRef.current = {
-      startX: e.clientX, startY: e.clientY,
-      originX: x, originY: y,
-      moved: false,
-      pointerId: e.pointerId,
+
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const originX = xRef.current;
+    const originY = yRef.current;
+    let moved = false;
+
+    const onMoveWin = (ev: PointerEvent) => {
+      const dx = ev.clientX - startX;
+      const dy = ev.clientY - startY;
+      if (!moved && Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+      if (!moved) {
+        moved = true;
+        setDragging(true);
+      }
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const nx = Math.max(0, Math.min(vw - tileW, originX + dx));
+      const ny = Math.max(28, Math.min(vh - tileH - 80, originY + dy));
+      onMoveRef.current(nx, ny);
     };
-  }
 
-  function handlePointerMove(e: React.PointerEvent<HTMLDivElement>) {
-    const s = stateRef.current;
-    if (!s) return;
-    const dx = e.clientX - s.startX;
-    const dy = e.clientY - s.startY;
-    if (!s.moved && Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
-    if (!s.moved) {
-      s.moved = true;
-      setDragging(true);
-    }
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const nx = Math.max(0, Math.min(vw - tileW, s.originX + dx));
-    const ny = Math.max(28, Math.min(vh - tileH - 80, s.originY + dy));
-    onMove(nx, ny);
-  }
+    const onUpWin = (ev: PointerEvent) => {
+      window.removeEventListener("pointermove", onMoveWin);
+      window.removeEventListener("pointerup", onUpWin);
+      window.removeEventListener("pointercancel", onUpWin);
+      setDragging(false);
+      if (!moved) {
+        onOpenRef.current({ clientX: ev.clientX, clientY: ev.clientY } as unknown as MouseEvent);
+      }
+    };
 
-  function handlePointerUp(e: React.PointerEvent<HTMLDivElement>) {
-    const s = stateRef.current;
-    stateRef.current = null;
-    if (!s) return;
-    try { (e.currentTarget as HTMLElement).releasePointerCapture(s.pointerId); } catch { /* ignore */ }
-    if (!s.moved) {
-      // treat as click
-      onOpen(e as unknown as MouseEvent);
-    }
-    setDragging(false);
+    window.addEventListener("pointermove", onMoveWin);
+    window.addEventListener("pointerup", onUpWin);
+    window.addEventListener("pointercancel", onUpWin);
   }
 
   return (
     <div
       onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={() => { stateRef.current = null; setDragging(false); }}
-      className="absolute group flex flex-col items-center gap-1.5 focus:outline-none touch-none"
+      className="absolute group flex flex-col items-center gap-1.5 focus:outline-none touch-none select-none"
       style={{
         left: x,
         top: y,
@@ -83,7 +81,7 @@ export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: 
         zIndex,
         animation: dragging ? "none" : `tile-float ${4 + (project.id.length % 3)}s ease-in-out infinite`,
         transition: dragging ? "none" : "transform 0.15s",
-        transform: dragging ? "scale(1.05)" : "scale(1)",
+        transform: dragging ? "scale(1.05)" : undefined,
         userSelect: "none",
       }}
     >
