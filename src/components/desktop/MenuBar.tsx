@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NAME } from "@/lib/portfolio";
 
-export function MenuBar() {
+export function MenuBar({ onResetLayout }: { onResetLayout?: () => void } = {}) {
   const [now, setNow] = useState<Date | null>(null);
   useEffect(() => {
     setNow(new Date());
@@ -22,6 +22,15 @@ export function MenuBar() {
         <span className="opacity-80 hidden sm:inline">File</span>
         <span className="opacity-80 hidden sm:inline">Edit</span>
         <span className="opacity-80 hidden sm:inline">View</span>
+        {onResetLayout && (
+          <button
+            onClick={onResetLayout}
+            className="opacity-80 hover:opacity-100 underline-offset-2 hover:underline"
+            title="Reset desktop layout"
+          >
+            Reset layout
+          </button>
+        )}
         <span className="opacity-80 hidden sm:inline">Help</span>
       </div>
       <div className="flex items-center gap-3 tabular-nums" suppressHydrationWarning>

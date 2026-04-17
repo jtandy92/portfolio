@@ -107,7 +107,7 @@ export function Desktop() {
         backgroundPosition: "center",
       }}
     >
-      <MenuBar />
+      <MenuBar onResetLayout={resetLayout} />
 
       <div className="absolute inset-0 pt-7 pb-24">
         {PROJECTS.map((p) => {
