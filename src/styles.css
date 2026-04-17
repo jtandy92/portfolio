@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -95,6 +96,52 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+}
+
+  /* Desktop / OS tokens */
+  --desktop-bg: linear-gradient(135deg, oklch(0.72 0.15 25) 0%, oklch(0.68 0.18 340) 45%, oklch(0.55 0.22 290) 100%);
+  --menubar-bg: oklch(0.18 0.02 270 / 0.55);
+  --menubar-fg: oklch(0.98 0 0);
+  --dock-bg: oklch(0.98 0.01 270 / 0.35);
+  --dock-border: oklch(1 0 0 / 0.4);
+  --window-bg: oklch(0.98 0.005 270 / 0.92);
+  --window-border: oklch(0 0 0 / 0.18);
+  --window-titlebar: oklch(0.94 0.005 270 / 0.85);
+  --traffic-close: oklch(0.7 0.2 25);
+  --traffic-min: oklch(0.82 0.18 85);
+  --traffic-max: oklch(0.75 0.18 145);
+  --tile-label: oklch(1 0 0);
+  --tour-bg: oklch(0.18 0.02 270 / 0.92);
+  --tour-fg: oklch(0.98 0 0);
+  --shadow-window: 0 25px 60px -10px oklch(0 0 0 / 0.45), 0 8px 20px -8px oklch(0 0 0 / 0.3);
+  --shadow-tile: 0 8px 24px -6px oklch(0 0 0 / 0.35);
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@theme inline {
+  --color-desktop-bg: var(--desktop-bg);
+  --color-menubar-bg: var(--menubar-bg);
+  --color-menubar-fg: var(--menubar-fg);
+  --color-dock-bg: var(--dock-bg);
+  --color-window-bg: var(--window-bg);
+  --color-tour-bg: var(--tour-bg);
+  --color-tour-fg: var(--tour-fg);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+@keyframes window-in {
+  from { opacity: 0; transform: scale(0.92) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes tile-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes dock-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.1); }
 }
 
 .dark {

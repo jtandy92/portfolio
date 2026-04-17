@@ -1,26 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Desktop } from "@/components/desktop/Desktop";
+import { NAME } from "@/lib/portfolio";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: `${NAME} — desktop portfolio` },
+      { name: "description", content: `the personal site of ${NAME}, dressed up as a desktop. click around, drag the windows, open the dock.` },
+      { property: "og:title", content: `${NAME} — desktop portfolio` },
+      { property: "og:description", content: `a playful desktop-style portfolio.` },
+      { property: "og:type", content: "website" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
 function Index() {
-  return <PlaceholderIndex />;
+  return <Desktop />;
 }
