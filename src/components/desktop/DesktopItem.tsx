@@ -12,6 +12,7 @@ type Props = {
 };
 
 const DRAG_THRESHOLD = 4;
+const CLICK_MAX_MS = 200; // press shorter than this (without movement) opens the window
 
 export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: Props) {
   const [dragging, setDragging] = useState(false);
@@ -35,6 +36,7 @@ export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: 
 
     const startX = e.clientX;
     const startY = e.clientY;
+    const startTime = performance.now();
     const originX = xRef.current;
     const originY = yRef.current;
     let moved = false;
@@ -59,7 +61,9 @@ export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: 
       window.removeEventListener("pointerup", onUpWin);
       window.removeEventListener("pointercancel", onUpWin);
       setDragging(false);
-      if (!moved) {
+      const elapsed = performance.now() - startTime;
+      // Open only on a quick click without drag. A long hold without movement does nothing.
+      if (!moved && elapsed < CLICK_MAX_MS) {
         onOpenRef.current({ clientX: ev.clientX, clientY: ev.clientY } as unknown as MouseEvent);
       }
     };
