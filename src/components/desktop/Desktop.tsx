@@ -4,7 +4,6 @@ import { MenuBar } from "./MenuBar";
 import { Dock, DockIcon } from "./Dock";
 import { DesktopItem, loadPositions, savePositions, resolvePosition, type Positions } from "./DesktopItem";
 import { Window } from "./Window";
-import { Tour } from "./Tour";
 import { FinderApp, NotesApp, TerminalApp, TrashApp, ProjectApp, MailApp } from "./apps";
 import wallpaper from "@/assets/wallpaper.jpg";
 
@@ -21,6 +20,7 @@ type OpenWindow = {
 
 export function Desktop() {
   const [windows, setWindows] = useState<OpenWindow[]>([]);
+  const [isBooting, setIsBooting] = useState(true);
   const zTopRef = useRef(10);
   const [positions, setPositions] = useState<Positions>({});
   const [tileZ, setTileZ] = useState<Record<string, number>>({});
@@ -37,9 +37,13 @@ export function Desktop() {
   useEffect(() => {
     setViewport({ w: window.innerWidth, h: window.innerHeight });
     setPositions(loadPositions());
+    const bootTimer = window.setTimeout(() => setIsBooting(false), 1350);
     const onResize = () => setViewport({ w: window.innerWidth, h: window.innerHeight });
     window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
+    return () => {
+      window.clearTimeout(bootTimer);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
   function moveTile(id: string, x: number, y: number) {
@@ -159,7 +163,12 @@ export function Desktop() {
         ]}
       />
 
-      <Tour />
+      {isBooting ? (
+        <div
+          className="fixed inset-0 z-[200] bg-black pointer-events-none"
+          style={{ animation: "computer-boot-fade 1.35s ease-in-out forwards" }}
+        />
+      ) : null}
     </div>
   );
 }

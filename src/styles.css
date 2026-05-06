@@ -142,6 +142,17 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-3px); }
 }
+@keyframes computer-boot-fade {
+  0%, 42% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes computer-boot-fade {
+    0%, 12% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+}
 
 .dark {
   --background: oklch(0.129 0.042 264.695);
