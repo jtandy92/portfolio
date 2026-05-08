@@ -3,8 +3,10 @@ import {
   ABOUT,
   CONTACT_LINKS,
   NAME,
+  NOTES_SECTIONS,
   PROJECTS,
   type ExternalLink,
+  type NoteEntry,
   type PlaceholderMedia,
   type Project,
   type ProjectFolderItem,
@@ -141,11 +143,114 @@ export function FinderApp({ onOpenProject }: { onOpenProject: (p: Project) => vo
 }
 
 export function NotesApp() {
+  const [selectedSectionId, setSelectedSectionId] = useState(NOTES_SECTIONS[0]?.id ?? "");
+  const initialNoteId = NOTES_SECTIONS[0]?.notes[0]?.id ?? "";
+  const [selectedNoteId, setSelectedNoteId] = useState(initialNoteId);
+
+  const selectedSection =
+    NOTES_SECTIONS.find((section) => section.id === selectedSectionId) ?? NOTES_SECTIONS[0];
+  const selectedNote =
+    selectedSection?.notes.find((note) => note.id === selectedNoteId) ?? selectedSection?.notes[0];
+
+  function selectSection(sectionId: string) {
+    const nextSection = NOTES_SECTIONS.find((section) => section.id === sectionId);
+    setSelectedSectionId(sectionId);
+    setSelectedNoteId(nextSection?.notes[0]?.id ?? "");
+  }
+
+  function selectNote(note: NoteEntry) {
+    setSelectedNoteId(note.id);
+  }
+
   return (
-    <div className="p-6">
-      <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed bg-transparent p-0 m-0">
-        {ABOUT}
-      </pre>
+    <div className="flex h-full min-h-0 bg-[oklch(0.985_0.004_250)] text-black">
+      <aside className="w-44 shrink-0 border-r border-black/10 bg-black/[0.02] p-3 text-xs">
+        <div className="mb-2 px-2 font-semibold text-black/55">
+          Notes
+        </div>
+        <div className="space-y-1">
+          {NOTES_SECTIONS.map((section) => {
+            const isSelected = section.id === selectedSection?.id;
+
+            return (
+              <button
+                key={section.id}
+                type="button"
+                onClick={() => selectSection(section.id)}
+                className={`flex w-full items-center gap-2 rounded px-2 py-1.5 text-left transition ${
+                  isSelected ? "bg-black/10 text-black" : "text-black/60 hover:bg-black/[0.05]"
+                }`}
+              >
+                <span className="min-w-0 flex-1 truncate text-sm">{section.title}</span>
+                <span className={isSelected ? "text-black/55" : "text-black/40"}>
+                  {section.notes.length}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </aside>
+
+      <section className="flex min-w-0 flex-1">
+        <div className="flex w-72 shrink-0 flex-col border-r border-black/10 bg-white/70">
+          <div className="border-b border-black/10 px-5 py-4">
+            <h3 className="text-xl font-semibold tracking-[-0.02em]">{selectedSection?.title}</h3>
+            <p className="mt-1 text-sm text-black/45">
+              {selectedSection?.notes.length ?? 0} text note
+              {(selectedSection?.notes.length ?? 0) === 1 ? "" : "s"}
+            </p>
+          </div>
+
+          <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
+            <div className="space-y-2">
+              {selectedSection?.notes.map((note) => {
+                const isSelected = note.id === selectedNote?.id;
+
+                return (
+                  <button
+                    key={note.id}
+                    type="button"
+                    onClick={() => selectNote(note)}
+                    className={`w-full rounded-2xl border px-3 py-3 text-left transition ${
+                      isSelected
+                        ? "border-transparent bg-[linear-gradient(180deg,oklch(0.95_0.04_230),oklch(0.89_0.07_225))] text-black shadow-[0_6px_18px_-10px_oklch(0.45_0.05_230_/_0.35)]"
+                        : "border-transparent bg-transparent text-black/80 hover:border-black/10 hover:bg-black/[0.035]"
+                    }`}
+                  >
+                    <div className="truncate text-base font-semibold">{note.title}</div>
+                    <p
+                      className={`mt-1 line-clamp-3 text-sm leading-relaxed ${
+                        isSelected ? "text-black/80" : "text-black/55"
+                      }`}
+                    >
+                      {note.preview}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <div className="min-w-0 flex-1 bg-white/90">
+          <div className="flex h-full min-h-0 flex-col">
+            <div className="border-b border-black/10 px-6 py-4">
+              <div className="text-xs font-medium uppercase tracking-[0.22em] text-black/35">
+                {selectedSection?.title}
+              </div>
+              <h4 className="mt-2 text-2xl font-semibold tracking-[-0.02em]">
+                {selectedNote?.title}
+              </h4>
+            </div>
+
+            <div className="min-h-0 flex-1 overflow-y-auto px-6 py-5">
+              <pre className="m-0 whitespace-pre-wrap font-sans text-[15px] leading-7 text-black/75">
+                {selectedNote?.body ?? ABOUT}
+              </pre>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

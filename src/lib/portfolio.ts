@@ -22,6 +22,91 @@ export const CONTACT_LINKS = [
   { label: "Itch.io", url: "https://example.com" },
 ];
 
+export type NoteEntry = {
+  id: string;
+  title: string;
+  preview: string;
+  body: string;
+};
+
+export type NoteSection = {
+  id: string;
+  title: string;
+  notes: NoteEntry[];
+};
+
+export const NOTES_SECTIONS: NoteSection[] = [
+  {
+    id: "career",
+    title: "Career",
+    notes: [
+      {
+        id: "career-overview",
+        title: "Career Overview",
+        preview:
+          "Designer and creative technologist working across branding, web, games, and moving image.",
+        body: `I work across branding, interactive media, web design, browser games, and audiovisual storytelling.
+
+My practice combines visual design, systems thinking, and hands-on production. I like projects where concept and execution need to live close together, whether that means designing a brand world, building a playful interface, or shaping a digital experience from art direction through implementation.
+
+I am especially interested in roles that let me move between disciplines while still making polished, intentional work.`,
+      },
+      {
+        id: "career-strengths",
+        title: "What I Bring",
+        preview:
+          "Cross-disciplinary creative direction, UI thinking, and production-minded execution.",
+        body: `My strongest work usually happens at the intersection of design and making.
+
+I bring visual taste, strong layout instincts, and a practical understanding of how to ship digital work. That includes interface design, creative direction, motion-aware presentation, lightweight front-end implementation, and building cohesive systems instead of isolated assets.
+
+I am most useful on teams that value clarity, adaptability, and a point of view.`,
+      },
+    ],
+  },
+  {
+    id: "education",
+    title: "Education",
+    notes: [
+      {
+        id: "education-background",
+        title: "Education Background",
+        preview:
+          "A multidisciplinary learning path shaped by design, technology, and experimentation.",
+        body: `My education has been shaped by creative experimentation, digital tools, and self-directed making.
+
+I learn best by building. A lot of my growth has come from combining formal design thinking with hands-on exploration in branding, interactive projects, visual storytelling, and game-adjacent work.
+
+This notes section is ready for your final school, course, certificate, or training details whenever you want to replace the placeholder copy.`,
+      },
+    ],
+  },
+  {
+    id: "goals",
+    title: "Goals",
+    notes: [
+      {
+        id: "goals-near-term",
+        title: "Near-Term Goals",
+        preview:
+          "Build a focused body of work that feels personal, sharp, and technically confident.",
+        body: `In the near term, I want this portfolio to communicate a clearer creative identity.
+
+That means sharpening the writing, curating stronger case studies, and presenting work in a way that feels memorable instead of generic. I also want to keep growing the technical side of my practice so the work can be more interactive, expressive, and self-directed.`,
+      },
+      {
+        id: "goals-long-term",
+        title: "Long-Term Goals",
+        preview:
+          "Develop a practice that connects design, storytelling, tools, and original digital experiences.",
+        body: `Long term, I want to keep building a career that does not force a split between designer, creative technologist, and maker.
+
+I want to contribute to projects with a strong visual voice, thoughtful interaction, and real emotional texture. Over time, I also want to develop more original tools, games, and creative systems that can stand on their own as authored work.`,
+      },
+    ],
+  },
+];
+
 export type PlaceholderMediaKind = "image" | "video" | "gif" | "embed" | "link";
 
 export type PlaceholderMedia = {

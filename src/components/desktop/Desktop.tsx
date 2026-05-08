@@ -195,7 +195,7 @@ export function Desktop() {
     }
 
     if (id === "notes") {
-      open("notes", "Notes - about", <NotesApp />, 480, origin);
+      open("notes", "Notes", <NotesApp />, 1040, origin, "hidden", "min(72vh, 640px)");
       return;
     }
 
