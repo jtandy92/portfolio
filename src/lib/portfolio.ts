@@ -1,139 +1,432 @@
-// Edit this file to make the site about you.
-// Swap NAME, ABOUT, and PROJECTS — everything else updates automatically.
+// Central portfolio content.
+// Replace the placeholder text, media URLs, and links here as final assets become ready.
 
-export const NAME = "yourname";
+export const SITE_TITLE = "James Tandy PorfoliOS";
+export const MENU_BAR_NAME = "JamesTandy";
+export const NAME = "James Tandy";
 
-export const ABOUT = `# hi, i'm ${NAME} 👋
+export const ABOUT = `Multidisciplinary designer and creative technologist working across branding, games, web interfaces, audiovisual campaigns, and interactive tools.
 
-a designer + engineer making playful things on the internet.
-this site is my desktop — click around, drag the windows, open the dock.
+This is temporary copy. Replace it with the final short professional introduction.`;
 
-**reach me:** hello@example.com
-**find me:** twitter · github · linkedin
-`;
+export const CONTACT_LINKS = [
+  { label: "Email", url: "mailto:hello@example.com" },
+  { label: "Instagram", url: "https://example.com" },
+  { label: "LinkedIn", url: "https://example.com" },
+  { label: "Itch.io", url: "https://example.com" },
+];
 
-export type ProjectKind = "image" | "video" | "card" | "map" | "chat" | "note";
+export type PlaceholderMediaKind = "image" | "video" | "gif" | "embed" | "link";
+
+export type PlaceholderMedia = {
+  id: string;
+  label: string;
+  kind: PlaceholderMediaKind;
+  note?: string;
+  url?: string;
+};
+
+export type ExternalLink = {
+  label: string;
+  url: string;
+};
+
+export type GroupedProjectItem = {
+  id: string;
+  title: string;
+  shortDescription: string;
+  placeholderMedia: PlaceholderMedia[];
+  externalLinks: ExternalLink[];
+};
+
+export type ProjectWindowStyle =
+  | "editorial-gallery"
+  | "website-preview"
+  | "audiovisual-campaign"
+  | "video-case"
+  | "game-artbook"
+  | "tool-demo"
+  | "game-launcher"
+  | "archive-folder"
+  | "about"
+  | "contact";
 
 export type Project = {
   id: string;
   title: string;
-  kind: ProjectKind;
-  // % position on the desktop (so it's responsive-ish)
+  desktopLabel: string;
+  category: string;
+  type: string;
+  shortDescription: string;
+  role: string;
+  windowStyle: ProjectWindowStyle;
+  placeholderMedia: PlaceholderMedia[];
+  externalLinks: ExternalLink[];
+  groupedItems?: GroupedProjectItem[];
+  // Desktop icon placement and size. Tweak these values to rearrange the desktop.
   x: number;
   y: number;
-  w: number; // tile width in px
-  h: number; // tile height in px
-  accent: string; // oklch color
-  body: string; // markdown-ish content shown when opened
-  mediaUrl?: string; // youtube, vimeo, mp4, image, etc.
+  w: number;
+  h: number;
+  accent: string;
 };
 
 export const PROJECTS: Project[] = [
   {
-    id: "cut-button",
-    title: "cut button",
-    kind: "video",
-    x: 18, y: 70, w: 200, h: 130,
-    accent: "oklch(0.55 0.22 20)",
-    body: "A red button. You press it. Things get cut. A short film about commitment.",
+    id: "body-mind-packaging",
+    title: "Body and Mind Beautiful - Packaging System",
+    desktopLabel: "body & mind packaging",
+    category: "branding / packaging / visual identity",
+    type: "Packaging system",
+    shortDescription: "Packaging and identity system foundation. Replace with final case text.",
+    role: "Branding, packaging, visual identity",
+    windowStyle: "editorial-gallery",
+    placeholderMedia: [
+      {
+        id: "hero-mockup",
+        label: "Hero packaging mockup",
+        kind: "image",
+        note: "Replace with main packaging render or photo.",
+      },
+      {
+        id: "label-system",
+        label: "Label system",
+        kind: "image",
+        note: "Replace with label close-ups.",
+      },
+      {
+        id: "product-line",
+        label: "Product line",
+        kind: "image",
+        note: "Replace with full product lineup.",
+      },
+      {
+        id: "detail-shot",
+        label: "Material/detail shot",
+        kind: "image",
+        note: "Replace with texture or print details.",
+      },
+    ],
+    externalLinks: [],
+    x: 14,
+    y: 22,
+    w: 180,
+    h: 210,
+    accent: "oklch(0.74 0.1 80)",
   },
   {
-    id: "linkedin-interview",
-    title: "linkedin interview",
-    kind: "video",
-    x: 50, y: 48, w: 220, h: 140,
-    accent: "oklch(0.55 0.18 240)",
-    body: "Mock interview series filmed in a fake corporate apartment.",
+    id: "bmb-website",
+    title: "Body and Mind Beautiful - Website",
+    desktopLabel: "bmb website",
+    category: "UI / web design",
+    type: "Website design",
+    shortDescription: "Responsive website case shell. Replace with final web design notes.",
+    role: "UI design, web direction",
+    windowStyle: "website-preview",
+    placeholderMedia: [
+      {
+        id: "desktop-screen",
+        label: "Desktop screenshots",
+        kind: "image",
+        note: "Replace with full-page desktop captures.",
+      },
+      {
+        id: "mobile-screen",
+        label: "Mobile screenshots",
+        kind: "image",
+        note: "Replace with mobile captures.",
+      },
+      {
+        id: "interaction",
+        label: "Interaction GIF",
+        kind: "gif",
+        note: "Replace with scroll or interaction GIF.",
+      },
+    ],
+    externalLinks: [],
+    x: 34,
+    y: 18,
+    w: 210,
+    h: 145,
+    accent: "oklch(0.58 0.12 185)",
   },
   {
-    id: "barbie-filter",
-    title: "barbie filter",
-    kind: "image",
-    x: 78, y: 22, w: 160, h: 220,
-    accent: "oklch(0.78 0.2 350)",
-    body: "AR filter that turns you into a limited edition collectible.",
+    id: "red-lion-campaign",
+    title: "RED LION - Music Campaign",
+    desktopLabel: "red lion campaign",
+    category: "audiovisual / music video / album identity",
+    type: "Music campaign",
+    shortDescription: "Campaign container for motion, music, and album visuals.",
+    role: "Creative direction, audiovisual identity",
+    windowStyle: "audiovisual-campaign",
+    placeholderMedia: [
+      { id: "reels", label: "Reels", kind: "video", note: "Replace with reels or vertical cuts." },
+      {
+        id: "cinematic-frames",
+        label: "Cinematic frames",
+        kind: "image",
+        note: "Replace with selected stills.",
+      },
+      {
+        id: "lyric-video",
+        label: "Lyric videos",
+        kind: "video",
+        note: "Replace with YouTube/Vimeo embeds.",
+      },
+      {
+        id: "album-artwork",
+        label: "Album artwork",
+        kind: "image",
+        note: "Replace with cover art and variants.",
+      },
+    ],
+    externalLinks: [],
+    x: 58,
+    y: 20,
+    w: 220,
+    h: 150,
+    accent: "oklch(0.52 0.22 28)",
   },
   {
-    id: "greeting-cards",
-    title: "greeting cards",
-    kind: "card",
-    x: 88, y: 8, w: 140, h: 190,
-    accent: "oklch(0.92 0.04 80)",
-    body: "Eye-chart inspired cards for awkward occasions.",
+    id: "meu-cabelo",
+    title: "BLACKLAS - Meu Cabelo",
+    desktopLabel: "meu cabelo.mov",
+    category: "music video / creative direction / cinematography",
+    type: "Music video",
+    shortDescription: "Video case shell for the final embed, stills, and BTS notes.",
+    role: "Creative direction, cinematography",
+    windowStyle: "video-case",
+    placeholderMedia: [
+      {
+        id: "youtube-embed",
+        label: "YouTube embed",
+        kind: "embed",
+        note: "Paste the final YouTube URL here.",
+      },
+      {
+        id: "still-frames",
+        label: "Still frames",
+        kind: "image",
+        note: "Replace with frame selects.",
+      },
+      {
+        id: "bts",
+        label: "Behind the scenes",
+        kind: "image",
+        note: "Replace with BTS photos or clips.",
+      },
+    ],
+    externalLinks: [],
+    x: 80,
+    y: 24,
+    w: 190,
+    h: 130,
+    accent: "oklch(0.32 0.06 265)",
   },
   {
-    id: "slit-scan",
-    title: "slit scan",
-    kind: "image",
-    x: 70, y: 65, w: 130, h: 200,
-    accent: "oklch(0.45 0.05 270)",
-    body: "Real-time slit-scan webcam toy. Time becomes a column.",
+    id: "liminality",
+    title: "Liminality",
+    desktopLabel: "liminality.exe",
+    category: "game art direction / pixel art / UI / worldbuilding",
+    type: "Game art direction",
+    shortDescription: "Game artbook and launcher shell for art, UI, and animation assets.",
+    role: "Art direction, pixel art, UI, worldbuilding",
+    windowStyle: "game-artbook",
+    placeholderMedia: [
+      { id: "cover-art", label: "Cover art", kind: "image", note: "Replace with key art." },
+      { id: "sprites", label: "Sprites", kind: "image", note: "Replace with sprite sheets." },
+      {
+        id: "gameplay-gifs",
+        label: "Gameplay GIFs",
+        kind: "gif",
+        note: "Replace with animations.",
+      },
+      {
+        id: "ui-screens",
+        label: "UI screens",
+        kind: "image",
+        note: "Replace with menu and HUD captures.",
+      },
+    ],
+    externalLinks: [],
+    x: 18,
+    y: 55,
+    w: 180,
+    h: 150,
+    accent: "oklch(0.42 0.13 280)",
   },
   {
-    id: "James-james",
-    title: "james james",
-    kind: "video",
-    x: 38, y: 18, w: 220, h: 140,
-    accent: "oklch(0.92 0.02 80)",
-    body: "james is testing out some things",
-    mediaUrl: "https://youtu.be/UzymosgeM7s?si=x8elTD5dbOGhIidN",
+    id: "aether-edit",
+    title: "Aether Edit",
+    desktopLabel: "aether edit.app",
+    category: "tool / UI / game design / programming",
+    type: "Interactive tool",
+    shortDescription: "Software demo shell for interface screenshots and usage examples.",
+    role: "UI design, game design, programming",
+    windowStyle: "tool-demo",
+    placeholderMedia: [
+      {
+        id: "usage-gif",
+        label: "Usage GIFs",
+        kind: "gif",
+        note: "Replace with editing workflow captures.",
+      },
+      {
+        id: "interface",
+        label: "Interface screenshots",
+        kind: "image",
+        note: "Replace with UI screenshots.",
+      },
+      {
+        id: "examples",
+        label: "Created examples",
+        kind: "image",
+        note: "Replace with output examples.",
+      },
+    ],
+    externalLinks: [{ label: "Itch.io link", url: "https://example.com" }],
+    x: 40,
+    y: 56,
+    w: 180,
+    h: 160,
+    accent: "oklch(0.68 0.15 220)",
   },
   {
-    id: "grounded",
-    title: "grounded",
-    kind: "card",
-    x: 12, y: 28, w: 150, h: 200,
-    accent: "oklch(0.85 0.12 90)",
-    body: "A pokémon-style trading card I made for a friend.",
+    id: "phantom-of-the-grove",
+    title: "Phantom of the Grove",
+    desktopLabel: "phantom of the grove",
+    category: "browser game / pixel art / UI",
+    type: "Browser game",
+    shortDescription: "Playable game case shell for GIFs, screenshots, and UI.",
+    role: "Pixel art, UI, browser game design",
+    windowStyle: "game-launcher",
+    placeholderMedia: [
+      {
+        id: "gameplay-gifs",
+        label: "Gameplay GIFs",
+        kind: "gif",
+        note: "Replace with gameplay loops.",
+      },
+      {
+        id: "screenshots",
+        label: "Screenshots",
+        kind: "image",
+        note: "Replace with gameplay screenshots.",
+      },
+      {
+        id: "pixel-art",
+        label: "Pixel art",
+        kind: "image",
+        note: "Replace with asset sheets or art crops.",
+      },
+      { id: "ui", label: "UI", kind: "image", note: "Replace with HUD/menu captures." },
+    ],
+    externalLinks: [{ label: "Playable link", url: "https://example.com" }],
+    x: 62,
+    y: 58,
+    w: 210,
+    h: 150,
+    accent: "oklch(0.5 0.14 145)",
   },
   {
-    id: "top-creator",
-    title: "top creator",
-    kind: "chat",
-    x: 42, y: 75, w: 180, h: 230,
-    accent: "oklch(0.95 0.01 270)",
-    body: "DMs from the day a tiny experiment went weirdly viral.",
+    id: "itch-experiments",
+    title: "Itch.io Experiments",
+    desktopLabel: "itch experiments",
+    category: "grouped game experiments",
+    type: "Archive folder",
+    shortDescription: "Grouped archive for smaller game experiments.",
+    role: "Game experiments, pixel art, interaction design",
+    windowStyle: "archive-folder",
+    placeholderMedia: [],
+    externalLinks: [{ label: "Itch.io profile", url: "https://example.com" }],
+    groupedItems: [
+      {
+        id: "whale-songs",
+        title: "Whale Songs",
+        shortDescription: "Temporary description. Replace with final game summary.",
+        placeholderMedia: [
+          { id: "cover", label: "Cover art", kind: "image" },
+          { id: "gif", label: "Gameplay GIF", kind: "gif" },
+          { id: "screens", label: "Screenshots", kind: "image" },
+        ],
+        externalLinks: [{ label: "Game link", url: "https://example.com" }],
+      },
+      {
+        id: "snow-rest",
+        title: "Snow Rest",
+        shortDescription: "Temporary description. Replace with final game summary.",
+        placeholderMedia: [
+          { id: "cover", label: "Cover art", kind: "image" },
+          { id: "gif", label: "Gameplay GIF", kind: "gif" },
+          { id: "screens", label: "Screenshots", kind: "image" },
+        ],
+        externalLinks: [{ label: "Game link", url: "https://example.com" }],
+      },
+      {
+        id: "overgrown",
+        title: "Overgrown",
+        shortDescription: "Temporary description. Replace with final game summary.",
+        placeholderMedia: [
+          { id: "cover", label: "Cover art", kind: "image" },
+          { id: "gif", label: "Gameplay GIF", kind: "gif" },
+          { id: "screens", label: "Screenshots", kind: "image" },
+        ],
+        externalLinks: [{ label: "Game link", url: "https://example.com" }],
+      },
+    ],
+    x: 82,
+    y: 58,
+    w: 175,
+    h: 155,
+    accent: "oklch(0.8 0.11 95)",
   },
   {
-    id: "tour-du-mont-blanc",
-    title: "tour du mont blanc",
-    kind: "map",
-    x: 80, y: 50, w: 200, h: 130,
-    accent: "oklch(0.78 0.12 145)",
-    body: "170km, 11 days, one very tired pair of legs.",
+    id: "about",
+    title: "About",
+    desktopLabel: "about.txt",
+    category: "system",
+    type: "Text file",
+    shortDescription: "Short professional introduction.",
+    role: "About",
+    windowStyle: "about",
+    placeholderMedia: [],
+    externalLinks: [],
+    x: 26,
+    y: 82,
+    w: 150,
+    h: 115,
+    accent: "oklch(0.93 0.08 95)",
   },
   {
-    id: "boyfriend",
-    title: "boyfriend",
-    kind: "image",
-    x: 22, y: 48, w: 160, h: 200,
-    accent: "oklch(0.65 0.12 30)",
-    body: "Photo series, spring 2024.",
-  },
-  {
-    id: "awwwards",
-    title: "awwwards honors",
-    kind: "card",
-    x: 12, y: 78, w: 130, h: 180,
-    accent: "oklch(0.55 0.08 200)",
-    body: "Honorable mention, March 2026. Thanks judges 🙏",
-  },
-  {
-    id: "readme",
-    title: "README.md",
-    kind: "note",
-    x: 32, y: 60, w: 170, h: 150,
-    accent: "oklch(0.92 0.12 95)",
-    body: ABOUT,
+    id: "contact",
+    title: "Contact",
+    desktopLabel: "contact.card",
+    category: "system",
+    type: "Contact card",
+    shortDescription: "Contact links, email, and social media.",
+    role: "Contact",
+    windowStyle: "contact",
+    placeholderMedia: [],
+    externalLinks: CONTACT_LINKS,
+    x: 45,
+    y: 82,
+    w: 150,
+    h: 115,
+    accent: "oklch(0.72 0.16 245)",
   },
 ];
 
 export const TOUR_STEPS = [
-  { title: `welcome to ${NAME}.app`, body: "this is my portfolio dressed up as a desktop. there are easter eggs hidden throughout. press NEXT to waddle through this quick tour, or SKIP to dive in beak first." },
-  { title: "the menu bar", body: "up top you'll find my name and the current time. classic." },
-  { title: "the desktop", body: "every floating thumbnail is a project. click one to open it in a window." },
-  { title: "windows", body: "drag windows by their title bar. close them with the red dot." },
-  { title: "the dock", body: "down at the bottom: Finder lists every project, Notes is my about page, Terminal is for the curious." },
-  { title: "the trash", body: "drop something in there if you'd like. it might do something. it might not." },
-  { title: "you're set", body: "have fun poking around. say hi if anything makes you smile." },
+  {
+    title: `welcome to ${NAME}.app`,
+    body: "this desktop opens project windows, folders, notes, and contact cards. replace this tour copy if you turn the tour back on.",
+  },
+  {
+    title: "the desktop",
+    body: "each icon is backed by the centralized PROJECTS array in src/lib/portfolio.ts.",
+  },
+  {
+    title: "project windows",
+    body: "window layouts use placeholder media slots until final images, videos, GIFs, and copy are ready.",
+  },
 ];

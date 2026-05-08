@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NAME } from "@/lib/portfolio";
+import { MENU_BAR_NAME } from "@/lib/portfolio";
 
 export function MenuBar({ onResetLayout }: { onResetLayout?: () => void } = {}) {
   const [now, setNow] = useState<Date | null>(null);
@@ -9,16 +9,17 @@ export function MenuBar({ onResetLayout }: { onResetLayout?: () => void } = {}) 
     return () => clearInterval(i);
   }, []);
 
-  const day = now?.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) ?? "";
+  const day =
+    now?.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) ?? "";
   const time = now?.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) ?? "";
 
   return (
     <div
-      className="fixed top-0 inset-x-0 z-50 h-7 px-3 flex items-center justify-between text-[13px] backdrop-blur-md"
+      className="fixed top-0 inset-x-0 z-[10000] h-7 px-3 flex items-center justify-between text-[13px] backdrop-blur-md"
       style={{ background: "var(--menubar-bg)", color: "var(--menubar-fg)" }}
     >
       <div className="flex items-center gap-4">
-        <span className="font-semibold">{NAME}</span>
+        <span className="font-semibold">{MENU_BAR_NAME}</span>
         <span className="opacity-80 hidden sm:inline">File</span>
         <span className="opacity-80 hidden sm:inline">Edit</span>
         <span className="opacity-80 hidden sm:inline">View</span>

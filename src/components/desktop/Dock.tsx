@@ -2,9 +2,15 @@ import type { MouseEvent, ReactNode } from "react";
 
 export type DockApp = { id: string; label: string; icon: ReactNode };
 
-export function Dock({ apps, onOpen }: { apps: DockApp[]; onOpen: (id: string, e: MouseEvent) => void }) {
+export function Dock({
+  apps,
+  onOpen,
+}: {
+  apps: DockApp[];
+  onOpen: (id: string, e: MouseEvent) => void;
+}) {
   return (
-    <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-50">
+    <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-[10000]">
       <div
         className="flex items-end gap-2 px-3 py-2 rounded-2xl backdrop-blur-xl"
         style={{
