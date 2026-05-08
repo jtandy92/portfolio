@@ -14,6 +14,7 @@ import {
   ProjectApp,
   ProjectPhotoAlbum,
   ProjectYouTubeVideo,
+  ProjectFolderDetail,
   MailApp,
 } from "./apps";
 import wallpaper from "@/assets/wallpaper.jpg";
@@ -135,6 +136,7 @@ export function Desktop() {
         project={project}
         onOpenAlbum={openProjectAlbum}
         onOpenVideo={openProjectVideo}
+        onOpenFolder={openProjectFolder}
       />,
       getProjectWindowWidth(project),
       origin,
@@ -164,6 +166,23 @@ export function Desktop() {
       origin,
       "hidden",
       getVideoWindowHeight(),
+    );
+  }
+
+  function openProjectFolder(project: Project, item: ProjectFolderItem, event?: MouseEvent) {
+    const origin = event ? { x: event.clientX, y: event.clientY } : null;
+    open(
+      `project:${project.id}:folder:${item.id}`,
+      `${project.desktopLabel} / ${item.title ?? item.label}`,
+      <ProjectFolderDetail
+        project={project}
+        item={item}
+        onOpenAlbum={openProjectAlbum}
+        onOpenVideo={openProjectVideo}
+        onOpenFolder={openProjectFolder}
+      />,
+      680,
+      origin,
     );
   }
 
@@ -328,7 +347,6 @@ export function Desktop() {
 function getProjectWindowWidth(project: Project) {
   if (project.id === "red-lion-campaign") return 760;
   if (project.windowStyle === "about" || project.windowStyle === "contact") return 440;
-  if (project.windowStyle === "archive-folder") return 720;
   return 680;
 }
 

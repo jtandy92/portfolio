@@ -5,7 +5,6 @@ import {
   NAME,
   PROJECTS,
   type ExternalLink,
-  type GroupedProjectItem,
   type PlaceholderMedia,
   type Project,
   type ProjectFolderItem,
@@ -66,31 +65,76 @@ function getMediaEmbed(url: string) {
   return null;
 }
 
+const FINDER_SECTIONS = [
+  {
+    id: "branding",
+    label: "Branding",
+    projectIds: ["body-mind-packaging", "bmb-website"],
+  },
+  {
+    id: "games",
+    label: "Games",
+    projectIds: ["phantom-of-the-grove", "liminality", "aether-edit", "itch-experiments"],
+  },
+  {
+    id: "music-videos",
+    label: "Music videos",
+    projectIds: ["red-lion-campaign", "meu-cabelo"],
+  },
+  {
+    id: "others",
+    label: "Others",
+    projectIds: ["contact", "about"],
+  },
+] as const;
+
+const PROJECTS_BY_ID = new Map(PROJECTS.map((project) => [project.id, project]));
+
 export function FinderApp({ onOpenProject }: { onOpenProject: (p: Project) => void }) {
+  const [selectedSectionId, setSelectedSectionId] = useState(FINDER_SECTIONS[0]?.id ?? "");
+  const selectedSection =
+    FINDER_SECTIONS.find((section) => section.id === selectedSectionId) ?? FINDER_SECTIONS[0];
+  const selectedProjects = selectedSection.projectIds
+    .map((projectId) => PROJECTS_BY_ID.get(projectId))
+    .filter((project): project is Project => Boolean(project));
+
   return (
     <div className="flex h-full min-h-[360px]">
       <div className="w-40 shrink-0 p-3 text-xs space-y-1 border-r border-black/10 bg-black/[0.02] hidden sm:block">
         <div className="font-semibold opacity-60 mb-2">Favorites</div>
-        <div className="px-2 py-1 rounded bg-black/10">Projects</div>
-        <div className="px-2 py-1 opacity-60">Games</div>
-        <div className="px-2 py-1 opacity-60">Identity</div>
-        <div className="px-2 py-1 opacity-60">System</div>
+        {FINDER_SECTIONS.map((section) => (
+          <button
+            key={section.id}
+            type="button"
+            onClick={() => setSelectedSectionId(section.id)}
+            className={`w-full px-2 py-1 rounded text-left transition ${
+              selectedSection.id === section.id ? "bg-black/10" : "opacity-60 hover:bg-black/5"
+            }`}
+          >
+            {section.label}
+          </button>
+        ))}
       </div>
       <div className="flex-1 p-3 overflow-auto">
-        <div className="text-xs opacity-60 mb-2">{PROJECTS.length} items</div>
-        <div className="space-y-0.5">
-          {PROJECTS.map((p) => (
-            <button
-              key={p.id}
-              onClick={() => onOpenProject(p)}
-              className="w-full flex items-center gap-2 px-2 py-1.5 rounded text-sm hover:bg-black/5 text-left"
-            >
-              <div className="w-4 h-4 rounded" style={{ background: p.accent }} />
-              <span className="min-w-0 truncate">{p.desktopLabel}</span>
-              <span className="ml-auto text-xs opacity-40 hidden sm:inline">{p.type}</span>
-            </button>
-          ))}
-        </div>
+        <div className="text-xs opacity-60 mb-2">{selectedProjects.length} items</div>
+        <section className="space-y-1">
+          <div className="px-2 text-[11px] font-semibold uppercase tracking-[0.18em] opacity-45">
+            {selectedSection.label}
+          </div>
+          <div className="space-y-0.5">
+            {selectedProjects.map((project) => (
+              <button
+                key={project.id}
+                onClick={() => onOpenProject(project)}
+                className="w-full flex items-center gap-2 px-2 py-1.5 rounded text-sm hover:bg-black/5 text-left"
+              >
+                <div className="w-4 h-4 rounded" style={{ background: project.accent }} />
+                <span className="min-w-0 truncate">{project.desktopLabel}</span>
+                <span className="ml-auto text-xs opacity-40 hidden sm:inline">{project.type}</span>
+              </button>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );
@@ -254,16 +298,24 @@ export function ProjectApp({
   project,
   onOpenAlbum,
   onOpenVideo,
+  onOpenFolder,
 }: {
   project: Project;
   onOpenAlbum: (project: Project) => void;
   onOpenVideo: (project: Project, item: ProjectFolderItem) => void;
+  onOpenFolder: (project: Project, item: ProjectFolderItem) => void;
 }) {
   if (project.windowStyle === "about") return <AboutWindow />;
   if (project.windowStyle === "contact") return <ContactWindow links={project.externalLinks} />;
-  if (project.windowStyle === "archive-folder") return <ArchiveWindow project={project} />;
 
-  return <ProjectFolderApp project={project} onOpenAlbum={onOpenAlbum} onOpenVideo={onOpenVideo} />;
+  return (
+    <ProjectFolderApp
+      project={project}
+      onOpenAlbum={onOpenAlbum}
+      onOpenVideo={onOpenVideo}
+      onOpenFolder={onOpenFolder}
+    />
+  );
 }
 
 export function ProjectPhotoAlbum({ project }: { project: Project }) {
@@ -272,6 +324,58 @@ export function ProjectPhotoAlbum({ project }: { project: Project }) {
 
 export function ProjectYouTubeVideo({ item }: { item: ProjectFolderItem }) {
   return <YouTubeVideoApp item={item} />;
+}
+
+export function ProjectFolderDetail({
+  project,
+  item,
+  onOpenAlbum,
+  onOpenVideo,
+  onOpenFolder,
+}: {
+  project: Project;
+  item: ProjectFolderItem;
+  onOpenAlbum: (project: Project) => void;
+  onOpenVideo: (project: Project, item: ProjectFolderItem) => void;
+  onOpenFolder: (project: Project, item: ProjectFolderItem) => void;
+}) {
+  const nestedProject = buildNestedProject(project, item);
+
+  return (
+    <div className="flex h-full min-h-0 flex-col">
+      <div className="min-h-0 flex-1">
+        <ProjectFolderApp
+          project={nestedProject}
+          onOpenAlbum={onOpenAlbum}
+          onOpenVideo={onOpenVideo}
+          onOpenFolder={onOpenFolder}
+        />
+      </div>
+      <div className="shrink-0 px-4 pb-4 sm:px-6 sm:pb-6">
+        <ExternalLinks links={item.externalLinks ?? []} />
+      </div>
+    </div>
+  );
+}
+
+function buildNestedProject(project: Project, item: ProjectFolderItem): Project {
+  return {
+    id: `${project.id}-${item.id}`,
+    title: item.title ?? item.label,
+    desktopLabel: item.label,
+    category: project.category,
+    type: "Nested folder",
+    shortDescription: item.shortDescription ?? "Replace with the final project summary.",
+    role: project.role,
+    windowStyle: "archive-folder",
+    placeholderMedia: item.placeholderMedia ?? [],
+    externalLinks: item.externalLinks ?? [],
+    x: 0,
+    y: 0,
+    w: 0,
+    h: 0,
+    accent: project.accent,
+  };
 }
 
 function ProjectHeader({ project }: { project: Project }) {
@@ -372,45 +476,6 @@ function FrameBar() {
       <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
       <span className="ml-2 h-3 flex-1 rounded bg-black/10" />
     </div>
-  );
-}
-
-function ArchiveWindow({ project }: { project: Project }) {
-  return (
-    <div className="p-4 sm:p-6 space-y-5">
-      <ProjectHeader project={project} />
-      {/* Replace groupedItems placeholderMedia and links in src/lib/portfolio.ts with final game covers, GIFs, screenshots, descriptions, and URLs. */}
-      <div className="grid gap-3 sm:grid-cols-3">
-        {project.groupedItems?.map((item) => (
-          <ArchiveCard key={item.id} item={item} accent={project.accent} />
-        ))}
-      </div>
-      <ExternalLinks links={project.externalLinks} />
-    </div>
-  );
-}
-
-function ArchiveCard({ item, accent }: { item: GroupedProjectItem; accent: string }) {
-  return (
-    <article className="rounded-lg border border-black/10 bg-white/55 overflow-hidden">
-      <PlaceholderSlot
-        media={item.placeholderMedia[0]}
-        accent={accent}
-        className="h-32 rounded-none border-0"
-      />
-      <div className="p-3 space-y-3">
-        <div>
-          <h4 className="font-semibold text-sm">{item.title}</h4>
-          <p className="text-xs opacity-70 mt-1">{item.shortDescription}</p>
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          {item.placeholderMedia.slice(1).map((media) => (
-            <PlaceholderSlot key={media.id} media={media} accent={accent} className="h-20" />
-          ))}
-        </div>
-        <ExternalLinks links={item.externalLinks} compact />
-      </div>
-    </article>
   );
 }
 

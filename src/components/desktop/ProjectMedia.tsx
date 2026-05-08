@@ -6,6 +6,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { ChevronLeft, ChevronRight, Images, Play, Youtube } from "lucide-react";
+import folderIcon from "@/assets/ui/folder-icon.png";
 import type {
   PlaceholderMedia,
   Project,
@@ -29,10 +30,12 @@ export function ProjectFolderApp({
   project,
   onOpenAlbum,
   onOpenVideo,
+  onOpenFolder,
 }: {
   project: Project;
   onOpenAlbum: (project: Project) => void;
   onOpenVideo: (project: Project, item: ProjectFolderItem) => void;
+  onOpenFolder: (project: Project, item: ProjectFolderItem) => void;
 }) {
   const folderItems = getProjectFolderItems(project);
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -113,9 +116,19 @@ export function ProjectFolderApp({
               bounds={canvasSize}
               onMove={(x, y) => moveItem(item.id, x, y)}
               onFocus={() => focusItem(item.id)}
-              onOpen={
-                item.opensAlbum ? () => onOpenAlbum(project) : () => onOpenVideo(project, item)
-              }
+              onOpen={() => {
+                if (item.kind === "folder") {
+                  onOpenFolder(project, item);
+                  return;
+                }
+
+                if (item.opensAlbum) {
+                  onOpenAlbum(project);
+                  return;
+                }
+
+                onOpenVideo(project, item);
+              }}
             />
           );
         })}
@@ -238,7 +251,7 @@ function FolderItemTile({
         <div className="rounded bg-black/50 px-1.5 py-0.5 text-[12px] font-medium leading-tight text-white">
           {item.label}
         </div>
-        {item.note ? (
+        {item.note && item.kind !== "folder" ? (
           <div className="text-[11px] leading-tight text-black/42">{item.note}</div>
         ) : null}
       </div>
@@ -247,6 +260,17 @@ function FolderItemTile({
 }
 
 function FolderIcon({ item }: { item: ProjectFolderItem }) {
+  if (item.kind === "folder") {
+    return (
+      <img
+        src={folderIcon}
+        alt=""
+        className="h-[78px] w-[96px] object-contain drop-shadow-[0_14px_22px_rgba(0,0,0,0.22)]"
+        draggable={false}
+      />
+    );
+  }
+
   if (item.kind === "photos") {
     if (item.thumbnailUrl) {
       return (

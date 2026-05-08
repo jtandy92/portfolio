@@ -40,12 +40,16 @@ export type ExternalLink = {
 export type ProjectFolderItem = {
   id: string;
   label: string;
-  kind: "photos" | "video";
+  kind: "photos" | "video" | "folder";
   note?: string;
   opensAlbum?: boolean;
   youtubeUrl?: string;
   url?: string;
   thumbnailUrl?: string;
+  title?: string;
+  shortDescription?: string;
+  placeholderMedia?: PlaceholderMedia[];
+  externalLinks?: ExternalLink[];
 };
 
 export type ProjectAlbumImage = {
@@ -443,9 +447,11 @@ export const PROJECTS: Project[] = [
     windowStyle: "archive-folder",
     placeholderMedia: [],
     externalLinks: [{ label: "Itch.io profile", url: "https://example.com" }],
-    groupedItems: [
+    folderItems: [
       {
         id: "whale-songs",
+        label: "whale songs",
+        kind: "folder",
         title: "Whale Songs",
         shortDescription: "Temporary description. Replace with final game summary.",
         placeholderMedia: [
@@ -457,6 +463,8 @@ export const PROJECTS: Project[] = [
       },
       {
         id: "snow-rest",
+        label: "snow rest",
+        kind: "folder",
         title: "Snow Rest",
         shortDescription: "Temporary description. Replace with final game summary.",
         placeholderMedia: [
@@ -468,6 +476,8 @@ export const PROJECTS: Project[] = [
       },
       {
         id: "overgrown",
+        label: "overgrown",
+        kind: "folder",
         title: "Overgrown",
         shortDescription: "Temporary description. Replace with final game summary.",
         placeholderMedia: [
