@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react";
+import folderIcon from "@/assets/ui/folder-icon.png";
 import type { Project } from "@/lib/portfolio";
 
 type Props = {
@@ -36,6 +37,7 @@ export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: 
 
   const tileW = project.w * 0.7;
   const tileH = project.h * 0.7;
+  const useFolderDesktopIcon = shouldUseFolderDesktopIcon(project);
 
   function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
     if (e.button !== undefined && e.button !== 0) return;
@@ -100,11 +102,15 @@ export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: 
       }}
     >
       <div
-        className="rounded-md overflow-hidden w-full"
+        className={`w-full ${useFolderDesktopIcon ? "overflow-visible" : "overflow-hidden rounded-md"}`}
         style={{
           height: tileH,
-          background: project.accent,
-          boxShadow: dragging ? "0 20px 40px -8px oklch(0 0 0 / 0.5)" : "var(--shadow-tile)",
+          background: useFolderDesktopIcon ? "transparent" : project.accent,
+          boxShadow: useFolderDesktopIcon
+            ? "none"
+            : dragging
+              ? "0 20px 40px -8px oklch(0 0 0 / 0.5)"
+              : "var(--shadow-tile)",
           pointerEvents: "none",
         }}
       >
@@ -121,20 +127,14 @@ export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: 
 }
 
 function TilePreview({ project }: { project: Project }) {
-  if (project.id === "red-lion-campaign") {
-    return (
-      <div className="h-full w-full p-2">
-        <div className="h-4 w-1/2 rounded-t bg-white/55" />
-        <div className="grid h-[calc(100%-1rem)] grid-cols-2 gap-1 rounded-b rounded-tr bg-white/38 p-2">
-          <div className="rounded-sm bg-black/20" />
-          <div className="rounded-sm bg-black/15" />
-          <div className="rounded-sm bg-white/35" />
-          <div className="rounded-sm bg-black/24" />
-        </div>
-      </div>
-    );
+  if (shouldUseFolderDesktopIcon(project)) {
+    return <FolderDesktopPreview project={project} />;
   }
 
+  return <ProjectDesktopArtwork project={project} />;
+}
+
+function ProjectDesktopArtwork({ project }: { project: Project }) {
   switch (project.windowStyle) {
     case "video-case":
     case "audiovisual-campaign":
@@ -225,4 +225,48 @@ function TilePreview({ project }: { project: Project }) {
         />
       );
   }
+}
+
+function FolderDesktopPreview({ project }: { project: Project }) {
+  const thumbnailSrc = getProjectDesktopThumbnail(project);
+
+  return (
+    <div className="relative flex h-full w-full items-center justify-center">
+      <img
+        src={folderIcon}
+        alt=""
+        className="h-full w-full object-contain drop-shadow-[0_18px_32px_rgba(0,0,0,0.28)]"
+        draggable={false}
+      />
+      <div className="absolute left-1/2 top-[55%] h-[42%] w-[42%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[10px] border border-black/12 bg-white/70 shadow-[0_10px_24px_-12px_rgba(0,0,0,0.45)]">
+        {thumbnailSrc ? (
+          <img src={thumbnailSrc} alt="" className="h-full w-full object-cover" draggable={false} />
+        ) : (
+          <div className="h-full w-full overflow-hidden rounded-[inherit] bg-white/55">
+            <ProjectDesktopArtwork project={project} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function shouldUseFolderDesktopIcon(project: Project) {
+  return project.windowStyle !== "about" && project.windowStyle !== "contact";
+}
+
+function getProjectDesktopThumbnail(project: Project) {
+  const folderItemThumbnail = project.folderItems?.find((item) => item.thumbnailUrl)?.thumbnailUrl;
+  if (folderItemThumbnail) return folderItemThumbnail;
+
+  const nestedFolderThumbnail = project.folderItems
+    ?.flatMap((item) => item.placeholderMedia ?? [])
+    .find((media) => media.kind === "image" && media.url)?.url;
+  if (nestedFolderThumbnail) return nestedFolderThumbnail;
+
+  if (project.albumImages?.length) return project.albumImages[0]?.src ?? null;
+
+  return (
+    project.placeholderMedia.find((media) => media.kind === "image" && media.url)?.url ?? null
+  );
 }

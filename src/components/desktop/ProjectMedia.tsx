@@ -261,13 +261,24 @@ function FolderItemTile({
 
 function FolderIcon({ item }: { item: ProjectFolderItem }) {
   if (item.kind === "folder") {
+    const thumbnailSrc = getFolderItemThumbnail(item);
+
     return (
-      <img
-        src={folderIcon}
-        alt=""
-        className="h-[78px] w-[96px] object-contain drop-shadow-[0_14px_22px_rgba(0,0,0,0.22)]"
-        draggable={false}
-      />
+      <div className="relative h-[78px] w-[96px] drop-shadow-[0_14px_22px_rgba(0,0,0,0.22)]">
+        <img
+          src={folderIcon}
+          alt=""
+          className="h-full w-full object-contain"
+          draggable={false}
+        />
+        <div className="absolute left-1/2 top-[56%] h-[44%] w-[42%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[9px] border border-black/12 bg-white/75 shadow-[0_8px_20px_-12px_rgba(0,0,0,0.5)]">
+          {thumbnailSrc ? (
+            <img src={thumbnailSrc} alt="" className="h-full w-full object-cover" draggable={false} />
+          ) : (
+            <div className="h-full w-full bg-[linear-gradient(135deg,oklch(0.88_0.08_92),oklch(0.72_0.13_72))]" />
+          )}
+        </div>
+      </div>
     );
   }
 
@@ -583,6 +594,12 @@ function getYouTubeThumbnailSrc(item: ProjectFolderItem) {
 
   const videoId = getYouTubeVideoId(item.youtubeUrl ?? item.url);
   return videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null;
+}
+
+function getFolderItemThumbnail(item: ProjectFolderItem) {
+  if (item.thumbnailUrl) return item.thumbnailUrl;
+
+  return item.placeholderMedia?.find((media) => media.kind === "image" && media.url)?.url ?? null;
 }
 
 function getYouTubeEmbedUrl(url?: string) {
