@@ -44,6 +44,7 @@ export type ProjectFolderItem = {
   note?: string;
   opensAlbum?: boolean;
   youtubeUrl?: string;
+  url?: string;
   thumbnailUrl?: string;
 };
 

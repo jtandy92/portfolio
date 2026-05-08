@@ -6,7 +6,12 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { ChevronLeft, ChevronRight, Images, Play, Youtube } from "lucide-react";
-import type { Project, ProjectAlbumImage, ProjectFolderItem } from "@/lib/portfolio";
+import type {
+  PlaceholderMedia,
+  Project,
+  ProjectAlbumImage,
+  ProjectFolderItem,
+} from "@/lib/portfolio";
 
 const FOLDER_CANVAS_PADDING = 24;
 const FOLDER_ITEM_WIDTH = 112;
@@ -29,7 +34,7 @@ export function ProjectFolderApp({
   onOpenAlbum: (project: Project) => void;
   onOpenVideo: (project: Project, item: ProjectFolderItem) => void;
 }) {
-  const folderItems = project.folderItems ?? [];
+  const folderItems = getProjectFolderItems(project);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [canvasSize, setCanvasSize] = useState({ width: 680, height: 420 });
   const [positions, setPositions] = useState<Record<string, Point>>(() =>
@@ -77,7 +82,7 @@ export function ProjectFolderApp({
         <div>
           <div className="text-sm font-semibold text-black/80">{project.title}</div>
           <div className="text-[11px] uppercase tracking-wide text-black/45">
-            assets / red-lion / music-campaign
+            assets / {project.id}
           </div>
         </div>
         <div className="rounded-full border border-black/10 bg-white/55 px-3 py-1 text-[11px] uppercase tracking-wide text-black/55">
@@ -280,7 +285,7 @@ function FolderIcon({ item }: { item: ProjectFolderItem }) {
 }
 
 export function PhotoAlbumApp({ project }: { project: Project }) {
-  const images = project.albumImages ?? [];
+  const images = getAlbumImages(project);
   const [activeIndex, setActiveIndex] = useState(0);
   const activeImage = images[activeIndex];
 
@@ -368,6 +373,7 @@ export function PhotoAlbumApp({ project }: { project: Project }) {
 
 export function YouTubeVideoApp({ item }: { item: ProjectFolderItem }) {
   const embedUrl = getYouTubeEmbedUrl(item.youtubeUrl);
+  const directVideoUrl = getDirectVideoUrl(item.url);
 
   return (
     <div className="h-full min-h-0 bg-black">
@@ -380,6 +386,8 @@ export function YouTubeVideoApp({ item }: { item: ProjectFolderItem }) {
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
         />
+      ) : directVideoUrl ? (
+        <video src={directVideoUrl} className="h-full w-full bg-black" controls autoPlay />
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-black text-sm text-white/45">
           Video link pending.
@@ -387,6 +395,50 @@ export function YouTubeVideoApp({ item }: { item: ProjectFolderItem }) {
       )}
     </div>
   );
+}
+
+function getProjectFolderItems(project: Project) {
+  if (project.folderItems?.length) return project.folderItems;
+
+  return project.placeholderMedia.map((media): ProjectFolderItem => {
+    if (media.kind === "image") {
+      return {
+        id: media.id,
+        label: media.label,
+        kind: "photos",
+        note: media.note,
+        opensAlbum: true,
+        thumbnailUrl: media.url,
+        url: media.url,
+      };
+    }
+
+    return {
+      id: media.id,
+      label: media.label,
+      kind: "video",
+      note: media.note,
+      youtubeUrl: isYouTubeUrl(media.url) ? media.url : undefined,
+      url: media.url,
+    };
+  });
+}
+
+function getAlbumImages(project: Project) {
+  if (project.albumImages?.length) return project.albumImages;
+
+  return project.placeholderMedia
+    .filter((media) => media.kind === "image" && media.url)
+    .map((media) => mediaToAlbumImage(project, media));
+}
+
+function mediaToAlbumImage(project: Project, media: PlaceholderMedia): ProjectAlbumImage {
+  return {
+    id: `${project.id}-${media.id}`,
+    slot: media.id,
+    alt: media.label,
+    src: media.url ?? "",
+  };
 }
 
 function AlbumArrow({ direction, onClick }: { direction: "left" | "right"; onClick: () => void }) {
@@ -505,7 +557,7 @@ function getFolderStorageKey(projectId: string) {
 function getYouTubeThumbnailSrc(item: ProjectFolderItem) {
   if (item.thumbnailUrl) return item.thumbnailUrl;
 
-  const videoId = getYouTubeVideoId(item.youtubeUrl);
+  const videoId = getYouTubeVideoId(item.youtubeUrl ?? item.url);
   return videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null;
 }
 
@@ -537,6 +589,15 @@ function getYouTubeVideoId(url?: string) {
   }
 
   return null;
+}
+
+function isYouTubeUrl(url?: string) {
+  return Boolean(getYouTubeVideoId(url));
+}
+
+function getDirectVideoUrl(url?: string) {
+  if (!url || isYouTubeUrl(url)) return null;
+  return /\.(mp4|webm|ogg)(\?|#|$)/i.test(url) ? url : null;
 }
 
 function wrapIndex(index: number, length: number) {
