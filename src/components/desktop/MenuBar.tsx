@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { MENU_BAR_NAME } from "@/lib/portfolio";
 
+export const MENU_BAR_HEIGHT = 28;
+
 export function MenuBar({ onResetLayout }: { onResetLayout?: () => void } = {}) {
   const [now, setNow] = useState<Date | null>(null);
   useEffect(() => {
@@ -15,8 +17,12 @@ export function MenuBar({ onResetLayout }: { onResetLayout?: () => void } = {}) 
 
   return (
     <div
-      className="fixed top-0 inset-x-0 z-[10000] h-7 px-3 flex items-center justify-between text-[13px] backdrop-blur-md"
-      style={{ background: "var(--menubar-bg)", color: "var(--menubar-fg)" }}
+      className="fixed top-0 inset-x-0 z-[10000] px-3 flex items-center justify-between text-[13px] backdrop-blur-md"
+      style={{
+        height: MENU_BAR_HEIGHT,
+        background: "var(--menubar-bg)",
+        color: "var(--menubar-fg)",
+      }}
     >
       <div className="flex items-center gap-4">
         <span className="font-semibold">{MENU_BAR_NAME}</span>

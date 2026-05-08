@@ -8,7 +8,9 @@ import {
   type GroupedProjectItem,
   type PlaceholderMedia,
   type Project,
+  type ProjectFolderItem,
 } from "@/lib/portfolio";
+import { PhotoAlbumApp, ProjectFolderApp, YouTubeVideoApp } from "./ProjectMedia";
 
 function getMediaEmbed(url: string) {
   try {
@@ -248,10 +250,23 @@ function FieldRow({ label, children }: { label: string; children: React.ReactNod
   );
 }
 
-export function ProjectApp({ project }: { project: Project }) {
+export function ProjectApp({
+  project,
+  onOpenAlbum,
+  onOpenVideo,
+}: {
+  project: Project;
+  onOpenAlbum: (project: Project) => void;
+  onOpenVideo: (project: Project, item: ProjectFolderItem) => void;
+}) {
   if (project.windowStyle === "about") return <AboutWindow />;
   if (project.windowStyle === "contact") return <ContactWindow links={project.externalLinks} />;
   if (project.windowStyle === "archive-folder") return <ArchiveWindow project={project} />;
+  if (project.id === "red-lion-campaign") {
+    return (
+      <ProjectFolderApp project={project} onOpenAlbum={onOpenAlbum} onOpenVideo={onOpenVideo} />
+    );
+  }
 
   return (
     <div className="p-4 sm:p-6 space-y-5">
@@ -261,6 +276,14 @@ export function ProjectApp({ project }: { project: Project }) {
       <ExternalLinks links={project.externalLinks} />
     </div>
   );
+}
+
+export function ProjectPhotoAlbum({ project }: { project: Project }) {
+  return <PhotoAlbumApp project={project} />;
+}
+
+export function ProjectYouTubeVideo({ item }: { item: ProjectFolderItem }) {
+  return <YouTubeVideoApp item={item} />;
 }
 
 function ProjectHeader({ project }: { project: Project }) {

@@ -1,3 +1,9 @@
+import redLionMusicCampaignPhoto01 from "@/assets/projects/red-lion/music-campaign/photos/red-lion-music-campaign-photo-01.jpg";
+import redLionMusicCampaignPhoto02 from "@/assets/projects/red-lion/music-campaign/photos/red-lion-music-campaign-photo-02.jpg";
+import redLionMusicCampaignPhoto03 from "@/assets/projects/red-lion/music-campaign/photos/red-lion-music-campaign-photo-03.jpg";
+import redLionMusicCampaignPhoto04 from "@/assets/projects/red-lion/music-campaign/photos/red-lion-music-campaign-photo-04.jpg";
+import redLionMusicCampaignPhoto05 from "@/assets/projects/red-lion/music-campaign/photos/red-lion-music-campaign-photo-05.jpg";
+
 // Central portfolio content.
 // Replace the placeholder text, media URLs, and links here as final assets become ready.
 
@@ -31,6 +37,23 @@ export type ExternalLink = {
   url: string;
 };
 
+export type ProjectFolderItem = {
+  id: string;
+  label: string;
+  kind: "photos" | "video";
+  note?: string;
+  opensAlbum?: boolean;
+  youtubeUrl?: string;
+  thumbnailUrl?: string;
+};
+
+export type ProjectAlbumImage = {
+  id: string;
+  slot: string;
+  alt: string;
+  src: string;
+};
+
 export type GroupedProjectItem = {
   id: string;
   title: string;
@@ -62,6 +85,8 @@ export type Project = {
   windowStyle: ProjectWindowStyle;
   placeholderMedia: PlaceholderMedia[];
   externalLinks: ExternalLink[];
+  folderItems?: ProjectFolderItem[];
+  albumImages?: ProjectAlbumImage[];
   groupedItems?: GroupedProjectItem[];
   // Desktop icon placement and size. Tweak these values to rearrange the desktop.
   x: number;
@@ -156,7 +181,8 @@ export const PROJECTS: Project[] = [
     desktopLabel: "red lion campaign",
     category: "audiovisual / music video / album identity",
     type: "Music campaign",
-    shortDescription: "Campaign container for motion, music, and album visuals.",
+    shortDescription:
+      "Folder-style campaign archive with photo selects, reels, lyric videos, and artwork.",
     role: "Creative direction, audiovisual identity",
     windowStyle: "audiovisual-campaign",
     placeholderMedia: [
@@ -181,6 +207,83 @@ export const PROJECTS: Project[] = [
       },
     ],
     externalLinks: [],
+    folderItems: [
+      {
+        id: "photos",
+        label: "photos",
+        kind: "photos",
+        note: "5-image album",
+        opensAlbum: true,
+        thumbnailUrl: redLionMusicCampaignPhoto05,
+      },
+      {
+        id: "video-1",
+        label: "Coração Quebrado",
+        kind: "video",
+        youtubeUrl:
+          "https://www.youtube.com/watch?v=L1FafNFQUTM&list=PLDT31jtu2Wfe-djoeNzi_4euAM82tggj4",
+      },
+      {
+        id: "video-2",
+        label: "Quando Brigamos",
+        kind: "video",
+        youtubeUrl:
+          "https://www.youtube.com/watch?v=n0Pl9lHzeBw&list=PLDT31jtu2Wfe-djoeNzi_4euAM82tggj4&index=2",
+      },
+      {
+        id: "video-3",
+        label: "Passa Tempo",
+        kind: "video",
+        youtubeUrl:
+          "https://www.youtube.com/watch?v=79yMIgIccLw&list=PLDT31jtu2Wfe-djoeNzi_4euAM82tggj4&index=3",
+      },
+      {
+        id: "video-4",
+        label: "Mais uma de amor",
+        kind: "video",
+        youtubeUrl:
+          "https://www.youtube.com/watch?v=gZC1hTePz1s&list=PLDT31jtu2Wfe-djoeNzi_4euAM82tggj4&index=4",
+      },
+      {
+        id: "video-5",
+        label: "Berlinda",
+        kind: "video",
+        youtubeUrl:
+          "https://www.youtube.com/watch?v=YfTp4twa36M&list=PLDT31jtu2Wfe-djoeNzi_4euAM82tggj4&index=5",
+      },
+    ],
+    albumImages: [
+      {
+        id: "red-lion-photo-01",
+        slot: "photo-01",
+        alt: "Red Lion portrait wearing sunglasses in moody window light.",
+        src: redLionMusicCampaignPhoto01,
+      },
+      {
+        id: "red-lion-photo-02",
+        slot: "photo-02",
+        alt: "Red Lion smoking in a blue shirt inside a dim interior.",
+        src: redLionMusicCampaignPhoto02,
+      },
+      {
+        id: "red-lion-photo-03",
+        slot: "photo-03",
+        alt: "Red Lion portrait lit with red and blue light.",
+        src: redLionMusicCampaignPhoto03,
+      },
+      {
+        id: "red-lion-photo-04",
+        slot: "photo-04",
+        alt: "Red Lion silhouette by a bright window while lighting a cigarette.",
+        src: redLionMusicCampaignPhoto04,
+      },
+      {
+        id: "red-lion-photo-05",
+        slot: "photo-05",
+        alt: "Red Lion covering his face with both hands under red and blue lighting.",
+        src: redLionMusicCampaignPhoto05,
+      },
+    ],
     x: 58,
     y: 20,
     w: 220,

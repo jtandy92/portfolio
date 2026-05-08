@@ -121,6 +121,20 @@ export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: 
 }
 
 function TilePreview({ project }: { project: Project }) {
+  if (project.id === "red-lion-campaign") {
+    return (
+      <div className="h-full w-full p-2">
+        <div className="h-4 w-1/2 rounded-t bg-white/55" />
+        <div className="grid h-[calc(100%-1rem)] grid-cols-2 gap-1 rounded-b rounded-tr bg-white/38 p-2">
+          <div className="rounded-sm bg-black/20" />
+          <div className="rounded-sm bg-black/15" />
+          <div className="rounded-sm bg-white/35" />
+          <div className="rounded-sm bg-black/24" />
+        </div>
+      </div>
+    );
+  }
+
   switch (project.windowStyle) {
     case "video-case":
     case "audiovisual-campaign":

@@ -1,11 +1,21 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react";
-import { PROJECTS, type Project } from "@/lib/portfolio";
+import { FolderOpen, Mail, Music4, StickyNote, TerminalSquare, Trash2 } from "lucide-react";
+import { PROJECTS, type Project, type ProjectFolderItem } from "@/lib/portfolio";
 import { MenuBar } from "./MenuBar";
 import { Dock, DockIcon } from "./Dock";
 import { DesktopItem } from "./DesktopItem";
 import { loadPositions, savePositions, resolvePosition, type Positions } from "./DesktopPositions";
 import { Window } from "./Window";
-import { FinderApp, NotesApp, TerminalApp, TrashApp, ProjectApp, MailApp } from "./apps";
+import {
+  FinderApp,
+  NotesApp,
+  TerminalApp,
+  TrashApp,
+  ProjectApp,
+  ProjectPhotoAlbum,
+  ProjectYouTubeVideo,
+  MailApp,
+} from "./apps";
 import wallpaper from "@/assets/wallpaper.jpg";
 
 type OpenWindow = {
@@ -15,7 +25,9 @@ type OpenWindow = {
   x: number;
   y: number;
   width: number;
+  height?: number | string;
   origin: { x: number; y: number } | null;
+  contentOverflow: "auto" | "hidden";
   content: React.ReactNode;
 };
 
@@ -36,7 +48,6 @@ export function Desktop() {
     return nextZ;
   }
 
-  // Initialize positions from storage + viewport on mount, and listen for resize.
   useEffect(() => {
     setViewport({ w: window.innerWidth, h: window.innerHeight });
     setPositions(loadPositions());
@@ -50,8 +61,8 @@ export function Desktop() {
   }, []);
 
   function moveTile(id: string, x: number, y: number) {
-    setPositions((p) => {
-      const next = { ...p, [id]: { x, y } };
+    setPositions((current) => {
+      const next = { ...current, [id]: { x, y } };
       savePositions(next);
       return next;
     });
@@ -60,7 +71,7 @@ export function Desktop() {
   function focusTile(id: string) {
     const z = topTileZ + 1;
     setTopTileZ(z);
-    setTileZ((m) => ({ ...m, [id]: z }));
+    setTileZ((current) => ({ ...current, [id]: z }));
   }
 
   function resetLayout() {
@@ -74,64 +85,127 @@ export function Desktop() {
     content: React.ReactNode,
     width = 480,
     origin: { x: number; y: number } | null = null,
+    contentOverflow: "auto" | "hidden" = "auto",
+    height?: number | string,
   ) {
     const newZ = claimTopWindowZ();
-    setWindows((ws) => {
-      const existing = ws.find((w) => w.key === key);
+    setWindows((current) => {
+      const existing = current.find((windowItem) => windowItem.key === key);
       if (existing) {
-        return ws.map((w) => (w.key === key ? { ...w, z: newZ } : w));
+        return current.map((windowItem) =>
+          windowItem.key === key
+            ? { ...windowItem, z: newZ, width, height, contentOverflow, content }
+            : windowItem,
+        );
       }
-      const offset = ws.length * 24;
-      const vw = typeof window !== "undefined" ? window.innerWidth : 1024;
-      const x = Math.max(20, Math.min(vw - width - 20, vw / 2 - width / 2 + offset));
-      return [...ws, { key, title, content, width, z: newZ, x, y: 80 + offset, origin }];
+
+      const offset = current.length * 24;
+      const viewportWidth = typeof window !== "undefined" ? window.innerWidth : 1024;
+      const x = Math.max(
+        20,
+        Math.min(viewportWidth - width - 20, viewportWidth / 2 - width / 2 + offset),
+      );
+
+      return [
+        ...current,
+        { key, title, content, width, height, z: newZ, x, y: 80 + offset, origin, contentOverflow },
+      ];
     });
   }
 
   function focus(key: string) {
     const newZ = claimTopWindowZ();
-    setWindows((ws) => ws.map((w) => (w.key === key ? { ...w, z: newZ } : w)));
+    setWindows((current) =>
+      current.map((windowItem) =>
+        windowItem.key === key ? { ...windowItem, z: newZ } : windowItem,
+      ),
+    );
   }
 
   function close(key: string) {
-    setWindows((ws) => ws.filter((w) => w.key !== key));
+    setWindows((current) => current.filter((windowItem) => windowItem.key !== key));
   }
 
-  function openProject(p: Project, e?: MouseEvent) {
-    const origin = e ? { x: e.clientX, y: e.clientY } : null;
+  function openProject(project: Project, event?: MouseEvent) {
+    const origin = event ? { x: event.clientX, y: event.clientY } : null;
     open(
-      `project:${p.id}`,
-      p.desktopLabel,
-      <ProjectApp project={p} />,
-      getProjectWindowWidth(p),
+      `project:${project.id}`,
+      project.desktopLabel,
+      <ProjectApp
+        project={project}
+        onOpenAlbum={openProjectAlbum}
+        onOpenVideo={openProjectVideo}
+      />,
+      getProjectWindowWidth(project),
       origin,
     );
   }
 
-  function openDockApp(id: string, e?: MouseEvent) {
-    const origin = e ? { x: e.clientX, y: e.clientY } : null;
-    if (id === "finder")
-      open(
-        "finder",
-        "Finder — Projects",
-        <FinderApp onOpenProject={(p) => openProject(p)} />,
-        560,
-        origin,
-      );
-    else if (id === "notes") open("notes", "Notes — about", <NotesApp />, 480, origin);
-    else if (id === "terminal") open("terminal", "Terminal", <TerminalApp />, 520, origin);
-    else if (id === "trash") open("trash", "Trash", <TrashApp />, 360, origin);
-    else if (id === "mail") open("mail", "New Message", <MailApp />, 520, origin);
-    else if (id === "music")
+  function openProjectAlbum(project: Project, event?: MouseEvent) {
+    const origin = event ? { x: event.clientX, y: event.clientY } : null;
+    open(
+      `project:${project.id}:photos`,
+      `${project.desktopLabel} / photos`,
+      <ProjectPhotoAlbum project={project} />,
+      getAlbumWindowWidth(project),
+      origin,
+      "hidden",
+      getAlbumWindowHeight(),
+    );
+  }
+
+  function openProjectVideo(project: Project, item: ProjectFolderItem, event?: MouseEvent) {
+    const origin = event ? { x: event.clientX, y: event.clientY } : null;
+    open(
+      `project:${project.id}:video:${item.id}`,
+      `${project.desktopLabel} / ${item.label}`,
+      <ProjectYouTubeVideo item={item} />,
+      getVideoWindowWidth(),
+      origin,
+      "hidden",
+      getVideoWindowHeight(),
+    );
+  }
+
+  function openDockApp(id: string, event?: MouseEvent) {
+    const origin = event ? { x: event.clientX, y: event.clientY } : null;
+
+    if (id === "finder") {
+      open("finder", "Finder - Projects", <FinderApp onOpenProject={openProject} />, 560, origin);
+      return;
+    }
+
+    if (id === "notes") {
+      open("notes", "Notes - about", <NotesApp />, 480, origin);
+      return;
+    }
+
+    if (id === "terminal") {
+      open("terminal", "Terminal", <TerminalApp />, 520, origin);
+      return;
+    }
+
+    if (id === "trash") {
+      open("trash", "Trash", <TrashApp />, 360, origin);
+      return;
+    }
+
+    if (id === "mail") {
+      open("mail", "New Message", <MailApp />, 520, origin);
+      return;
+    }
+
+    if (id === "music") {
       open(
         "music",
         "Music",
         <div className="p-8 text-center text-sm opacity-70">
-          🎵 currently on loop: anything ambient
+          currently on loop: anything ambient
         </div>,
         360,
         origin,
       );
+    }
   }
 
   return (
@@ -146,36 +220,38 @@ export function Desktop() {
       <MenuBar onResetLayout={resetLayout} />
 
       <div className="absolute inset-0 z-10 pt-7 pb-24">
-        {PROJECTS.map((p) => {
-          const pos = resolvePosition(p, positions, viewport.w, viewport.h);
+        {PROJECTS.map((project) => {
+          const position = resolvePosition(project, positions, viewport.w, viewport.h);
           return (
             <DesktopItem
-              key={p.id}
-              project={p}
-              x={pos.x}
-              y={pos.y}
-              zIndex={tileZ[p.id] ?? 1}
-              onOpen={(e) => openProject(p, e)}
-              onMove={(x, y) => moveTile(p.id, x, y)}
-              onFocus={() => focusTile(p.id)}
+              key={project.id}
+              project={project}
+              x={position.x}
+              y={position.y}
+              zIndex={tileZ[project.id] ?? 1}
+              onOpen={(event) => openProject(project, event)}
+              onMove={(x, y) => moveTile(project.id, x, y)}
+              onFocus={() => focusTile(project.id)}
             />
           );
         })}
       </div>
 
-      {windows.map((w) => (
+      {windows.map((windowItem) => (
         <Window
-          key={w.key}
-          title={w.title}
-          zIndex={WINDOW_LAYER_Z + w.z}
-          initialX={w.x}
-          initialY={w.y}
-          width={w.width}
-          origin={w.origin}
-          onClose={() => close(w.key)}
-          onFocus={() => focus(w.key)}
+          key={windowItem.key}
+          title={windowItem.title}
+          zIndex={WINDOW_LAYER_Z + windowItem.z}
+          initialX={windowItem.x}
+          initialY={windowItem.y}
+          width={windowItem.width}
+          height={windowItem.height}
+          origin={windowItem.origin}
+          contentOverflow={windowItem.contentOverflow}
+          onClose={() => close(windowItem.key)}
+          onFocus={() => focus(windowItem.key)}
         >
-          {w.content}
+          {windowItem.content}
         </Window>
       ))}
 
@@ -187,7 +263,7 @@ export function Desktop() {
             label: "Finder",
             icon: (
               <DockIcon gradient="linear-gradient(135deg, oklch(0.7 0.15 240), oklch(0.5 0.2 260))">
-                📁
+                <FolderOpen className="h-6 w-6" />
               </DockIcon>
             ),
           },
@@ -196,7 +272,7 @@ export function Desktop() {
             label: "Mail",
             icon: (
               <DockIcon gradient="linear-gradient(135deg, oklch(0.75 0.15 220), oklch(0.55 0.2 240))">
-                ✉️
+                <Mail className="h-6 w-6" />
               </DockIcon>
             ),
           },
@@ -205,7 +281,7 @@ export function Desktop() {
             label: "Notes",
             icon: (
               <DockIcon gradient="linear-gradient(135deg, oklch(0.92 0.15 95), oklch(0.78 0.18 80))">
-                📝
+                <StickyNote className="h-6 w-6" />
               </DockIcon>
             ),
           },
@@ -214,7 +290,7 @@ export function Desktop() {
             label: "Music",
             icon: (
               <DockIcon gradient="linear-gradient(135deg, oklch(0.7 0.2 350), oklch(0.55 0.22 20))">
-                🎵
+                <Music4 className="h-6 w-6" />
               </DockIcon>
             ),
           },
@@ -223,7 +299,7 @@ export function Desktop() {
             label: "Terminal",
             icon: (
               <DockIcon gradient="linear-gradient(135deg, oklch(0.25 0.02 270), oklch(0.1 0 0))">
-                {">_"}
+                <TerminalSquare className="h-6 w-6" />
               </DockIcon>
             ),
           },
@@ -232,7 +308,7 @@ export function Desktop() {
             label: "Trash",
             icon: (
               <DockIcon gradient="linear-gradient(135deg, oklch(0.85 0.02 270), oklch(0.65 0.04 270))">
-                🗑️
+                <Trash2 className="h-6 w-6" />
               </DockIcon>
             ),
           },
@@ -250,7 +326,25 @@ export function Desktop() {
 }
 
 function getProjectWindowWidth(project: Project) {
+  if (project.id === "red-lion-campaign") return 760;
   if (project.windowStyle === "about" || project.windowStyle === "contact") return 440;
   if (project.windowStyle === "archive-folder") return 720;
   return 680;
+}
+
+function getAlbumWindowWidth(project: Project) {
+  if (project.id === "red-lion-campaign") return 1100;
+  return 920;
+}
+
+function getAlbumWindowHeight() {
+  return "calc(100vh - 100px)";
+}
+
+function getVideoWindowWidth() {
+  return 920;
+}
+
+function getVideoWindowHeight() {
+  return "min(70vh, 560px)";
 }
