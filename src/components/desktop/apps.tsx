@@ -71,7 +71,7 @@ const FINDER_SECTIONS = [
   {
     id: "branding",
     label: "Branding",
-    projectIds: ["body-mind-packaging", "bmb-website"],
+    projectIds: ["body-mind-packaging"],
   },
   {
     id: "games",
@@ -406,7 +406,7 @@ export function ProjectApp({
   onOpenFolder,
 }: {
   project: Project;
-  onOpenAlbum: (project: Project) => void;
+  onOpenAlbum: (project: Project, item?: ProjectFolderItem) => void;
   onOpenVideo: (project: Project, item: ProjectFolderItem) => void;
   onOpenFolder: (project: Project, item: ProjectFolderItem) => void;
 }) {
@@ -423,8 +423,8 @@ export function ProjectApp({
   );
 }
 
-export function ProjectPhotoAlbum({ project }: { project: Project }) {
-  return <PhotoAlbumApp project={project} />;
+export function ProjectPhotoAlbum({ project, item }: { project: Project; item?: ProjectFolderItem }) {
+  return <PhotoAlbumApp project={project} item={item} />;
 }
 
 export function ProjectYouTubeVideo({ item }: { item: ProjectFolderItem }) {
@@ -440,7 +440,7 @@ export function ProjectFolderDetail({
 }: {
   project: Project;
   item: ProjectFolderItem;
-  onOpenAlbum: (project: Project) => void;
+  onOpenAlbum: (project: Project, item?: ProjectFolderItem) => void;
   onOpenVideo: (project: Project, item: ProjectFolderItem) => void;
   onOpenFolder: (project: Project, item: ProjectFolderItem) => void;
 }) {
@@ -475,6 +475,8 @@ function buildNestedProject(project: Project, item: ProjectFolderItem): Project 
     windowStyle: "archive-folder",
     placeholderMedia: item.placeholderMedia ?? [],
     externalLinks: item.externalLinks ?? [],
+    folderItems: item.folderItems,
+    albumImages: item.albumImages,
     x: 0,
     y: 0,
     w: 0,

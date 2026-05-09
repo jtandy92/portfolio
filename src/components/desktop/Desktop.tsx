@@ -143,12 +143,14 @@ export function Desktop() {
     );
   }
 
-  function openProjectAlbum(project: Project, event?: MouseEvent) {
+  function openProjectAlbum(project: Project, item?: ProjectFolderItem, event?: MouseEvent) {
     const origin = event ? { x: event.clientX, y: event.clientY } : null;
+    const albumLabel = item?.label ?? "photos";
+    const windowKey = item ? `project:${project.id}:photos:${item.id}` : `project:${project.id}:photos`;
     open(
-      `project:${project.id}:photos`,
-      `${project.desktopLabel} / photos`,
-      <ProjectPhotoAlbum project={project} />,
+      windowKey,
+      `${project.desktopLabel} / ${albumLabel}`,
+      <ProjectPhotoAlbum project={project} item={item} />,
       getAlbumWindowWidth(project),
       origin,
       "hidden",

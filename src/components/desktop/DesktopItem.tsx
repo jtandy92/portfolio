@@ -256,6 +256,8 @@ function shouldUseFolderDesktopIcon(project: Project) {
 }
 
 function getProjectDesktopThumbnail(project: Project) {
+  if (project.desktopThumbnailUrl) return project.desktopThumbnailUrl;
+
   const folderItemThumbnail = project.folderItems?.find((item) => item.thumbnailUrl)?.thumbnailUrl;
   if (folderItemThumbnail) return folderItemThumbnail;
 

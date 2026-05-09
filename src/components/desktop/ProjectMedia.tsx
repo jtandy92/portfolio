@@ -5,7 +5,7 @@ import {
   useState,
   type PointerEvent as ReactPointerEvent,
 } from "react";
-import { ChevronLeft, ChevronRight, Images, Play, Youtube } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink, Images, Play, Youtube } from "lucide-react";
 import folderIcon from "@/assets/ui/folder-icon.png";
 import type {
   PlaceholderMedia,
@@ -33,7 +33,7 @@ export function ProjectFolderApp({
   onOpenFolder,
 }: {
   project: Project;
-  onOpenAlbum: (project: Project) => void;
+  onOpenAlbum: (project: Project, item?: ProjectFolderItem) => void;
   onOpenVideo: (project: Project, item: ProjectFolderItem) => void;
   onOpenFolder: (project: Project, item: ProjectFolderItem) => void;
 }) {
@@ -122,8 +122,15 @@ export function ProjectFolderApp({
                   return;
                 }
 
+                if (item.kind === "link") {
+                  if (item.url) {
+                    window.open(item.url, "_blank", "noopener,noreferrer");
+                  }
+                  return;
+                }
+
                 if (item.opensAlbum) {
-                  onOpenAlbum(project);
+                  onOpenAlbum(project, item);
                   return;
                 }
 
@@ -298,6 +305,27 @@ function FolderIcon({ item }: { item: ProjectFolderItem }) {
     );
   }
 
+  if (item.kind === "link") {
+    if (item.thumbnailUrl) {
+      return (
+        <div className="flex h-[84px] w-[84px] items-center justify-center overflow-hidden rounded-[22px] border border-white/65 bg-white shadow-[0_16px_36px_-20px_oklch(0_0_0/0.6)]">
+          <img
+            src={item.thumbnailUrl}
+            alt=""
+            className="h-full w-full object-contain p-1.5"
+            draggable={false}
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex h-[84px] w-[84px] items-center justify-center rounded-[22px] border border-white/65 bg-[linear-gradient(180deg,oklch(0.975_0.008_255),oklch(0.9_0.02_255))] text-black shadow-[0_16px_36px_-20px_oklch(0_0_0/0.6)]">
+        <ExternalLink className="h-9 w-9 stroke-[1.7]" />
+      </div>
+    );
+  }
+
   const thumbnailSrc = getYouTubeThumbnailSrc(item);
 
   return (
@@ -319,15 +347,15 @@ function FolderIcon({ item }: { item: ProjectFolderItem }) {
   );
 }
 
-export function PhotoAlbumApp({ project }: { project: Project }) {
-  const images = getAlbumImages(project);
+export function PhotoAlbumApp({ project, item }: { project: Project; item?: ProjectFolderItem }) {
+  const images = getAlbumImages(project, item);
   const [activeIndex, setActiveIndex] = useState(0);
   const activeImage = images[activeIndex];
 
   const title = useMemo(() => {
     if (!activeImage) return "No photos";
-    return `${project.desktopLabel} / ${activeImage.slot}`;
-  }, [activeImage, project.desktopLabel]);
+    return `${item?.label ?? project.desktopLabel} / ${activeImage.slot}`;
+  }, [activeImage, item?.label, project.desktopLabel]);
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -459,7 +487,15 @@ function getProjectFolderItems(project: Project) {
   });
 }
 
-function getAlbumImages(project: Project) {
+function getAlbumImages(project: Project, item?: ProjectFolderItem) {
+  if (item?.albumImages?.length) return item.albumImages;
+
+  if (item?.placeholderMedia?.length) {
+    return item.placeholderMedia
+      .filter((media) => media.kind === "image" && media.url)
+      .map((media) => mediaToAlbumImage(project, media));
+  }
+
   if (project.albumImages?.length) return project.albumImages;
 
   return project.placeholderMedia
