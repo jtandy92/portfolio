@@ -129,6 +129,12 @@ export function Desktop() {
 
   function openProject(project: Project, event?: MouseEvent) {
     const origin = event ? { x: event.clientX, y: event.clientY } : null;
+
+    if (project.id === "about") {
+      open("notes", "about.txt", <NotesApp />, 1040, origin, "hidden", "min(72vh, 640px)");
+      return;
+    }
+
     open(
       `project:${project.id}`,
       project.desktopLabel,
@@ -197,7 +203,7 @@ export function Desktop() {
     }
 
     if (id === "notes") {
-      open("notes", "Notes", <NotesApp />, 1040, origin, "hidden", "min(72vh, 640px)");
+      open("notes", "about.txt", <NotesApp />, 1040, origin, "hidden", "min(72vh, 640px)");
       return;
     }
 
@@ -292,16 +298,16 @@ export function Desktop() {
             id: "mail",
             label: "Mail",
             icon: (
-              <DockIcon gradient="linear-gradient(135deg, oklch(0.75 0.15 220), oklch(0.55 0.2 240))">
+              <DockIcon gradient="linear-gradient(135deg, oklch(0.92 0.15 95), oklch(0.78 0.18 80))">
                 <Mail className="h-6 w-6" />
               </DockIcon>
             ),
           },
           {
             id: "notes",
-            label: "Notes",
+            label: "about.txt",
             icon: (
-              <DockIcon gradient="linear-gradient(135deg, oklch(0.92 0.15 95), oklch(0.78 0.18 80))">
+              <DockIcon gradient="linear-gradient(135deg, oklch(0.75 0.15 220), oklch(0.55 0.2 240))">
                 <StickyNote className="h-6 w-6" />
               </DockIcon>
             ),

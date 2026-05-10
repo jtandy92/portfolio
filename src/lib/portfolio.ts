@@ -28,6 +28,12 @@ import bodyMindCarrossel06 from "@/assets/projects/body-mind/promotional/carross
 import bodyMindCarrossel07 from "@/assets/projects/body-mind/promotional/carrossel-07.png";
 import bodyMindEcommerceIcon from "@/assets/projects/body-mind/ui/ecommerce-icon.png";
 import bodyMindWebsiteIcon from "@/assets/projects/body-mind/ui/website-icon.png";
+import blacklusStill01 from "@/assets/projects/meu-cabelo/stills/01.png";
+import blacklusStill02 from "@/assets/projects/meu-cabelo/stills/02.png";
+import blacklusStill03 from "@/assets/projects/meu-cabelo/stills/03.png";
+import blacklusStill04 from "@/assets/projects/meu-cabelo/stills/04.png";
+import blacklusStill05 from "@/assets/projects/meu-cabelo/stills/05.png";
+import blacklusStill06 from "@/assets/projects/meu-cabelo/stills/06.png";
 
 // Central portfolio content.
 // Replace the placeholder text, media URLs, and links here as final assets become ready.
@@ -62,71 +68,191 @@ export type NoteSection = {
 
 export const NOTES_SECTIONS: NoteSection[] = [
   {
-    id: "career",
-    title: "Career",
+    id: "profile",
+    title: "Profile",
     notes: [
       {
-        id: "career-overview",
-        title: "Career Overview",
+        id: "profile-summary",
+        title: "Professional Summary",
         preview:
-          "Designer and creative technologist working across branding, web, games, and moving image.",
-        body: `I work across branding, interactive media, web design, browser games, and audiovisual storytelling.
+          "Graphic designer with 10+ years across beauty, lifestyle, e-commerce, print, and digital marketing.",
+        body: `James Marcelo Tandy
+Brasilia, DF, Brazil
++55 61 99100-9459
+jamestandy1@gmail.com
+linkedin.com/in/jamesmtandy
 
-My practice combines visual design, systems thinking, and hands-on production. I like projects where concept and execution need to live close together, whether that means designing a brand world, building a playful interface, or shaping a digital experience from art direction through implementation.
+Graphic Designer | E-Commerce | Brand Production
 
-I am especially interested in roles that let me move between disciplines while still making polished, intentional work.`,
+Graphic designer with 10+ years creating customer-facing visuals for beauty, lifestyle, e-commerce, print, and digital marketing channels.
+
+Production-forward and detail-focused, with experience supporting online storefronts, promotional campaigns, brand collateral, asset organization, and cross-functional workflows in remote, fast-turnaround environments.`,
       },
       {
-        id: "career-strengths",
-        title: "What I Bring",
+        id: "profile-focus",
+        title: "Capabilities",
         preview:
-          "Cross-disciplinary creative direction, UI thinking, and production-minded execution.",
-        body: `My strongest work usually happens at the intersection of design and making.
+          "Brand production, promotional design, e-commerce support, and organized visual systems.",
+        body: `Key strengths:
 
-I bring visual taste, strong layout instincts, and a practical understanding of how to ship digital work. That includes interface design, creative direction, motion-aware presentation, lightweight front-end implementation, and building cohesive systems instead of isolated assets.
+- Customer-facing visual design
+- E-commerce content and online store support
+- Brand collateral for print and digital channels
+- Product visual organization and digital asset management
+- Production coordination and remote collaboration
+- Detail, accuracy, and consistent delivery
 
-I am most useful on teams that value clarity, adaptability, and a point of view.`,
+Skills:
+
+Photoshop
+Illustrator
+InDesign
+Premiere
+After Effects
+Webdesign
+UX/UI
+Brand Identity Systems
+Email Blast Layouts
+Digital Mailers
+Print
+Packaging/Label Design
+Promotional Graphics
+E-commerce Visuals
+Brand Collateral
+Asset Management
+AI-Assisted Development
+Prototyping`,
       },
     ],
   },
   {
-    id: "education",
-    title: "Education",
+    id: "skills",
+    title: "Skills",
     notes: [
       {
-        id: "education-background",
-        title: "Education Background",
+        id: "skills-design",
+        title: "Design and Brand Skills",
         preview:
-          "A multidisciplinary learning path shaped by design, technology, and experimentation.",
-        body: `My education has been shaped by creative experimentation, digital tools, and self-directed making.
+          "Brand identity systems, promotional graphics, print collateral, and digital marketing assets.",
+        body: `Design and brand production:
 
-I learn best by building. A lot of my growth has come from combining formal design thinking with hands-on exploration in branding, interactive projects, visual storytelling, and game-adjacent work.
+Brand Identity Systems
+Promotional Graphics
+Print Collateral
+Digital Collateral
+Marketing Assets
+Brand Collateral
 
-This notes section is ready for your final school, course, certificate, or training details whenever you want to replace the placeholder copy.`,
+Commerce and storefront support:
+
+E-Commerce Visuals
+Online Store Content
+Product Visual Organization
+Digital Asset Management`,
+      },
+      {
+        id: "skills-operations",
+        title: "Production and Workflow Skills",
+        preview:
+          "Production coordination, organization, cross-functional support, and remote collaboration.",
+        body: `Production and operations:
+
+Production Coordination
+Asset Organization
+Cross-functional workflow support
+Remote Collaboration
+Accuracy
+Organization
+
+This work sits at the intersection of visual production, operational support, and dependable delivery across fast-turnaround environments.`,
       },
     ],
   },
   {
-    id: "goals",
-    title: "Goals",
+    id: "experience",
+    title: "Experience",
     notes: [
       {
-        id: "goals-near-term",
-        title: "Near-Term Goals",
+        id: "experience-body-mind-2025",
+        title: "Body and Mind Beautiful",
         preview:
-          "Build a focused body of work that feels personal, sharp, and technically confident.",
-        body: `In the near term, I want this portfolio to communicate a clearer creative identity.
+          "Graphic Designer and E-Commerce Content Specialist, Franca, SP | Jul 2025 - Mar 2026",
+        body: `Graphic Designer and E-Commerce Content Specialist
+Body and Mind Beautiful, Franca, SP
+Jul 2025 - Mar 2026
 
-That means sharpening the writing, curating stronger case studies, and presenting work in a way that feels memorable instead of generic. I also want to keep growing the technical side of my practice so the work can be more interactive, expressive, and self-directed.`,
+- Worked in a hybrid graphic design, e-commerce support, internal IT, and administrative operations role for a beauty and lifestyle consumer brand with multiple branches.
+- Designed, optimized, and managed the online store, including product visuals, digital assets, organized product information, promotional graphics, labels, marketing images, and brand collateral.
+- Supported multiple branches with day-to-day technical assistance, system setup, data organization, backups, electronic records, internal troubleshooting, and cross-department operational follow-up.
+- Managed reports, inventory information, formal communications, and confidential business data with accuracy, consistency, and strong deadline awareness.`,
       },
       {
-        id: "goals-long-term",
-        title: "Long-Term Goals",
+        id: "experience-survanix",
+        title: "Survanix",
         preview:
-          "Develop a practice that connects design, storytelling, tools, and original digital experiences.",
-        body: `Long term, I want to keep building a career that does not force a split between designer, creative technologist, and maker.
+          "Art Director / Graphic Designer, Brasilia, DF | Jul 2019 - Jul 2025",
+        body: `Art Director / Graphic Designer
+Survanix, Brasilia, DF
+Jul 2019 - Jul 2025
 
-I want to contribute to projects with a strong visual voice, thoughtful interaction, and real emotional texture. Over time, I also want to develop more original tools, games, and creative systems that can stand on their own as authored work.`,
+- Led art direction and visual development for a full top-down game prototype, including style direction, asset planning, and creative systems from concept through prototype delivery.
+- Designed visual assets, interface concepts, characters, environments, and organized design systems while coordinating creative and technical workflows.
+- Managed project planning, task scheduling, documentation, and production priorities to keep a complex development cycle on track.`,
+      },
+      {
+        id: "experience-pom",
+        title: "POM",
+        preview:
+          "Creative Director / Video Production Coordinator, Sao Paulo, SP | Dec 2017 - Jul 2019",
+        body: `Creative Director / Video Production Coordinator
+POM, Sao Paulo, SP
+Dec 2017 - Jul 2019
+
+- Planned shoots, production schedules, and creative workflows for music videos, promotional content, and design-focused media projects.
+- Edited footage and managed post-production files, backups, digital assets, and deliverables with strong attention to timing, visual quality, and organization.`,
+      },
+      {
+        id: "experience-body-mind-2015",
+        title: "Body and Mind Beautiful Archive",
+        preview:
+          "Graphic Designer / Customer Service Support, Franca, SP | Jan 2015 - Nov 2017",
+        body: `Graphic Designer / Customer Service Support
+Body and Mind Beautiful, Franca, SP
+Jan 2015 - Nov 2017
+
+- Created branding materials, product labels, print layouts, promotional graphics, and digital marketing content for a beauty consumer brand.
+- Produced customer-facing visuals and organized print-ready artwork, brand assets, and production files to support consistent delivery across digital and print needs.`,
+      },
+    ],
+  },
+  {
+    id: "background",
+    title: "Background",
+    notes: [
+      {
+        id: "background-education",
+        title: "Education",
+        preview:
+          "Bachelor's Degree in Industrial Design from FAAP, completed in 2014.",
+        body: `Bachelor's Degree in Industrial Design
+FAAP - Fundacao Armando Alvares Penteado
+Graduated 2014`,
+      },
+      {
+        id: "background-certification",
+        title: "Certification",
+        preview:
+          "CS50: Introduction to Computer Science by HarvardX.",
+        body: `CS50: Introduction to Computer Science
+HarvardX`,
+      },
+      {
+        id: "background-languages",
+        title: "Languages",
+        preview:
+          "Fluent in English and Portuguese.",
+        body: `English: Fluent
+Portuguese: Fluent`,
       },
     ],
   },
@@ -409,6 +535,45 @@ const bodyMindDetailAlbum: ProjectAlbumImage[] = [
   },
 ];
 
+const blacklusStillFrames: ProjectAlbumImage[] = [
+  {
+    id: "blacklus-still-01",
+    slot: "01",
+    alt: "Blacklus - Meu Cabelo still frame 1",
+    src: blacklusStill01,
+  },
+  {
+    id: "blacklus-still-02",
+    slot: "02",
+    alt: "Blacklus - Meu Cabelo still frame 2",
+    src: blacklusStill02,
+  },
+  {
+    id: "blacklus-still-03",
+    slot: "03",
+    alt: "Blacklus - Meu Cabelo still frame 3",
+    src: blacklusStill03,
+  },
+  {
+    id: "blacklus-still-04",
+    slot: "04",
+    alt: "Blacklus - Meu Cabelo still frame 4",
+    src: blacklusStill04,
+  },
+  {
+    id: "blacklus-still-05",
+    slot: "05",
+    alt: "Blacklus - Meu Cabelo still frame 5",
+    src: blacklusStill05,
+  },
+  {
+    id: "blacklus-still-06",
+    slot: "06",
+    alt: "Blacklus - Meu Cabelo still frame 6",
+    src: blacklusStill06,
+  },
+];
+
 export const PROJECTS: Project[] = [
   {
     id: "body-mind-packaging",
@@ -591,34 +756,54 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "meu-cabelo",
-    title: "BLACKLAS - Meu Cabelo",
-    desktopLabel: "meu cabelo.mov",
+    title: "Blacklus - Meu Cabelo",
+    desktopLabel: "Blacklus - Meu Cabelo",
     category: "music video / creative direction / cinematography",
     type: "Music video",
     shortDescription: "Video case shell for the final embed, stills, and BTS notes.",
     role: "Creative direction, cinematography",
     windowStyle: "video-case",
-    placeholderMedia: [
+    placeholderMedia: [],
+    externalLinks: [],
+    folderItems: [
       {
         id: "youtube-embed",
         label: "YouTube embed",
-        kind: "embed",
+        kind: "video",
         note: "Paste the final YouTube URL here.",
+        youtubeUrl: "https://www.youtube.com/watch?v=TutB9AiCz3U&list=RDTutB9AiCz3U&start_radio=1",
       },
       {
         id: "still-frames",
         label: "Still frames",
-        kind: "image",
-        note: "Replace with frame selects.",
+        kind: "photos",
+        note: "6 photos",
+        opensAlbum: true,
+        thumbnailUrl: blacklusStillFrames[0]?.src,
+        albumImages: blacklusStillFrames,
       },
       {
         id: "bts",
         label: "Behind the scenes",
-        kind: "image",
-        note: "Replace with BTS photos or clips.",
+        kind: "folder",
+        title: "Behind the scenes",
+        shortDescription: "BTS photos and clips.",
+        placeholderMedia: [
+          {
+            id: "bts-photos",
+            label: "BTS photos",
+            kind: "image",
+            note: "Replace with BTS selects.",
+          },
+          {
+            id: "bts-clips",
+            label: "BTS clips",
+            kind: "video",
+            note: "Replace with BTS clips.",
+          },
+        ],
       },
     ],
-    externalLinks: [],
     x: 32,
     y: 76,
     w: 350,

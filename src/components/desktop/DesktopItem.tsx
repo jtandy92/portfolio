@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react";
+import aboutIcon from "@/assets/ui/about-icon.png";
+import contactIcon from "@/assets/ui/contact-icon.png";
 import folderIcon from "@/assets/ui/folder-icon.png";
 import type { Project } from "@/lib/portfolio";
 
@@ -38,6 +40,7 @@ export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: 
   const tileW = project.w * 0.7;
   const tileH = project.h * 0.7;
   const useFolderDesktopIcon = shouldUseFolderDesktopIcon(project);
+  const useTransparentTile = project.windowStyle === "about" || project.windowStyle === "contact";
 
   function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
     if (e.button !== undefined && e.button !== 0) return;
@@ -102,11 +105,13 @@ export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: 
       }}
     >
       <div
-        className={`w-full ${useFolderDesktopIcon ? "overflow-visible" : "overflow-hidden rounded-md"}`}
+        className={`w-full ${
+          useFolderDesktopIcon || useTransparentTile ? "overflow-visible" : "overflow-hidden rounded-md"
+        }`}
         style={{
           height: tileH,
-          background: useFolderDesktopIcon ? "transparent" : project.accent,
-          boxShadow: useFolderDesktopIcon
+          background: useFolderDesktopIcon || useTransparentTile ? "transparent" : project.accent,
+          boxShadow: useFolderDesktopIcon || useTransparentTile
             ? "none"
             : dragging
               ? "0 20px 40px -8px oklch(0 0 0 / 0.5)"
@@ -202,19 +207,24 @@ function ProjectDesktopArtwork({ project }: { project: Project }) {
       );
     case "contact":
       return (
-        <div className="w-full h-full p-3 flex flex-col justify-center gap-1.5">
-          <div className="h-5 rounded bg-white/50" />
-          <div className="h-1.5 rounded bg-black/25 w-3/4" />
-          <div className="h-1.5 rounded bg-black/25 w-1/2" />
+        <div className="flex h-full w-full items-center justify-center p-1">
+          <img
+            src={contactIcon}
+            alt=""
+            className="h-full w-full object-contain drop-shadow-[0_14px_24px_rgba(0,0,0,0.28)]"
+            draggable={false}
+          />
         </div>
       );
     case "about":
       return (
-        <div className="w-full h-full p-2.5 flex flex-col gap-1">
-          <div className="text-[9px] font-mono opacity-60">{project.desktopLabel}</div>
-          <div className="h-1 rounded bg-black/20 w-3/4" />
-          <div className="h-1 rounded bg-black/20 w-1/2" />
-          <div className="h-1 rounded bg-black/20 w-2/3" />
+        <div className="flex h-full w-full items-center justify-center p-1">
+          <img
+            src={aboutIcon}
+            alt=""
+            className="h-full w-full object-contain drop-shadow-[0_14px_24px_rgba(0,0,0,0.28)]"
+            draggable={false}
+          />
         </div>
       );
     default:
