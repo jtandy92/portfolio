@@ -8,6 +8,7 @@ type Props = {
   project: Project;
   x: number;
   y: number;
+  scale: number;
   onOpen: (e: MouseEvent) => void;
   onMove: (x: number, y: number) => void;
   onFocus: () => void;
@@ -17,7 +18,7 @@ type Props = {
 const DRAG_THRESHOLD = 4;
 const CLICK_MAX_MS = 200; // press shorter than this without movement opens the window
 
-export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: Props) {
+export function DesktopItem({ project, x, y, scale, onOpen, onMove, onFocus, zIndex }: Props) {
   const [dragging, setDragging] = useState(false);
   const xRef = useRef(x);
   const yRef = useRef(y);
@@ -37,8 +38,8 @@ export function DesktopItem({ project, x, y, onOpen, onMove, onFocus, zIndex }: 
     onOpenRef.current = onOpen;
   }, [onOpen]);
 
-  const tileW = project.w * 0.7;
-  const tileH = project.h * 0.7;
+  const tileW = project.w * scale;
+  const tileH = project.h * scale;
   const useFolderDesktopIcon = shouldUseFolderDesktopIcon(project);
   const useTransparentTile = project.windowStyle === "about" || project.windowStyle === "contact";
 

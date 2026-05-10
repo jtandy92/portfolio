@@ -1299,7 +1299,7 @@ export const PROJECTS: Project[] = [
     placeholderMedia: [],
     externalLinks: CONTACT_LINKS,
     x: 56,
-    y: 57,
+    y: 42,
     w: 250,
     h: 170,
     accent: "oklch(0.72 0.16 245)",

@@ -4,7 +4,15 @@ import { PROJECTS, type Project, type ProjectFolderItem } from "@/lib/portfolio"
 import { MENU_BAR_HEIGHT, MenuBar } from "./MenuBar";
 import { Dock, DockIcon } from "./Dock";
 import { DesktopItem } from "./DesktopItem";
-import { loadPositions, savePositions, resolvePosition, type Positions } from "./DesktopPositions";
+import {
+  getLayoutMode,
+  getTileScale,
+  getTileSize,
+  loadPositions,
+  resolvePosition,
+  savePositions,
+  type Positions,
+} from "./DesktopPositions";
 import { Window } from "./Window";
 import {
   FinderApp,
@@ -42,6 +50,9 @@ export function Desktop() {
   const [tileZ, setTileZ] = useState<Record<string, number>>({});
   const [topTileZ, setTopTileZ] = useState(1);
   const [viewport, setViewport] = useState({ w: 1024, h: 768 });
+  const layoutMode = getLayoutMode(viewport.w);
+  const tileScale = getTileScale(viewport.w);
+  const desktopContentHeight = getDesktopContentHeight(positions, viewport.w, viewport.h);
 
   function claimTopWindowZ() {
     const nextZ = zTopRef.current + 1;
@@ -51,7 +62,6 @@ export function Desktop() {
 
   useEffect(() => {
     setViewport({ w: window.innerWidth, h: window.innerHeight });
-    setPositions(loadPositions());
     const bootTimer = window.setTimeout(() => setIsBooting(false), 1350);
     const onResize = () => setViewport({ w: window.innerWidth, h: window.innerHeight });
     window.addEventListener("resize", onResize);
@@ -61,10 +71,14 @@ export function Desktop() {
     };
   }, []);
 
+  useEffect(() => {
+    setPositions(loadPositions(layoutMode));
+  }, [layoutMode]);
+
   function moveTile(id: string, x: number, y: number) {
     setPositions((current) => {
       const next = { ...current, [id]: { x, y } };
-      savePositions(next);
+      savePositions(next, layoutMode);
       return next;
     });
   }
@@ -77,7 +91,7 @@ export function Desktop() {
 
   function resetLayout() {
     setPositions({});
-    savePositions({});
+    savePositions({}, layoutMode);
   }
 
   function open(
@@ -259,22 +273,25 @@ export function Desktop() {
     >
       <MenuBar onResetLayout={resetLayout} />
 
-      <div className="absolute inset-0 z-10 pt-7 pb-24">
-        {PROJECTS.map((project) => {
-          const position = resolvePosition(project, positions, viewport.w, viewport.h);
-          return (
-            <DesktopItem
-              key={project.id}
-              project={project}
-              x={position.x}
-              y={position.y}
-              zIndex={tileZ[project.id] ?? 1}
-              onOpen={(event) => openProject(project, event)}
-              onMove={(x, y) => moveTile(project.id, x, y)}
-              onFocus={() => focusTile(project.id)}
-            />
-          );
-        })}
+      <div className="absolute inset-0 z-10 overflow-y-auto overflow-x-hidden pt-7 pb-24 md:overflow-hidden">
+        <div className="relative" style={{ height: desktopContentHeight }}>
+          {PROJECTS.map((project) => {
+            const position = resolvePosition(project, positions, viewport.w, viewport.h);
+            return (
+              <DesktopItem
+                key={project.id}
+                project={project}
+                x={position.x}
+                y={position.y}
+                scale={tileScale}
+                zIndex={tileZ[project.id] ?? 1}
+                onOpen={(event) => openProject(project, event)}
+                onMove={(x, y) => moveTile(project.id, x, y)}
+                onFocus={() => focusTile(project.id)}
+              />
+            );
+          })}
+        </div>
       </div>
 
       {windows.map((windowItem) => (
@@ -386,4 +403,14 @@ function getVideoWindowWidth() {
 
 function getVideoWindowHeight() {
   return "min(70vh, 560px)";
+}
+
+function getDesktopContentHeight(positions: Positions, viewportWidth: number, viewportHeight: number) {
+  const minimumHeight = Math.max(viewportHeight, 720);
+
+  return PROJECTS.reduce((maxHeight, project) => {
+    const position = resolvePosition(project, positions, viewportWidth, viewportHeight);
+    const tileSize = getTileSize(project, viewportWidth);
+    return Math.max(maxHeight, position.y + tileSize.height + 72);
+  }, minimumHeight);
 }
