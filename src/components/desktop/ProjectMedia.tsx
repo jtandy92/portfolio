@@ -15,11 +15,13 @@ import type {
 } from "@/lib/portfolio";
 
 const FOLDER_CANVAS_PADDING = 24;
-const FOLDER_ITEM_WIDTH = 112;
-const FOLDER_ITEM_HEIGHT = 142;
+const FOLDER_ITEM_WIDTH = 132;
+const FOLDER_ITEM_HEIGHT = 164;
 const FOLDER_ITEM_GAP = 18;
 const DRAG_THRESHOLD = 4;
 const CLICK_MAX_MS = 220;
+const NESTED_FOLDER_ICON_WIDTH = 125;
+const NESTED_FOLDER_ICON_HEIGHT = 101;
 
 type Point = {
   x: number;
@@ -271,7 +273,10 @@ function FolderIcon({ item }: { item: ProjectFolderItem }) {
     const thumbnailSrc = getFolderItemThumbnail(item);
 
     return (
-      <div className="relative h-[78px] w-[96px] drop-shadow-[0_14px_22px_rgba(0,0,0,0.22)]">
+      <div
+        className="relative drop-shadow-[0_14px_22px_rgba(0,0,0,0.22)]"
+        style={{ width: NESTED_FOLDER_ICON_WIDTH, height: NESTED_FOLDER_ICON_HEIGHT }}
+      >
         <img
           src={folderIcon}
           alt=""
@@ -312,7 +317,7 @@ function FolderIcon({ item }: { item: ProjectFolderItem }) {
           <img
             src={item.thumbnailUrl}
             alt=""
-            className="h-full w-full object-contain p-1.5"
+            className="h-full w-full object-cover"
             draggable={false}
           />
         </div>

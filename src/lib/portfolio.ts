@@ -34,6 +34,49 @@ import blacklusStill03 from "@/assets/projects/meu-cabelo/stills/03.png";
 import blacklusStill04 from "@/assets/projects/meu-cabelo/stills/04.png";
 import blacklusStill05 from "@/assets/projects/meu-cabelo/stills/05.png";
 import blacklusStill06 from "@/assets/projects/meu-cabelo/stills/06.png";
+import aetherEditScreenshot01 from "@/assets/projects/aether-edit/01.png";
+import aetherEditScreenshot02 from "@/assets/projects/aether-edit/02.png";
+import aetherEditScreenshot03 from "@/assets/projects/aether-edit/03.png";
+import aetherEditScreenshot04 from "@/assets/projects/aether-edit/04.png";
+import aetherEditScreenshot05 from "@/assets/projects/aether-edit/05.png";
+import aetherEditScreenshot06 from "@/assets/projects/aether-edit/06.png";
+import aetherEditScreenshot07 from "@/assets/projects/aether-edit/07.png";
+import phantomOfTheGroveScreenshot01 from "@/assets/projects/phantom-of-the-grove/01.png";
+import phantomOfTheGroveScreenshot02 from "@/assets/projects/phantom-of-the-grove/02.png";
+import phantomOfTheGroveScreenshot03 from "@/assets/projects/phantom-of-the-grove/03.png";
+import phantomOfTheGroveScreenshot04 from "@/assets/projects/phantom-of-the-grove/04.png";
+import phantomOfTheGroveScreenshot05 from "@/assets/projects/phantom-of-the-grove/05.png";
+import phantomOfTheGroveScreenshot06 from "@/assets/projects/phantom-of-the-grove/06.png";
+import phantomOfTheGroveScreenshot07 from "@/assets/projects/phantom-of-the-grove/07.png";
+import phantomOfTheGroveCover from "@/assets/projects/phantom-of-the-grove/cover.png";
+import overgrownThumbnail from "@/assets/projects/itch-experiments/overgrown.png";
+import snowRestThumbnail from "@/assets/projects/itch-experiments/snow-rest.png";
+import whaleSongThumbnail from "@/assets/projects/itch-experiments/whale-song.png";
+import liminalityCoverArt from "@/assets/projects/liminality/cover-art.png";
+import survanSixThumbnail from "@/assets/projects/survansix/thumbnail.png";
+import fleeberIllustration01 from "@/assets/projects/illustration/fleeber/01.png";
+import fleeberIllustration02 from "@/assets/projects/illustration/fleeber/02.png";
+import fleeberIllustration03 from "@/assets/projects/illustration/fleeber/03.png";
+import fleeberIllustration04 from "@/assets/projects/illustration/fleeber/04.png";
+import fleeberIllustration05 from "@/assets/projects/illustration/fleeber/05.png";
+import fleeberIllustration06 from "@/assets/projects/illustration/fleeber/06.png";
+import fleeberIllustration07 from "@/assets/projects/illustration/fleeber/07.png";
+import coloredIllustration01 from "@/assets/projects/illustration/colored/01.png";
+import coloredIllustration02 from "@/assets/projects/illustration/colored/02.jpg";
+import coloredIllustration03 from "@/assets/projects/illustration/colored/03.jpg";
+import coloredIllustration04 from "@/assets/projects/illustration/colored/04.png";
+import blackAndWhiteIllustration01 from "@/assets/projects/illustration/black-and-white/01.png";
+import blackAndWhiteIllustration02 from "@/assets/projects/illustration/black-and-white/02.png";
+import blackAndWhiteIllustration03 from "@/assets/projects/illustration/black-and-white/03.jpg";
+import blackAndWhiteIllustration04 from "@/assets/projects/illustration/black-and-white/04.jpg";
+import blackAndWhiteIllustration05 from "@/assets/projects/illustration/black-and-white/05.jpg";
+import blackAndWhiteIllustration06 from "@/assets/projects/illustration/black-and-white/06.jpg";
+import blackAndWhiteIllustration07 from "@/assets/projects/illustration/black-and-white/07.jpg";
+import blackAndWhiteIllustration08 from "@/assets/projects/illustration/black-and-white/08.jpg";
+import blackAndWhiteIllustration09 from "@/assets/projects/illustration/black-and-white/09.jpg";
+import blackAndWhiteIllustration10 from "@/assets/projects/illustration/black-and-white/10.jpg";
+import blackAndWhiteIllustration11 from "@/assets/projects/illustration/black-and-white/11.jpg";
+import blackAndWhiteIllustration12 from "@/assets/projects/illustration/black-and-white/12.jpg";
 
 // Central portfolio content.
 // Replace the placeholder text, media URLs, and links here as final assets become ready.
@@ -539,40 +582,407 @@ const blacklusStillFrames: ProjectAlbumImage[] = [
   {
     id: "blacklus-still-01",
     slot: "01",
-    alt: "Blacklus - Meu Cabelo still frame 1",
+    alt: "Blacklas - Meu Cabelo still frame 1",
     src: blacklusStill01,
   },
   {
     id: "blacklus-still-02",
     slot: "02",
-    alt: "Blacklus - Meu Cabelo still frame 2",
+    alt: "Blacklas - Meu Cabelo still frame 2",
     src: blacklusStill02,
   },
   {
     id: "blacklus-still-03",
     slot: "03",
-    alt: "Blacklus - Meu Cabelo still frame 3",
+    alt: "Blacklas - Meu Cabelo still frame 3",
     src: blacklusStill03,
   },
   {
     id: "blacklus-still-04",
     slot: "04",
-    alt: "Blacklus - Meu Cabelo still frame 4",
+    alt: "Blacklas - Meu Cabelo still frame 4",
     src: blacklusStill04,
   },
   {
     id: "blacklus-still-05",
     slot: "05",
-    alt: "Blacklus - Meu Cabelo still frame 5",
+    alt: "Blacklas - Meu Cabelo still frame 5",
     src: blacklusStill05,
   },
   {
     id: "blacklus-still-06",
     slot: "06",
-    alt: "Blacklus - Meu Cabelo still frame 6",
+    alt: "Blacklas - Meu Cabelo still frame 6",
     src: blacklusStill06,
   },
 ];
+
+const aetherEditAlbum: ProjectAlbumImage[] = [
+  {
+    id: "aether-edit-01",
+    slot: "01",
+    alt: "Aether Edit screenshot 1",
+    src: aetherEditScreenshot06,
+  },
+  {
+    id: "aether-edit-02",
+    slot: "02",
+    alt: "Aether Edit screenshot 2",
+    src: aetherEditScreenshot02,
+  },
+  {
+    id: "aether-edit-03",
+    slot: "03",
+    alt: "Aether Edit screenshot 3",
+    src: aetherEditScreenshot03,
+  },
+  {
+    id: "aether-edit-04",
+    slot: "04",
+    alt: "Aether Edit screenshot 4",
+    src: aetherEditScreenshot04,
+  },
+  {
+    id: "aether-edit-05",
+    slot: "05",
+    alt: "Aether Edit screenshot 5",
+    src: aetherEditScreenshot05,
+  },
+  {
+    id: "aether-edit-06",
+    slot: "06",
+    alt: "Aether Edit screenshot 6",
+    src: aetherEditScreenshot01,
+  },
+  {
+    id: "aether-edit-07",
+    slot: "07",
+    alt: "Aether Edit screenshot 7",
+    src: aetherEditScreenshot07,
+  },
+];
+
+const phantomOfTheGroveAlbum: ProjectAlbumImage[] = [
+  {
+    id: "phantom-of-the-grove-01",
+    slot: "01",
+    alt: "Phantom of the Grove cover art",
+    src: phantomOfTheGroveCover,
+  },
+  {
+    id: "phantom-of-the-grove-02",
+    slot: "02",
+    alt: "Phantom of the Grove screenshot 1",
+    src: phantomOfTheGroveScreenshot01,
+  },
+  {
+    id: "phantom-of-the-grove-03",
+    slot: "03",
+    alt: "Phantom of the Grove screenshot 2",
+    src: phantomOfTheGroveScreenshot02,
+  },
+  {
+    id: "phantom-of-the-grove-04",
+    slot: "04",
+    alt: "Phantom of the Grove screenshot 3",
+    src: phantomOfTheGroveScreenshot03,
+  },
+  {
+    id: "phantom-of-the-grove-05",
+    slot: "05",
+    alt: "Phantom of the Grove screenshot 4",
+    src: phantomOfTheGroveScreenshot04,
+  },
+  {
+    id: "phantom-of-the-grove-06",
+    slot: "06",
+    alt: "Phantom of the Grove screenshot 5",
+    src: phantomOfTheGroveScreenshot05,
+  },
+  {
+    id: "phantom-of-the-grove-07",
+    slot: "07",
+    alt: "Phantom of the Grove screenshot 6",
+    src: phantomOfTheGroveScreenshot06,
+  },
+  {
+    id: "phantom-of-the-grove-08",
+    slot: "08",
+    alt: "Phantom of the Grove screenshot 7",
+    src: phantomOfTheGroveScreenshot07,
+  },
+];
+
+const fleeberIllustrationAlbum: ProjectAlbumImage[] = [
+  {
+    id: "fleeber-illustration-01",
+    slot: "01",
+    alt: "Fleeber illustration 1",
+    src: fleeberIllustration01,
+  },
+  {
+    id: "fleeber-illustration-02",
+    slot: "02",
+    alt: "Fleeber illustration 2",
+    src: fleeberIllustration02,
+  },
+  {
+    id: "fleeber-illustration-03",
+    slot: "03",
+    alt: "Fleeber illustration 3",
+    src: fleeberIllustration03,
+  },
+  {
+    id: "fleeber-illustration-04",
+    slot: "04",
+    alt: "Fleeber illustration 4",
+    src: fleeberIllustration04,
+  },
+  {
+    id: "fleeber-illustration-05",
+    slot: "05",
+    alt: "Fleeber illustration 5",
+    src: fleeberIllustration05,
+  },
+  {
+    id: "fleeber-illustration-06",
+    slot: "06",
+    alt: "Fleeber illustration 6",
+    src: fleeberIllustration06,
+  },
+  {
+    id: "fleeber-illustration-07",
+    slot: "07",
+    alt: "Fleeber illustration 7",
+    src: fleeberIllustration07,
+  },
+];
+
+const coloredIllustrationAlbum: ProjectAlbumImage[] = [
+  {
+    id: "colored-illustration-01",
+    slot: "01",
+    alt: "Colored illustration 1",
+    src: coloredIllustration01,
+  },
+  {
+    id: "colored-illustration-02",
+    slot: "02",
+    alt: "Colored illustration 2",
+    src: coloredIllustration02,
+  },
+  {
+    id: "colored-illustration-03",
+    slot: "03",
+    alt: "Colored illustration 3",
+    src: coloredIllustration03,
+  },
+  {
+    id: "colored-illustration-04",
+    slot: "04",
+    alt: "Colored illustration 4",
+    src: coloredIllustration04,
+  },
+];
+
+const blackAndWhiteIllustrationAlbum: ProjectAlbumImage[] = [
+  {
+    id: "black-and-white-illustration-03",
+    slot: "03",
+    alt: "Black and white illustration 3",
+    src: blackAndWhiteIllustration03,
+  },
+  {
+    id: "black-and-white-illustration-04",
+    slot: "04",
+    alt: "Black and white illustration 4",
+    src: blackAndWhiteIllustration04,
+  },
+  {
+    id: "black-and-white-illustration-05",
+    slot: "05",
+    alt: "Black and white illustration 5",
+    src: blackAndWhiteIllustration05,
+  },
+  {
+    id: "black-and-white-illustration-06",
+    slot: "06",
+    alt: "Black and white illustration 6",
+    src: blackAndWhiteIllustration06,
+  },
+  {
+    id: "black-and-white-illustration-07",
+    slot: "07",
+    alt: "Black and white illustration 7",
+    src: blackAndWhiteIllustration07,
+  },
+  {
+    id: "black-and-white-illustration-08",
+    slot: "08",
+    alt: "Black and white illustration 8",
+    src: blackAndWhiteIllustration08,
+  },
+  {
+    id: "black-and-white-illustration-09",
+    slot: "09",
+    alt: "Black and white illustration 9",
+    src: blackAndWhiteIllustration09,
+  },
+  {
+    id: "black-and-white-illustration-10",
+    slot: "10",
+    alt: "Black and white illustration 10",
+    src: blackAndWhiteIllustration10,
+  },
+  {
+    id: "black-and-white-illustration-11",
+    slot: "11",
+    alt: "Black and white illustration 11",
+    src: blackAndWhiteIllustration11,
+  },
+  {
+    id: "black-and-white-illustration-12",
+    slot: "12",
+    alt: "Black and white illustration 12",
+    src: blackAndWhiteIllustration12,
+  },
+];
+
+const survanSixLiminalityFolderItem: ProjectFolderItem = {
+  id: "liminality",
+  label: "liminality",
+  kind: "folder",
+  title: "Liminality",
+  shortDescription: "Game artbook and launcher shell for art, UI, and animation assets.",
+  thumbnailUrl: liminalityCoverArt,
+  folderItems: [
+    {
+      id: "cover-art",
+      label: "cover art",
+      kind: "photos",
+      note: "1 image",
+      opensAlbum: true,
+      thumbnailUrl: liminalityCoverArt,
+      albumImages: [
+        {
+          id: "liminality-cover-art-01",
+          slot: "01",
+          alt: "Liminality cover art",
+          src: liminalityCoverArt,
+        },
+      ],
+    },
+    {
+      id: "video-1",
+      label: "Liminality",
+      kind: "video",
+      youtubeUrl: "https://www.youtube.com/watch?v=Z4M2CENYvlY&",
+    },
+  ],
+  externalLinks: [],
+};
+
+const survanSixAetherEditFolderItem: ProjectFolderItem = {
+  id: "aether-edit",
+  label: "aether edit",
+  kind: "folder",
+  title: "Aether Edit",
+  shortDescription: "Map editor showcase with interface screenshots and worldbuilding examples.",
+  thumbnailUrl: aetherEditAlbum[0]?.src,
+  externalLinks: [{ label: "Itch.io link", url: "https://survansix.itch.io/aether-edit" }],
+  folderItems: [
+    {
+      id: "screenshots",
+      label: "screenshots",
+      kind: "photos",
+      note: "7 images",
+      opensAlbum: true,
+      thumbnailUrl: aetherEditAlbum[0]?.src,
+      albumImages: aetherEditAlbum,
+    },
+    {
+      id: "video-1",
+      label: "Aether Edit",
+      kind: "video",
+      youtubeUrl: "https://www.youtube.com/watch?v=ZZjP2TEwc98",
+    },
+    {
+      id: "itch-link",
+      label: "itch.io",
+      kind: "link",
+      note: "Opens in a new tab",
+      url: "https://survansix.itch.io/aether-edit",
+    },
+  ],
+  albumImages: aetherEditAlbum,
+};
+
+const survanSixPhantomOfTheGroveFolderItem: ProjectFolderItem = {
+  id: "phantom-of-the-grove",
+  label: "phantom of the grove",
+  kind: "folder",
+  title: "Phantom of the Grove",
+  shortDescription: "Playable game case shell for GIFs, screenshots, and UI.",
+  thumbnailUrl: phantomOfTheGroveAlbum[0]?.src,
+  externalLinks: [
+    { label: "Playable link", url: "https://survansix.itch.io/phantom-of-the-grove" },
+  ],
+  folderItems: [
+    {
+      id: "screenshots",
+      label: "screenshots",
+      kind: "photos",
+      note: "8 images",
+      opensAlbum: true,
+      thumbnailUrl: phantomOfTheGroveAlbum[0]?.src,
+      albumImages: phantomOfTheGroveAlbum,
+    },
+    {
+      id: "itch-link",
+      label: "itch.io",
+      kind: "link",
+      note: "Opens in a new tab",
+      url: "https://survansix.itch.io/phantom-of-the-grove",
+    },
+  ],
+  albumImages: phantomOfTheGroveAlbum,
+};
+
+const survanSixItchExperimentsFolderItem: ProjectFolderItem = {
+  id: "itch-experiments",
+  label: "itch experiments",
+  kind: "folder",
+  title: "Itch.io Experiments",
+  shortDescription: "Grouped archive for smaller game experiments.",
+  thumbnailUrl: whaleSongThumbnail,
+  externalLinks: [{ label: "Itch.io profile", url: "https://survansix.itch.io" }],
+  folderItems: [
+    {
+      id: "whale-song",
+      label: "whale song",
+      kind: "link",
+      note: "Opens in a new tab",
+      url: "https://survansix.itch.io/whale-song",
+      thumbnailUrl: whaleSongThumbnail,
+    },
+    {
+      id: "snow-rest",
+      label: "snow rest",
+      kind: "link",
+      note: "Opens in a new tab",
+      url: "https://survansix.itch.io/snow-rest",
+      thumbnailUrl: snowRestThumbnail,
+    },
+    {
+      id: "overgrown",
+      label: "overgrown",
+      kind: "link",
+      note: "Opens in a new tab",
+      url: "https://survansix.itch.io/overgrown",
+      thumbnailUrl: overgrownThumbnail,
+    },
+  ],
+};
 
 export const PROJECTS: Project[] = [
   {
@@ -756,8 +1166,8 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "meu-cabelo",
-    title: "Blacklus - Meu Cabelo",
-    desktopLabel: "Blacklus - Meu Cabelo",
+    title: "Blacklas - Meu Cabelo",
+    desktopLabel: "Blacklas - Meu Cabelo",
     category: "music video / creative direction / cinematography",
     type: "Music video",
     shortDescription: "Video case shell for the final embed, stills, and BTS notes.",
@@ -782,27 +1192,6 @@ export const PROJECTS: Project[] = [
         thumbnailUrl: blacklusStillFrames[0]?.src,
         albumImages: blacklusStillFrames,
       },
-      {
-        id: "bts",
-        label: "Behind the scenes",
-        kind: "folder",
-        title: "Behind the scenes",
-        shortDescription: "BTS photos and clips.",
-        placeholderMedia: [
-          {
-            id: "bts-photos",
-            label: "BTS photos",
-            kind: "image",
-            note: "Replace with BTS selects.",
-          },
-          {
-            id: "bts-clips",
-            label: "BTS clips",
-            kind: "video",
-            note: "Replace with BTS clips.",
-          },
-        ],
-      },
     ],
     x: 32,
     y: 76,
@@ -811,167 +1200,75 @@ export const PROJECTS: Project[] = [
     accent: "oklch(0.32 0.06 265)",
   },
   {
-    id: "liminality",
-    title: "Liminality",
-    desktopLabel: "liminality.exe",
-    category: "game art direction / pixel art / UI / worldbuilding",
-    type: "Game art direction",
-    shortDescription: "Game artbook and launcher shell for art, UI, and animation assets.",
-    role: "Art direction, pixel art, UI, worldbuilding",
-    windowStyle: "game-artbook",
-    placeholderMedia: [
-      { id: "cover-art", label: "Cover art", kind: "image", note: "Replace with key art." },
-      { id: "sprites", label: "Sprites", kind: "image", note: "Replace with sprite sheets." },
-      {
-        id: "gameplay-gifs",
-        label: "Gameplay GIFs",
-        kind: "gif",
-        note: "Replace with animations.",
-      },
-      {
-        id: "ui-screens",
-        label: "UI screens",
-        kind: "image",
-        note: "Replace with menu and HUD captures.",
-      },
-    ],
-    externalLinks: [],
-    x: 69,
-    y: 27,
-    w: 350,
-    h: 250,
-    accent: "oklch(0.42 0.13 280)",
-  },
-  {
-    id: "aether-edit",
-    title: "Aether Edit",
-    desktopLabel: "aether edit.app",
-    category: "tool / UI / game design / programming",
-    type: "Interactive tool",
-    shortDescription: "Software demo shell for interface screenshots and usage examples.",
-    role: "UI design, game design, programming",
-    windowStyle: "tool-demo",
-    placeholderMedia: [
-      {
-        id: "usage-gif",
-        label: "Usage GIFs",
-        kind: "gif",
-        note: "Replace with editing workflow captures.",
-      },
-      {
-        id: "interface",
-        label: "Interface screenshots",
-        kind: "image",
-        note: "Replace with UI screenshots.",
-      },
-      {
-        id: "examples",
-        label: "Created examples",
-        kind: "image",
-        note: "Replace with output examples.",
-      },
-    ],
-    externalLinks: [{ label: "Itch.io link", url: "https://example.com" }],
-    x: 85,
-    y: 63,
-    w: 350,
-    h: 250,
-    accent: "oklch(0.68 0.15 220)",
-  },
-  {
-    id: "phantom-of-the-grove",
-    title: "Phantom of the Grove",
-    desktopLabel: "phantom of the grove",
-    category: "browser game / pixel art / UI",
-    type: "Browser game",
-    shortDescription: "Playable game case shell for GIFs, screenshots, and UI.",
-    role: "Pixel art, UI, browser game design",
-    windowStyle: "game-launcher",
-    placeholderMedia: [
-      {
-        id: "gameplay-gifs",
-        label: "Gameplay GIFs",
-        kind: "gif",
-        note: "Replace with gameplay loops.",
-      },
-      {
-        id: "screenshots",
-        label: "Screenshots",
-        kind: "image",
-        note: "Replace with gameplay screenshots.",
-      },
-      {
-        id: "pixel-art",
-        label: "Pixel art",
-        kind: "image",
-        note: "Replace with asset sheets or art crops.",
-      },
-      { id: "ui", label: "UI", kind: "image", note: "Replace with HUD/menu captures." },
-    ],
-    externalLinks: [{ label: "Playable link", url: "https://example.com" }],
-    x: 70,
-    y: 64,
-    w: 350,
-    h: 250,
-    accent: "oklch(0.5 0.14 145)",
-  },
-  {
-    id: "itch-experiments",
-    title: "Itch.io Experiments",
-    desktopLabel: "itch experiments",
-    category: "grouped game experiments",
+    id: "survansix",
+    title: "SurvanSix",
+    desktopLabel: "SurvanSix",
+    desktopThumbnailUrl: survanSixThumbnail,
+    category: "games / tools / experiments",
     type: "Archive folder",
-    shortDescription: "Grouped archive for smaller game experiments.",
-    role: "Game experiments, pixel art, interaction design",
+    shortDescription: "Studio archive for prototypes, tools, experiments, and worldbuilding.",
+    role: "Game design, pixel art, UI, interaction design",
     windowStyle: "archive-folder",
     placeholderMedia: [],
-    externalLinks: [{ label: "Itch.io profile", url: "https://example.com" }],
+    externalLinks: [],
     folderItems: [
-      {
-        id: "whale-songs",
-        label: "whale songs",
-        kind: "folder",
-        title: "Whale Songs",
-        shortDescription: "Temporary description. Replace with final game summary.",
-        placeholderMedia: [
-          { id: "cover", label: "Cover art", kind: "image" },
-          { id: "gif", label: "Gameplay GIF", kind: "gif" },
-          { id: "screens", label: "Screenshots", kind: "image" },
-        ],
-        externalLinks: [{ label: "Game link", url: "https://example.com" }],
-      },
-      {
-        id: "snow-rest",
-        label: "snow rest",
-        kind: "folder",
-        title: "Snow Rest",
-        shortDescription: "Temporary description. Replace with final game summary.",
-        placeholderMedia: [
-          { id: "cover", label: "Cover art", kind: "image" },
-          { id: "gif", label: "Gameplay GIF", kind: "gif" },
-          { id: "screens", label: "Screenshots", kind: "image" },
-        ],
-        externalLinks: [{ label: "Game link", url: "https://example.com" }],
-      },
-      {
-        id: "overgrown",
-        label: "overgrown",
-        kind: "folder",
-        title: "Overgrown",
-        shortDescription: "Temporary description. Replace with final game summary.",
-        placeholderMedia: [
-          { id: "cover", label: "Cover art", kind: "image" },
-          { id: "gif", label: "Gameplay GIF", kind: "gif" },
-          { id: "screens", label: "Screenshots", kind: "image" },
-        ],
-        externalLinks: [{ label: "Game link", url: "https://example.com" }],
-      },
+      survanSixPhantomOfTheGroveFolderItem,
+      survanSixAetherEditFolderItem,
+      survanSixItchExperimentsFolderItem,
+      survanSixLiminalityFolderItem,
     ],
-    x: 86,
-    y: 33,
+    x: 70,
+    y: 45,
     w: 350,
     h: 250,
-    accent: "oklch(0.8 0.11 95)",
+    accent: "oklch(0.62 0.15 210)",
+  },
+  {
+    id: "ilustration",
+    title: "Ilustration",
+    desktopLabel: "Ilustration",
+    desktopThumbnailUrl: fleeberIllustrationAlbum[0]?.src,
+    category: "illustration / character art / music visuals",
+    type: "Archive folder",
+    shortDescription: "Illustration archive with character-driven artwork collections.",
+    role: "Illustration, visual storytelling, character art",
+    windowStyle: "archive-folder",
+    placeholderMedia: [],
+    externalLinks: [],
+    folderItems: [
+      {
+        id: "fleeber",
+        label: "Fleeber",
+        kind: "photos",
+        note: "7 images",
+        opensAlbum: true,
+        thumbnailUrl: fleeberIllustrationAlbum[0]?.src,
+        albumImages: fleeberIllustrationAlbum,
+      },
+      {
+        id: "colored",
+        label: "colored",
+        kind: "photos",
+        note: "4 images",
+        opensAlbum: true,
+        thumbnailUrl: coloredIllustrationAlbum[0]?.src,
+        albumImages: coloredIllustrationAlbum,
+      },
+      {
+        id: "black-and-white",
+        label: "black&white",
+        kind: "photos",
+        note: "10 images",
+        opensAlbum: true,
+        thumbnailUrl: blackAndWhiteIllustrationAlbum[0]?.src,
+        albumImages: blackAndWhiteIllustrationAlbum,
+      },
+    ],
+    x: 54,
+    y: 59,
+    w: 350,
+    h: 250,
+    accent: "oklch(0.74 0.12 35)",
   },
   {
     id: "about",

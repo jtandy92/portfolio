@@ -76,7 +76,7 @@ const FINDER_SECTIONS = [
   {
     id: "games",
     label: "Games",
-    projectIds: ["phantom-of-the-grove", "liminality", "aether-edit", "itch-experiments"],
+    projectIds: ["survansix"],
   },
   {
     id: "music-videos",
@@ -456,9 +456,6 @@ export function ProjectFolderDetail({
           onOpenFolder={onOpenFolder}
         />
       </div>
-      <div className="shrink-0 px-4 pb-4 sm:px-6 sm:pb-6">
-        <ExternalLinks links={item.externalLinks ?? []} />
-      </div>
     </div>
   );
 }
@@ -623,26 +620,6 @@ function ContactWindow({ links }: { links: ExternalLink[] }) {
           </a>
         ))}
       </div>
-    </div>
-  );
-}
-
-function ExternalLinks({ links, compact = false }: { links: ExternalLink[]; compact?: boolean }) {
-  if (!links.length) return null;
-
-  return (
-    <div className={`flex flex-wrap gap-2 ${compact ? "" : "pt-1"}`}>
-      {links.map((link) => (
-        <a
-          key={`${link.label}-${link.url}`}
-          href={link.url}
-          target={link.url.startsWith("http") ? "_blank" : undefined}
-          rel={link.url.startsWith("http") ? "noreferrer" : undefined}
-          className="rounded-md border border-black/10 bg-white/60 px-3 py-1.5 text-xs font-medium hover:bg-white/85"
-        >
-          {link.label}
-        </a>
-      ))}
     </div>
   );
 }
