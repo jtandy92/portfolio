@@ -90,10 +90,10 @@ export const ABOUT = `Multidisciplinary designer and creative technologist worki
 This is temporary copy. Replace it with the final short professional introduction.`;
 
 export const CONTACT_LINKS = [
-  { label: "Email", url: "mailto:hello@example.com" },
-  { label: "Instagram", url: "https://example.com" },
-  { label: "LinkedIn", url: "https://example.com" },
-  { label: "Itch.io", url: "https://example.com" },
+  { label: "Email", url: "mailto:jamestandy1@gmail.com" },
+  { label: "Phone", url: "tel:+5561991009459" },
+  { label: "LinkedIn", url: "https://linkedin.com/in/jamesmtandy" },
+  { label: "Location", url: "https://maps.google.com/?q=Brasilia,+DF,+Brazil" },
 ];
 
 export type NoteEntry = {

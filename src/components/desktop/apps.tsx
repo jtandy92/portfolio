@@ -317,7 +317,6 @@ export function TrashApp() {
     <div className="p-8 text-center space-y-2">
       <div className="text-4xl">Trash</div>
       <p className="text-sm opacity-70">the trash is empty.</p>
-      <p className="text-sm opacity-70">placeholder projects removed.</p>
     </div>
   );
 }
@@ -583,6 +582,19 @@ function FrameBar() {
   );
 }
 
+function formatExternalLinkValue(link: ExternalLink) {
+  if (link.label === "Location") return "Brasilia, DF, Brazil";
+  if (link.url.startsWith("mailto:")) return link.url.replace("mailto:", "");
+  if (link.url.startsWith("tel:")) return link.url.replace("tel:", "");
+  return link.url.replace(/^https?:\/\//, "");
+}
+
+function getCopyableLinkValue(link: ExternalLink) {
+  if (link.url.startsWith("mailto:")) return link.url.replace("mailto:", "");
+  if (link.url.startsWith("tel:")) return link.url.replace("tel:", "");
+  return formatExternalLinkValue(link);
+}
+
 function AboutWindow() {
   return (
     <div className="p-5 sm:p-6 space-y-4">
@@ -599,6 +611,19 @@ function AboutWindow() {
 }
 
 function ContactWindow({ links }: { links: ExternalLink[] }) {
+  const [copiedLabel, setCopiedLabel] = useState<string | null>(null);
+
+  async function handleCopy(link: ExternalLink) {
+    const value = getCopyableLinkValue(link);
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopiedLabel(link.label);
+      window.setTimeout(() => setCopiedLabel((current) => (current === link.label ? null : current)), 1800);
+    } catch {
+      setCopiedLabel(null);
+    }
+  }
+
   return (
     <div className="p-5 sm:p-6 space-y-4">
       <div>
@@ -607,18 +632,38 @@ function ContactWindow({ links }: { links: ExternalLink[] }) {
       </div>
       {/* Replace CONTACT_LINKS in src/lib/portfolio.ts with final email and social URLs. */}
       <div className="grid gap-2">
-        {links.map((link) => (
-          <a
-            key={link.label}
-            href={link.url}
-            target={link.url.startsWith("http") ? "_blank" : undefined}
-            rel={link.url.startsWith("http") ? "noreferrer" : undefined}
-            className="flex items-center justify-between gap-3 rounded-lg border border-black/10 bg-white/55 px-3 py-2 text-sm hover:bg-white/75"
-          >
-            <span>{link.label}</span>
-            <span className="text-xs opacity-50 truncate">{link.url}</span>
-          </a>
-        ))}
+        {links.map((link) => {
+          const isCopyable = link.label === "Email" || link.label === "Phone";
+
+          if (isCopyable) {
+            return (
+              <button
+                key={link.label}
+                type="button"
+                onClick={() => void handleCopy(link)}
+                className="flex items-center justify-between gap-3 rounded-lg border border-black/10 bg-white/55 px-3 py-2 text-left text-sm hover:bg-white/75"
+              >
+                <span>{link.label}</span>
+                <span className="text-xs opacity-50 truncate">
+                  {copiedLabel === link.label ? "Copied to clipboard" : formatExternalLinkValue(link)}
+                </span>
+              </button>
+            );
+          }
+
+          return (
+            <a
+              key={link.label}
+              href={link.url}
+              target={link.url.startsWith("http") ? "_blank" : undefined}
+              rel={link.url.startsWith("http") ? "noreferrer" : undefined}
+              className="flex items-center justify-between gap-3 rounded-lg border border-black/10 bg-white/55 px-3 py-2 text-sm hover:bg-white/75"
+            >
+              <span>{link.label}</span>
+              <span className="text-xs opacity-50 truncate">{formatExternalLinkValue(link)}</span>
+            </a>
+          );
+        })}
       </div>
     </div>
   );

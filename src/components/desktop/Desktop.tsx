@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { FolderOpen, Mail, Music4, StickyNote, TerminalSquare, Trash2 } from "lucide-react";
 import { PROJECTS, type Project, type ProjectFolderItem } from "@/lib/portfolio";
-import { MenuBar } from "./MenuBar";
+import { MENU_BAR_HEIGHT, MenuBar } from "./MenuBar";
 import { Dock, DockIcon } from "./Dock";
 import { DesktopItem } from "./DesktopItem";
 import { loadPositions, savePositions, resolvePosition, type Positions } from "./DesktopPositions";
@@ -88,6 +88,7 @@ export function Desktop() {
     origin: { x: number; y: number } | null = null,
     contentOverflow: "auto" | "hidden" = "auto",
     height?: number | string,
+    initialY?: number,
   ) {
     const newZ = claimTopWindowZ();
     setWindows((current) => {
@@ -109,7 +110,18 @@ export function Desktop() {
 
       return [
         ...current,
-        { key, title, content, width, height, z: newZ, x, y: 80 + offset, origin, contentOverflow },
+        {
+          key,
+          title,
+          content,
+          width,
+          height,
+          z: newZ,
+          x,
+          y: initialY ?? 80 + offset,
+          origin,
+          contentOverflow,
+        },
       ];
     });
   }
@@ -161,6 +173,7 @@ export function Desktop() {
       origin,
       "hidden",
       getAlbumWindowHeight(),
+      MENU_BAR_HEIGHT + 4,
     );
   }
 
