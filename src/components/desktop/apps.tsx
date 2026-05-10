@@ -95,6 +95,7 @@ const FINDER_SECTIONS = [
 const PROJECTS_BY_ID = new Map(PROJECTS.map((project) => [project.id, project]));
 
 export function FinderApp({ onOpenProject }: { onOpenProject: (p: Project) => void }) {
+  const isMobile = useIsMobile();
   const [selectedSectionId, setSelectedSectionId] = useState(FINDER_SECTIONS[0]?.id ?? "");
   const selectedSection =
     FINDER_SECTIONS.find((section) => section.id === selectedSectionId) ?? FINDER_SECTIONS[0];
@@ -103,8 +104,29 @@ export function FinderApp({ onOpenProject }: { onOpenProject: (p: Project) => vo
     .filter((project): project is Project => Boolean(project));
 
   return (
-    <div className="flex h-full min-h-[360px]">
-      <div className="w-40 shrink-0 p-3 text-xs space-y-1 border-r border-black/10 bg-black/[0.02] hidden sm:block">
+    <div className="flex h-full min-h-[360px] flex-col sm:flex-row">
+      <div className="w-full shrink-0 border-b border-black/10 bg-black/[0.02] p-3 sm:hidden">
+        <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] opacity-45">
+          Favorites
+        </div>
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {FINDER_SECTIONS.map((section) => (
+            <button
+              key={section.id}
+              type="button"
+              onClick={() => setSelectedSectionId(section.id)}
+              className={`shrink-0 rounded-full px-3 py-1.5 text-xs transition ${
+                selectedSection.id === section.id
+                  ? "bg-black/10 text-black"
+                  : "bg-white/70 text-black/60"
+              }`}
+            >
+              {section.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="hidden w-40 shrink-0 space-y-1 border-r border-black/10 bg-black/[0.02] p-3 text-xs sm:block">
         <div className="font-semibold opacity-60 mb-2">Favorites</div>
         {FINDER_SECTIONS.map((section) => (
           <button
@@ -119,8 +141,15 @@ export function FinderApp({ onOpenProject }: { onOpenProject: (p: Project) => vo
           </button>
         ))}
       </div>
-      <div className="flex-1 p-3 overflow-auto">
-        <div className="text-xs opacity-60 mb-2">{selectedProjects.length} items</div>
+      <div className="flex-1 overflow-auto p-3">
+        <div className="mb-2 flex items-center justify-between gap-3 text-xs opacity-60">
+          <span>{selectedProjects.length} items</span>
+          {isMobile ? (
+            <span className="truncate text-[11px] uppercase tracking-[0.18em] opacity-45">
+              {selectedSection.label}
+            </span>
+          ) : null}
+        </div>
         <section className="space-y-1">
           <div className="px-2 text-[11px] font-semibold uppercase tracking-[0.18em] opacity-45">
             {selectedSection.label}
