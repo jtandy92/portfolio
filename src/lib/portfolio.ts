@@ -27,6 +27,31 @@ import blacklusStill03 from "@/assets/projects/meu-cabelo/stills/03.png";
 import blacklusStill04 from "@/assets/projects/meu-cabelo/stills/04.png";
 import blacklusStill05 from "@/assets/projects/meu-cabelo/stills/05.png";
 import blacklusStill06 from "@/assets/projects/meu-cabelo/stills/06.png";
+import blacklusEditorial01 from "@/assets/projects/meu-cabelo/editorial/01.webp";
+import blacklusEditorial02 from "@/assets/projects/meu-cabelo/editorial/02.webp";
+import blacklusEditorial03 from "@/assets/projects/meu-cabelo/editorial/03.webp";
+import blacklusEditorial04 from "@/assets/projects/meu-cabelo/editorial/04.webp";
+import blacklusEditorial05 from "@/assets/projects/meu-cabelo/editorial/05.webp";
+import blacklusEditorial06 from "@/assets/projects/meu-cabelo/editorial/06.webp";
+import blacklusEditorial07 from "@/assets/projects/meu-cabelo/editorial/07.webp";
+import blacklusEditorial08 from "@/assets/projects/meu-cabelo/editorial/08.webp";
+import blacklusEditorial09 from "@/assets/projects/meu-cabelo/editorial/09.webp";
+import blacklusEditorial10 from "@/assets/projects/meu-cabelo/editorial/10.webp";
+import blacklusEditorial11 from "@/assets/projects/meu-cabelo/editorial/11.webp";
+import blacklusBackstage01 from "@/assets/projects/meu-cabelo/backstage/01.webp";
+import blacklusBackstage02 from "@/assets/projects/meu-cabelo/backstage/02.webp";
+import blacklusBackstage03 from "@/assets/projects/meu-cabelo/backstage/03.webp";
+import blacklusBackstage04 from "@/assets/projects/meu-cabelo/backstage/04.webp";
+import blacklusBackstage05 from "@/assets/projects/meu-cabelo/backstage/05.webp";
+import blacklusBackstage06 from "@/assets/projects/meu-cabelo/backstage/06.webp";
+import blacklusBackstage07 from "@/assets/projects/meu-cabelo/backstage/07.webp";
+import blacklusBackstage08 from "@/assets/projects/meu-cabelo/backstage/08.webp";
+import blacklusBackstage09 from "@/assets/projects/meu-cabelo/backstage/09.webp";
+import blacklusBackstage10 from "@/assets/projects/meu-cabelo/backstage/10.webp";
+import blacklusBackstage11 from "@/assets/projects/meu-cabelo/backstage/11.webp";
+import blacklusBackstage12 from "@/assets/projects/meu-cabelo/backstage/12.webp";
+import blacklusBackstage13 from "@/assets/projects/meu-cabelo/backstage/13.webp";
+import blacklusBackstage14 from "@/assets/projects/meu-cabelo/backstage/14.webp";
 import aetherEditScreenshot01 from "@/assets/projects/aether-edit/01.png";
 import aetherEditScreenshot02 from "@/assets/projects/aether-edit/02.png";
 import aetherEditScreenshot03 from "@/assets/projects/aether-edit/03.png";
@@ -480,6 +505,28 @@ function createAlbumCollection(
   }));
 }
 
+function createImageDisplayPlaceholderSrc(title: string, caption: string) {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 980">
+      <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#111827" />
+          <stop offset="100%" stop-color="#3f1d2b" />
+        </linearGradient>
+      </defs>
+      <rect width="1400" height="980" fill="url(#bg)" />
+      <rect x="138" y="112" width="1124" height="756" rx="46" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.24)" stroke-width="3" />
+      <rect x="228" y="202" width="944" height="520" rx="34" fill="rgba(255,255,255,0.12)" />
+      <circle cx="408" cy="354" r="70" fill="rgba(255,255,255,0.36)" />
+      <path d="M244 690 500 462 680 602 802 494 1154 690Z" fill="rgba(255,255,255,0.28)" />
+      <text x="228" y="790" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700">${title}</text>
+      <text x="228" y="844" fill="rgba(255,255,255,0.72)" font-family="Arial, Helvetica, sans-serif" font-size="32">${caption}</text>
+    </svg>
+  `.trim();
+
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
 const lumaWebAlbum: ProjectAlbumImage[] = [
   {
     id: "luma-web-01",
@@ -736,6 +783,162 @@ const blacklusStillFrames: ProjectAlbumImage[] = [
     slot: "06",
     alt: "Blacklas - Meu Cabelo still frame 6",
     src: blacklusStill06,
+  },
+];
+
+const blacklusEditorialAlbum: ProjectAlbumImage[] = [
+  {
+    id: "blacklus-editorial-01",
+    slot: "01",
+    alt: "Blacklas - Meu Cabelo editorial portrait with tropical leaves.",
+    src: blacklusEditorial01,
+  },
+  {
+    id: "blacklus-editorial-02",
+    slot: "02",
+    alt: "Blacklas - Meu Cabelo editorial musicians playing brass instruments.",
+    src: blacklusEditorial02,
+  },
+  {
+    id: "blacklus-editorial-03",
+    slot: "03",
+    alt: "Blacklas - Meu Cabelo editorial performers dancing in blue stage light.",
+    src: blacklusEditorial03,
+  },
+  {
+    id: "blacklus-editorial-04",
+    slot: "04",
+    alt: "Blacklas - Meu Cabelo editorial child holding a mirror under a veil.",
+    src: blacklusEditorial04,
+  },
+  {
+    id: "blacklus-editorial-05",
+    slot: "05",
+    alt: "Blacklas - Meu Cabelo editorial mirror portrait of a child.",
+    src: blacklusEditorial05,
+  },
+  {
+    id: "blacklus-editorial-06",
+    slot: "06",
+    alt: "Blacklas - Meu Cabelo editorial performer under a spotlight.",
+    src: blacklusEditorial06,
+  },
+  {
+    id: "blacklus-editorial-07",
+    slot: "07",
+    alt: "Blacklas - Meu Cabelo editorial portrait in a blue shirt.",
+    src: blacklusEditorial07,
+  },
+  {
+    id: "blacklus-editorial-08",
+    slot: "08",
+    alt: "Blacklas - Meu Cabelo editorial woman in front of tropical leaves.",
+    src: blacklusEditorial08,
+  },
+  {
+    id: "blacklus-editorial-09",
+    slot: "09",
+    alt: "Blacklas - Meu Cabelo editorial vertical backlit portrait.",
+    src: blacklusEditorial09,
+  },
+  {
+    id: "blacklus-editorial-10",
+    slot: "10",
+    alt: "Blacklas - Meu Cabelo editorial group portrait from behind.",
+    src: blacklusEditorial10,
+  },
+  {
+    id: "blacklus-editorial-11",
+    slot: "11",
+    alt: "Blacklas - Meu Cabelo editorial close backlit portrait.",
+    src: blacklusEditorial11,
+  },
+];
+
+const blacklusBackstageAlbum: ProjectAlbumImage[] = [
+  {
+    id: "blacklus-backstage-01",
+    slot: "01",
+    alt: "Blacklas - Meu Cabelo backstage mirror preparation portrait.",
+    src: blacklusBackstage01,
+  },
+  {
+    id: "blacklus-backstage-02",
+    slot: "02",
+    alt: "Blacklas - Meu Cabelo backstage crew member facing performers.",
+    src: blacklusBackstage02,
+  },
+  {
+    id: "blacklus-backstage-03",
+    slot: "03",
+    alt: "Blacklas - Meu Cabelo backstage performer adjusting hair at a mirror.",
+    src: blacklusBackstage03,
+  },
+  {
+    id: "blacklus-backstage-04",
+    slot: "04",
+    alt: "Blacklas - Meu Cabelo backstage performers waiting near stage lights.",
+    src: blacklusBackstage04,
+  },
+  {
+    id: "blacklus-backstage-05",
+    slot: "05",
+    alt: "Blacklas - Meu Cabelo backstage performers in warm side light.",
+    src: blacklusBackstage05,
+  },
+  {
+    id: "blacklus-backstage-06",
+    slot: "06",
+    alt: "Blacklas - Meu Cabelo backstage portrait in front of tropical leaves.",
+    src: blacklusBackstage06,
+  },
+  {
+    id: "blacklus-backstage-07",
+    slot: "07",
+    alt: "Blacklas - Meu Cabelo backstage camera operator filming performers.",
+    src: blacklusBackstage07,
+  },
+  {
+    id: "blacklus-backstage-08",
+    slot: "08",
+    alt: "Blacklas - Meu Cabelo backstage color chart during filming.",
+    src: blacklusBackstage08,
+  },
+  {
+    id: "blacklus-backstage-09",
+    slot: "09",
+    alt: "Blacklas - Meu Cabelo backstage crew at a laptop station.",
+    src: blacklusBackstage09,
+  },
+  {
+    id: "blacklus-backstage-10",
+    slot: "10",
+    alt: "Blacklas - Meu Cabelo backstage child holding flowers in stage haze.",
+    src: blacklusBackstage10,
+  },
+  {
+    id: "blacklus-backstage-11",
+    slot: "11",
+    alt: "Blacklas - Meu Cabelo backstage cast and crew group photo.",
+    src: blacklusBackstage11,
+  },
+  {
+    id: "blacklus-backstage-12",
+    slot: "12",
+    alt: "Blacklas - Meu Cabelo backstage child beside a baby seat.",
+    src: blacklusBackstage12,
+  },
+  {
+    id: "blacklus-backstage-13",
+    slot: "13",
+    alt: "Blacklas - Meu Cabelo backstage hair styling in dressing room.",
+    src: blacklusBackstage13,
+  },
+  {
+    id: "blacklus-backstage-14",
+    slot: "14",
+    alt: "Blacklas - Meu Cabelo backstage wide view of the stage setup.",
+    src: blacklusBackstage14,
   },
 ];
 
@@ -1370,6 +1573,24 @@ export const PROJECTS: Project[] = [
         opensAlbum: true,
         thumbnailUrl: blacklusStillFrames[0]?.src,
         albumImages: blacklusStillFrames,
+      },
+      {
+        id: "editorial",
+        label: "editorial",
+        kind: "photos",
+        note: "11 photos",
+        opensAlbum: true,
+        thumbnailUrl: blacklusEditorialAlbum[0]?.src,
+        albumImages: blacklusEditorialAlbum,
+      },
+      {
+        id: "backstage",
+        label: "backstage",
+        kind: "photos",
+        note: "14 photos",
+        opensAlbum: true,
+        thumbnailUrl: blacklusBackstageAlbum[0]?.src,
+        albumImages: blacklusBackstageAlbum,
       },
     ],
     x: 60.6,
