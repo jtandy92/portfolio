@@ -3,13 +3,6 @@ import redLionMusicCampaignPhoto02 from "@/assets/projects/red-lion/music-campai
 import redLionMusicCampaignPhoto03 from "@/assets/projects/red-lion/music-campaign/photos/red-lion-music-campaign-photo-03.jpg";
 import redLionMusicCampaignPhoto04 from "@/assets/projects/red-lion/music-campaign/photos/red-lion-music-campaign-photo-04.jpg";
 import redLionMusicCampaignPhoto05 from "@/assets/projects/red-lion/music-campaign/photos/red-lion-music-campaign-photo-05.jpg";
-import bodyMindAlegriaHidratante from "@/assets/projects/body-mind/products/alegria-hidratante.jpg";
-import bodyMindAlegriaSais from "@/assets/projects/body-mind/products/alegria-sais.jpg";
-import bodyMindAlegriaShower from "@/assets/projects/body-mind/products/alegria-shower.jpg";
-import bodyMindAlegriaSpray from "@/assets/projects/body-mind/products/alegria-spray.jpg";
-import bodyMindCreme250 from "@/assets/projects/body-mind/products/creme-250.png";
-import bodyMindDivine from "@/assets/projects/body-mind/products/divine.jpg";
-import bodyMindShampoo from "@/assets/projects/body-mind/products/shampoo.png";
 import bodyMindRotuloAlegria from "@/assets/projects/body-mind/packaging/rotulo-alegria.jpg";
 import bodyMindRotuloEnergia from "@/assets/projects/body-mind/packaging/rotulo-energia.jpg";
 import bodyMindRotuloPaz from "@/assets/projects/body-mind/packaging/rotulo-paz.jpg";
@@ -77,6 +70,65 @@ import blackAndWhiteIllustration09 from "@/assets/projects/illustration/black-an
 import blackAndWhiteIllustration10 from "@/assets/projects/illustration/black-and-white/10.jpg";
 import blackAndWhiteIllustration11 from "@/assets/projects/illustration/black-and-white/11.jpg";
 import blackAndWhiteIllustration12 from "@/assets/projects/illustration/black-and-white/12.jpg";
+
+const bodyMindProductModules = import.meta.glob<string>(
+  "../assets/projects/body-mind/products/*.{jpg,png}",
+  {
+    eager: true,
+    import: "default",
+  },
+);
+
+const lumaAssetModules = import.meta.glob<string>(
+  "../assets/projects/luma/**/*.{jpg,png}",
+  {
+    eager: true,
+    import: "default",
+  },
+);
+
+const bodyMindProductFilenames = [
+  "body-mind-facial-set.jpg",
+  "body-mind-lavanda-set.jpg",
+  "body-mind-for-men-set.jpg",
+  "body-mind-alegria-set.jpg",
+  "body-mind-conforto-set.jpg",
+  "body-mind-desejo-set.jpg",
+  "body-mind-energia-set.jpg",
+  "body-mind-paz-set.jpg",
+  "body-mind-beautiful-set.jpg",
+] as const;
+
+function getBodyMindProductSrc(filename: string) {
+  const src = bodyMindProductModules[`../assets/projects/body-mind/products/${filename}`];
+
+  if (!src) {
+    throw new Error(`Missing Body & Mind product image: ${filename}`);
+  }
+
+  return src;
+}
+
+function createBodyMindProductAlt(filename: string) {
+  const label = filename
+    .replace(/\.[^.]+$/, "")
+    .replace(/\(\d+\)/g, "")
+    .replace(/_/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return `Body & Mind ${label} product photo`;
+}
+
+function getLumaAssetSrc(path: string) {
+  const src = lumaAssetModules[`../assets/projects/luma/${path}`];
+
+  if (!src) {
+    throw new Error(`Missing LUMA project image: ${path}`);
+  }
+
+  return src;
+}
 
 // Central portfolio content.
 // Replace the placeholder text, media URLs, and links here as final assets become ready.
@@ -428,50 +480,120 @@ function createAlbumCollection(
   }));
 }
 
-const bodyMindHeroAlbum: ProjectAlbumImage[] = [
+const lumaWebAlbum: ProjectAlbumImage[] = [
   {
-    id: "body-mind-products-01",
+    id: "luma-web-01",
     slot: "01",
-    alt: "Sentidos Alegria shower gel",
-    src: bodyMindAlegriaShower,
+    alt: "LUMA Atelier Soft Structure hero campaign image",
+    src: getLumaAssetSrc("web/hero.png"),
   },
   {
-    id: "body-mind-products-02",
+    id: "luma-web-02",
     slot: "02",
-    alt: "Sentidos Alegria bath salts",
-    src: bodyMindAlegriaSais,
-  },
-  {
-    id: "body-mind-products-03",
-    slot: "03",
-    alt: "Body & Mind For Men shampoo",
-    src: bodyMindShampoo,
-  },
-  {
-    id: "body-mind-products-04",
-    slot: "04",
-    alt: "Sentidos Alegria hidratante",
-    src: bodyMindAlegriaHidratante,
-  },
-  {
-    id: "body-mind-products-05",
-    slot: "05",
-    alt: "Sentidos Alegria body splash",
-    src: bodyMindAlegriaSpray,
-  },
-  {
-    id: "body-mind-products-06",
-    slot: "06",
-    alt: "Body & Mind Divine anti-aging cream",
-    src: bodyMindDivine,
-  },
-  {
-    id: "body-mind-products-07",
-    slot: "07",
-    alt: "Body & Mind Alivio aromaterapia cream",
-    src: bodyMindCreme250,
+    alt: "LUMA Atelier key visual for the Soft Structure campaign",
+    src: getLumaAssetSrc("web/key-visual.png"),
   },
 ];
+
+const lumaCarroselAlbum: ProjectAlbumImage[] = [
+  {
+    id: "luma-carrosel-01",
+    slot: "01",
+    alt: "LUMA Atelier carousel slide with two models in neutral tailoring",
+    src: getLumaAssetSrc("carrosel/carrosel-01.png"),
+  },
+  {
+    id: "luma-carrosel-02",
+    slot: "02",
+    alt: "LUMA Atelier carousel slide for the spring capsule",
+    src: getLumaAssetSrc("carrosel/carrosel-02.png"),
+  },
+  {
+    id: "luma-carrosel-03",
+    slot: "03",
+    alt: "LUMA Atelier carousel slide announcing an in-store preview",
+    src: getLumaAssetSrc("carrosel/carrosel-03.png"),
+  },
+  {
+    id: "luma-carrosel-04",
+    slot: "04",
+    alt: "LUMA Atelier carousel slide featuring capsule essentials",
+    src: getLumaAssetSrc("carrosel/carrosel-04.png"),
+  },
+];
+
+const lumaEmailMarketingAlbum: ProjectAlbumImage[] = [
+  {
+    id: "luma-email-01",
+    slot: "01",
+    alt: "LUMA Atelier spring capsule email campaign",
+    src: getLumaAssetSrc("email-marketing/email-01.png"),
+  },
+  {
+    id: "luma-email-02",
+    slot: "02",
+    alt: "LUMA Atelier capsule edit email campaign",
+    src: getLumaAssetSrc("email-marketing/email-02.png"),
+  },
+  {
+    id: "luma-email-03",
+    slot: "03",
+    alt: "LUMA Atelier capsule reminder email campaign",
+    src: getLumaAssetSrc("email-marketing/email-03.png"),
+  },
+  {
+    id: "luma-email-04",
+    slot: "04",
+    alt: "LUMA Atelier preview in store email campaign",
+    src: getLumaAssetSrc("email-marketing/email-04.png"),
+  },
+  {
+    id: "luma-email-05",
+    slot: "05",
+    alt: "LUMA Atelier editorial note email campaign",
+    src: getLumaAssetSrc("email-marketing/email-05.png"),
+  },
+];
+
+const lumaPrintAlbum: ProjectAlbumImage[] = [
+  {
+    id: "luma-print-01",
+    slot: "01",
+    alt: "LUMA Atelier print poster for the spring capsule",
+    src: getLumaAssetSrc("print/print-poster.png"),
+  },
+  {
+    id: "luma-print-02",
+    slot: "02",
+    alt: "LUMA Atelier spring preview postcard design",
+    src: getLumaAssetSrc("print/postcard.png"),
+  },
+  {
+    id: "luma-print-03",
+    slot: "03",
+    alt: "LUMA Atelier branded shopping bag mockup",
+    src: getLumaAssetSrc("print/shopping-bag.png"),
+  },
+  {
+    id: "luma-print-04",
+    slot: "04",
+    alt: "LUMA Atelier lookbook spread for Soft Structure",
+    src: getLumaAssetSrc("print/lookbook.png"),
+  },
+  {
+    id: "luma-print-05",
+    slot: "05",
+    alt: "LUMA Atelier garment tag for Soft Structure",
+    src: getLumaAssetSrc("print/tag.png"),
+  },
+];
+
+const bodyMindHeroAlbum: ProjectAlbumImage[] = bodyMindProductFilenames.map((filename, index) => ({
+  id: `body-mind-products-${String(index + 1).padStart(2, "0")}`,
+  slot: String(index + 1).padStart(2, "0"),
+  alt: createBodyMindProductAlt(filename),
+  src: getBodyMindProductSrc(filename),
+}));
 
 const bodyMindPackagingAlbum: ProjectAlbumImage[] = [
   {
@@ -986,6 +1108,63 @@ const survanSixItchExperimentsFolderItem: ProjectFolderItem = {
 
 export const PROJECTS: Project[] = [
   {
+    id: "luma-soft-structure",
+    title: "LUMA Atelier - Soft Structure",
+    desktopLabel: "LUMA",
+    desktopThumbnailUrl: lumaWebAlbum[1]?.src,
+    category: "fashion campaign / digital marketing / print",
+    type: "Fashion campaign",
+    shortDescription:
+      "A soft tailoring campaign system organized into carousel, email marketing, and print collections.",
+    role: "Campaign concept, art direction, digital layouts, print collateral",
+    windowStyle: "editorial-gallery",
+    placeholderMedia: [],
+    externalLinks: [],
+    folderItems: [
+      {
+        id: "web",
+        label: "web",
+        kind: "photos",
+        note: "2 images",
+        opensAlbum: true,
+        thumbnailUrl: lumaWebAlbum[0]?.src,
+        albumImages: lumaWebAlbum,
+      },
+      {
+        id: "carrosel",
+        label: "carrosel",
+        kind: "photos",
+        note: "4 images",
+        opensAlbum: true,
+        thumbnailUrl: lumaCarroselAlbum[0]?.src,
+        albumImages: lumaCarroselAlbum,
+      },
+      {
+        id: "email-marketing",
+        label: "email-marketing",
+        kind: "photos",
+        note: "5 images",
+        opensAlbum: true,
+        thumbnailUrl: lumaEmailMarketingAlbum[0]?.src,
+        albumImages: lumaEmailMarketingAlbum,
+      },
+      {
+        id: "print",
+        label: "print",
+        kind: "photos",
+        note: "5 images",
+        opensAlbum: true,
+        thumbnailUrl: lumaPrintAlbum[0]?.src,
+        albumImages: lumaPrintAlbum,
+      },
+    ],
+    x: 23.5,
+    y: 31,
+    w: 350,
+    h: 250,
+    accent: "oklch(0.77 0.06 72)",
+  },
+  {
     id: "body-mind-packaging",
     title: "Body & Mind Cosmetics",
     desktopLabel: "Body & Mind Cosmetics",
@@ -1020,7 +1199,7 @@ export const PROJECTS: Project[] = [
         id: "hero-set",
         label: "Products",
         kind: "photos",
-        note: "7 photos",
+        note: "9 photos",
         opensAlbum: true,
         thumbnailUrl: bodyMindHeroAlbum[0]?.src,
         albumImages: bodyMindHeroAlbum,
@@ -1043,8 +1222,8 @@ export const PROJECTS: Project[] = [
         thumbnailUrl: bodyMindWebsiteIcon,
       },
     ],
-    x: 22,
-    y: 21,
+    x: 25.4,
+    y: 54.1,
     w: 350,
     h: 250,
     accent: "oklch(0.74 0.1 80)",
@@ -1158,8 +1337,8 @@ export const PROJECTS: Project[] = [
         src: redLionMusicCampaignPhoto05,
       },
     ],
-    x: 29,
-    y: 73,
+    x: 47,
+    y: 22.7,
     w: 350,
     h: 250,
     accent: "oklch(0.52 0.22 28)",
@@ -1193,8 +1372,8 @@ export const PROJECTS: Project[] = [
         albumImages: blacklusStillFrames,
       },
     ],
-    x: 47,
-    y: 78,
+    x: 60.6,
+    y: 20.1,
     w: 350,
     h: 250,
     accent: "oklch(0.32 0.06 265)",
@@ -1217,8 +1396,8 @@ export const PROJECTS: Project[] = [
       survanSixItchExperimentsFolderItem,
       survanSixLiminalityFolderItem,
     ],
-    x: 78,
-    y: 44,
+    x: 77.4,
+    y: 64.7,
     w: 350,
     h: 250,
     accent: "oklch(0.62 0.15 210)",
@@ -1264,8 +1443,8 @@ export const PROJECTS: Project[] = [
         albumImages: blackAndWhiteIllustrationAlbum,
       },
     ],
-    x: 57,
-    y: 20,
+    x: 75.5,
+    y: 40.2,
     w: 350,
     h: 250,
     accent: "oklch(0.74 0.12 35)",
@@ -1281,8 +1460,8 @@ export const PROJECTS: Project[] = [
     windowStyle: "about",
     placeholderMedia: [],
     externalLinks: [],
-    x: 39,
-    y: 52,
+    x: 43.8,
+    y: 63.2,
     w: 250,
     h: 170,
     accent: "oklch(0.93 0.08 95)",
@@ -1298,8 +1477,8 @@ export const PROJECTS: Project[] = [
     windowStyle: "contact",
     placeholderMedia: [],
     externalLinks: CONTACT_LINKS,
-    x: 56,
-    y: 42,
+    x: 55.5,
+    y: 63.2,
     w: 250,
     h: 170,
     accent: "oklch(0.72 0.16 245)",

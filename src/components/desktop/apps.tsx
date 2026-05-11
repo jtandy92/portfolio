@@ -73,7 +73,7 @@ const FINDER_SECTIONS = [
   {
     id: "branding",
     label: "Branding",
-    projectIds: ["body-mind-packaging"],
+    projectIds: ["luma-soft-structure", "body-mind-packaging"],
   },
   {
     id: "games",

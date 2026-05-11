@@ -2,7 +2,7 @@ import type { Project } from "@/lib/portfolio";
 
 const MOBILE_BREAKPOINT = 768;
 const STORAGE_KEYS = {
-  desktop: "desktop-tile-positions-v2",
+  desktop: "desktop-tile-positions-v3",
   mobile: "desktop-tile-positions-mobile-v1",
 } as const;
 

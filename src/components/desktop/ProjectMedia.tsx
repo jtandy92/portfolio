@@ -283,7 +283,7 @@ function FolderIcon({ item }: { item: ProjectFolderItem }) {
           className="h-full w-full object-contain"
           draggable={false}
         />
-        <div className="absolute left-1/2 top-[56%] h-[44%] w-[42%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[9px] border border-black/12 bg-white/75 shadow-[0_8px_20px_-12px_rgba(0,0,0,0.5)]">
+        <div className="absolute left-1/2 top-[56%] h-[44%] w-[42%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[9px] bg-white/75 shadow-[0_12px_24px_-14px_rgba(0,0,0,0.55)]">
           {thumbnailSrc ? (
             <img src={thumbnailSrc} alt="" className="h-full w-full object-cover" draggable={false} />
           ) : (
@@ -297,7 +297,7 @@ function FolderIcon({ item }: { item: ProjectFolderItem }) {
   if (item.kind === "photos") {
     if (item.thumbnailUrl) {
       return (
-        <div className="h-[84px] w-[84px] overflow-hidden rounded-[18px] border border-white/65 bg-black shadow-[0_16px_36px_-20px_oklch(0_0_0/0.6)]">
+        <div className="h-[84px] w-[84px] overflow-hidden rounded-[18px] bg-white/45 shadow-[0_18px_34px_-18px_oklch(0_0_0/0.58)]">
           <img src={item.thumbnailUrl} alt="" className="h-full w-full object-cover" />
         </div>
       );
@@ -313,7 +313,7 @@ function FolderIcon({ item }: { item: ProjectFolderItem }) {
   if (item.kind === "link") {
     if (item.thumbnailUrl) {
       return (
-        <div className="flex h-[84px] w-[84px] items-center justify-center overflow-hidden rounded-[22px] border border-white/65 bg-white shadow-[0_16px_36px_-20px_oklch(0_0_0/0.6)]">
+        <div className="flex h-[84px] w-[84px] items-center justify-center overflow-hidden rounded-[22px] bg-white shadow-[0_18px_34px_-18px_oklch(0_0_0/0.58)]">
           <img
             src={item.thumbnailUrl}
             alt=""

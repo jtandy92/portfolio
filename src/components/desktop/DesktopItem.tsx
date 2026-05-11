@@ -249,7 +249,7 @@ function FolderDesktopPreview({ project }: { project: Project }) {
         className="h-full w-full object-contain drop-shadow-[0_18px_32px_rgba(0,0,0,0.28)]"
         draggable={false}
       />
-      <div className="absolute left-1/2 top-[55%] h-[42%] w-[42%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[10px] border border-black/12 bg-white/70 shadow-[0_10px_24px_-12px_rgba(0,0,0,0.45)]">
+      <div className="absolute left-1/2 top-[55%] h-[42%] w-[42%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[10px] bg-white/70 shadow-[0_14px_26px_-15px_rgba(0,0,0,0.5)]">
         {thumbnailSrc ? (
           <img src={thumbnailSrc} alt="" className="h-full w-full object-cover" draggable={false} />
         ) : (
