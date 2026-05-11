@@ -3,7 +3,7 @@ import type { Project } from "@/lib/portfolio";
 const MOBILE_BREAKPOINT = 768;
 const STORAGE_KEYS = {
   desktop: "desktop-tile-positions-v3",
-  mobile: "desktop-tile-positions-mobile-v1",
+  mobile: "desktop-tile-positions-mobile-v2",
 } as const;
 
 export type Positions = Record<string, { x: number; y: number }>;
@@ -13,12 +13,13 @@ const MOBILE_LAYOUT: Record<
   string,
   { column: 0 | 1; row: number; align?: "start" | "center"; offsetY?: number }
 > = {
-  "body-mind-packaging": { column: 0, row: 0 },
-  survansix: { column: 1, row: 0 },
+  "luma-soft-structure": { column: 0, row: 0 },
+  "body-mind-packaging": { column: 1, row: 0 },
   "meu-cabelo": { column: 0, row: 1 },
-  ilustration: { column: 1, row: 1 },
-  "red-lion-campaign": { column: 0, row: 2 },
+  "red-lion-campaign": { column: 1, row: 1 },
+  survansix: { column: 0, row: 2 },
   contact: { column: 1, row: 2, align: "center", offsetY: 10 },
+  ilustration: { column: 0, row: 3 },
   about: { column: 1, row: 3, align: "center", offsetY: 10 },
 };
 
